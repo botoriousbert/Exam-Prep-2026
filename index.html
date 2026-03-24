@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TPCP 101 — Exam Prep</title>
+<style>
+  :root {
+    --navy: #042C53;
+    --blue: #185FA5;
+    --blue-light: #E6F1FB;
+    --gold: #BA7517;
+    --gold-light: #FAEEDA;
+    --green: #3B6D11;
+    --green-light: #EAF3DE;
+    --red: #A32D2D;
+    --red-light: #FCEBEB;
+    --amber: #854F0B;
+    --bg: #ffffff;
+    --bg2: #f5f5f4;
+    --bg3: #eeece8;
+    --text: #1a1a1a;
+    --text2: #555;
+    --text3: #888;
+    --border: rgba(0,0,0,0.12);
+    --border2: rgba(0,0,0,0.22);
+    --radius: 8px;
+    --radius-lg: 12px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg3); color: var(--text); min-height: 100vh; }
+  .app { max-width: 720px; margin: 0 auto; background: var(--bg); min-height: 100vh; display: flex; flex-direction: column; }
+  .topbar { background: var(--navy); padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; }
+  .topbar-title { font-size: 15px; font-weight: 600; color: #FAC775; letter-spacing: 0.01em; }
+  .topbar-sub { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 2px; font-family: monospace; letter-spacing: 0.04em; text-transform: uppercase; }
+  .tabs { display: flex; border-bottom: 1px solid var(--border); background: var(--bg); }
+  .tab { flex: 1; padding: 11px 4px; background: none; border: none; cursor: pointer; font-size: 12px; font-weight: 600; color: var(--text2); border-bottom: 2px solid transparent; transition: all 0.15s; text-transform: uppercase; letter-spacing: 0.05em; }
+  .tab:hover { color: var(--blue); }
+  .tab.active { color: var(--blue); border-bottom-color: var(--blue); }
+  .panel { display: none; padding: 16px; }
+  .panel.active { display: block; }
+
+  /* QUIZ */
+  .exam-alert { background: var(--blue-light); border: 1px solid #B5D4F4; border-radius: var(--radius); padding: 10px 13px; margin-bottom: 14px; font-size: 12px; color: var(--navy); line-height: 1.5; }
+  .exam-alert strong { font-weight: 600; }
+  .filter-row { display: flex; gap: 8px; margin-bottom: 14px; }
+  .filter-row select { flex: 1; font-size: 13px; padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); color: var(--text); }
+  .btn-start { padding: 8px 18px; font-size: 13px; font-weight: 600; border: none; border-radius: var(--radius); cursor: pointer; background: var(--blue); color: #fff; white-space: nowrap; }
+  .btn-start:hover { background: var(--navy); }
+  .quiz-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .quiz-unit-badge { font-size: 11px; font-weight: 600; color: var(--blue); background: var(--blue-light); padding: 3px 9px; border-radius: 99px; }
+  .quiz-score-badge { font-size: 12px; color: var(--text2); font-family: monospace; }
+  .progress { height: 3px; background: var(--bg2); border-radius: 2px; margin-bottom: 14px; }
+  .progress-fill { height: 100%; background: var(--blue); border-radius: 2px; transition: width 0.3s; }
+  .qcard { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 18px; margin-bottom: 12px; }
+  .qnum { font-size: 11px; color: var(--text3); margin-bottom: 6px; font-family: monospace; }
+  .qtext { font-size: 15px; font-weight: 600; color: var(--text); line-height: 1.45; margin-bottom: 16px; }
+  .opts { display: flex; flex-direction: column; gap: 8px; }
+  .opt { padding: 10px 13px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); font-size: 13px; color: var(--text); cursor: pointer; text-align: left; line-height: 1.4; transition: all 0.1s; }
+  .opt:hover:not(:disabled) { background: var(--bg2); border-color: var(--border2); }
+  .opt.correct { border-color: var(--green); background: var(--green-light); color: var(--green); font-weight: 500; }
+  .opt.wrong { border-color: var(--red); background: var(--red-light); color: var(--red); }
+  .opt.reveal { border-color: var(--green); background: var(--green-light); color: var(--green); font-weight: 500; }
+  .opt:disabled { cursor: default; }
+  .explain { margin-top: 12px; padding: 12px; background: var(--bg2); border-radius: var(--radius); font-size: 12px; color: var(--text2); line-height: 1.6; display: none; border-left: 3px solid var(--blue); }
+  .explain.show { display: block; }
+  .explain strong { color: var(--text); font-weight: 600; }
+  .quiz-nav { margin-top: 4px; }
+  .quiz-nav button { width: 100%; padding: 12px; font-size: 13px; font-weight: 600; border: none; border-radius: var(--radius); cursor: pointer; background: var(--navy); color: #fff; }
+  .quiz-nav button:hover { background: var(--blue); }
+
+  /* RESULT */
+  .result-wrap { text-align: center; padding: 28px 8px; }
+  .result-pct { font-size: 56px; font-weight: 700; color: var(--text); line-height: 1; }
+  .result-label { font-size: 13px; color: var(--text2); margin-top: 6px; margin-bottom: 24px; }
+  .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; text-align: left; }
+  .rcard { background: var(--bg2); border-radius: var(--radius); padding: 12px 14px; }
+  .rcard-label { font-size: 11px; color: var(--text2); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .rcard-val { font-size: 22px; font-weight: 700; color: var(--text); }
+  .unit-rows { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 14px; margin-bottom: 16px; text-align: left; }
+  .unit-rows-title { font-size: 12px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; }
+  .unit-row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; padding: 6px 0; border-bottom: 1px solid var(--border); }
+  .unit-row:last-child { border-bottom: none; }
+  .unit-row-name { color: var(--text2); }
+  .unit-row-val { font-weight: 600; }
+  .btn-retry { width: 100%; padding: 12px; font-size: 13px; font-weight: 600; border: none; border-radius: var(--radius); cursor: pointer; background: var(--navy); color: #fff; }
+  .btn-retry:hover { background: var(--blue); }
+
+  /* FLASHCARDS */
+  .fc-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+  .fc-bar select { flex: 1; font-size: 13px; padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); color: var(--text); }
+  .fc-counter { font-size: 12px; color: var(--text2); white-space: nowrap; font-family: monospace; font-weight: 600; }
+  .card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-lg); min-height: 210px; cursor: pointer; margin-bottom: 14px; transition: box-shadow 0.15s; }
+  .card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+  .card-front, .card-back { padding: 22px 20px; }
+  .card-front { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; min-height: 210px; background: var(--navy); border-radius: var(--radius-lg); }
+  .card-back { display: none; min-height: 210px; }
+  .card.flipped .card-front { display: none; }
+  .card.flipped .card-back { display: block; }
+  .card-tag { font-size: 10px; color: #FAC775; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
+  .card-q { font-size: 16px; font-weight: 600; color: #fff; line-height: 1.45; }
+  .card-hint { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 16px; }
+  .card-a-label { font-size: 10px; color: var(--blue); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; }
+  .card-a { font-size: 13px; color: var(--text); line-height: 1.65; }
+  .card-a strong { font-weight: 600; }
+  .card-a .tip { margin-top: 12px; padding: 9px 11px; background: var(--gold-light); border-left: 3px solid var(--gold); font-size: 12px; color: var(--amber); line-height: 1.5; }
+  .fc-btns { display: flex; gap: 8px; }
+  .fc-btns button { flex: 1; padding: 11px; font-size: 13px; font-weight: 600; border-radius: var(--radius); cursor: pointer; border: 1px solid var(--border); transition: all 0.15s; }
+  .btn-prev { background: var(--bg2); color: var(--text2); }
+  .btn-prev:hover { background: var(--bg3); }
+  .btn-shuf { background: var(--gold-light); color: var(--amber); flex: 0 0 48px; font-size: 18px; border-color: transparent; }
+  .btn-next { background: var(--navy); color: #fff; border-color: transparent; }
+  .btn-next:hover { background: var(--blue); }
+
+  /* CHEAT SHEET */
+  .cs-section { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 10px; overflow: hidden; }
+  .cs-hdr { display: flex; align-items: center; gap: 8px; padding: 12px 15px; cursor: pointer; user-select: none; }
+  .cs-hdr:hover { background: var(--bg2); }
+  .cs-hdr-unit { font-size: 10px; font-weight: 600; color: var(--blue); background: var(--blue-light); padding: 2px 8px; border-radius: 99px; white-space: nowrap; }
+  .cs-hdr-title { font-size: 13px; font-weight: 600; color: var(--text); flex: 1; }
+  .cs-hdr-chev { font-size: 10px; color: var(--text3); transition: transform 0.2s; }
+  .cs-hdr.open .cs-hdr-chev { transform: rotate(180deg); }
+  .cs-body { display: none; border-top: 1px solid var(--border); padding: 12px 15px; }
+  .cs-body.open { display: block; }
+  .cs-row { padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .cs-row:last-child { border-bottom: none; }
+  .cs-key { font-weight: 600; color: var(--text); margin-bottom: 3px; }
+  .cs-val { color: var(--text2); line-height: 1.55; }
+  .cs-tip { margin-top: 12px; padding: 10px 13px; background: var(--gold-light); border-left: 3px solid var(--gold); font-size: 12px; color: var(--amber); line-height: 1.55; }
+  .cs-tip strong { font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <div>
+      <div class="topbar-title">TPCP 101 — Exam Prep</div>
+      <div class="topbar-sub">Real quiz questions · Flashcards · Cheat Sheet</div>
+    </div>
+  </div>
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('quiz',this)">Real Quiz Qs</button>
+    <button class="tab" onclick="showTab('cards',this)">Flashcards</button>
+    <button class="tab" onclick="showTab('sheet',this)">Cheat Sheet</button>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="panel-quiz" class="panel active">
+    <div class="exam-alert"><strong>Exam tip:</strong> These are the actual unit quiz questions — the course creators confirmed these are highly indicative of the final exam's structure, type, and difficulty.</div>
+    <div id="quiz-setup">
+      <div class="filter-row">
+        <select id="q-unit">
+          <option value="all">All Units (100+ questions)</option>
+          <option value="1">Unit 1 — Tax-Favored Accounts</option>
+          <option value="2">Unit 2 — Taxable Accounts</option>
+          <option value="3">Unit 3 — Investment Planning</option>
+          <option value="4">Unit 4 — Education Planning</option>
+          <option value="5">Unit 5 — Small Business</option>
+          <option value="6">Unit 6 — Corporate Executives</option>
+        </select>
+        <button class="btn-start" onclick="startQuiz()">Start Quiz</button>
+      </div>
+    </div>
+    <div id="quiz-area" style="display:none"></div>
+  </div>
+
+  <!-- FLASHCARDS -->
+  <div id="panel-cards" class="panel">
+    <div class="fc-bar">
+      <select id="fc-unit" onchange="filterCards()">
+        <option value="all">All Units</option>
+        <option value="1">Unit 1 — Tax-Favored Accounts</option>
+        <option value="2">Unit 2 — Taxable Accounts</option>
+        <option value="3">Unit 3 — Investment Planning</option>
+        <option value="4">Unit 4 — Education Planning</option>
+        <option value="5">Unit 5 — Small Business</option>
+        <option value="6">Unit 6 — Corporate Executives</option>
+      </select>
+      <span class="fc-counter" id="fc-counter">1/38</span>
+    </div>
+    <div class="progress"><div class="progress-fill" id="fc-prog"></div></div>
+    <div class="card" id="fc-card" onclick="flipCard()">
+      <div class="card-front">
+        <div class="card-tag" id="fc-tag"></div>
+        <div class="card-q" id="fc-q"></div>
+        <div class="card-hint">tap to reveal answer</div>
+      </div>
+      <div class="card-back">
+        <div class="card-a-label">Answer</div>
+        <div class="card-a" id="fc-a"></div>
+      </div>
+    </div>
+    <div class="fc-btns">
+      <button class="btn-prev" onclick="fcPrev()">← Prev</button>
+      <button class="btn-shuf" onclick="fcShuffle()">⇌</button>
+      <button class="btn-next" onclick="fcNext()">Next →</button>
+    </div>
+  </div>
+
+  <!-- CHEAT SHEET -->
+  <div id="panel-sheet" class="panel">
+    <div id="sheet-area"></div>
+  </div>
+</div>
+
+<script>
+const QS = [
+  {u:1,q:"What is the benefit of leaving contributed funds in an HSA for the long term?",opts:["Tax-deferred growth until withdrawal; if for qualified medical expenses, the growth is tax-exempt","Distributions are subject to early withdrawal penalty if used for non-qualified expenses","Contributions can be withdrawn tax-free and penalty-free at any time","All statements are incorrect"],c:0,ex:"HSA funds grow tax-deferred. If withdrawn for qualified medical expenses, the withdrawal is tax-exempt. This triple tax advantage is the key HSA benefit for long-term savers."},
+  {u:1,q:"An individual has HSA self-only coverage with a $4,500 limit and already contributed $2,000. How much more can they contribute via a QHFD?",opts:["An unlimited amount","$2,500","$4,500","$2,000"],c:1,ex:"QHFD is limited to the annual HSA contribution cap minus amounts already contributed. $4,500 − $2,000 = $2,500 remaining."},
+  {u:1,q:"Ignoring the Last-Month Rule: someone eligible for the individual HSA limit half the year and the family limit the other half could contribute 50% individual + 50% family limit. True or False?",opts:["True","False"],c:0,ex:"When coverage changes during the year, the contribution limit is calculated on a pro-rata basis — each period's limit applies proportionally to the months covered."},
+  {u:1,q:"How might a Traditional IRA have limited benefits for high-income individuals with an employer-sponsored retirement plan?",opts:["No impact — Traditional IRAs don't have income restrictions","They pay an additional penalty on distributions","The deductibility of contributions may be phased out or eliminated","They will not be allowed to contribute to a Traditional IRA"],c:2,ex:"High-income individuals with access to an employer-sponsored plan may have their Traditional IRA deduction phased out or fully eliminated — but they can still make non-deductible contributions."},
+  {u:1,q:"Which of the following counts as 'compensation' for Traditional IRA contribution eligibility?",opts:["Interest and dividends","Capital gains","Retirement account distributions","Social Security payments","None of the above"],c:4,ex:"IRA contributions require earned income (wages, self-employment income). Interest, dividends, capital gains, retirement distributions, and Social Security do NOT qualify as compensation."},
+  {u:1,q:"It is best practice to voluntarily file Form 8606 each year if non-deductible IRA contributions have been made, even with no activity that year. True or False?",opts:["True","False"],c:0,ex:"Filing Form 8606 annually tracks basis in non-deductible contributions, ensuring taxes are not overpaid on future distributions. Critical for Backdoor Roth planning."},
+  {u:1,q:"In general, to which spouse's Roth IRA should contributions be made first?",opts:["Doesn't matter","The younger spouse","Both equally","The older spouse"],c:3,ex:"Contributions to the older spouse's Roth IRA are prioritized because they will reach age 59½ sooner, potentially allowing penalty-free withdrawals earlier."},
+  {u:1,q:"Which of the following is a benefit of Roth IRA contributions OVER plan Roth contributions?",opts:["Contributions can be withdrawn at any time, tax and penalty-free","No income limits for contributions","All distributions are always tax and penalty-free","Loan eligibility"],c:0,ex:"Roth IRA contributions (not earnings) can be withdrawn at any time without taxes or penalties. Roth 401(k) contributions before age 59½ are subject to early withdrawal penalties — a key distinguishing advantage of Roth IRAs."},
+  {u:1,q:"Janet has a $100,000 pre-tax Traditional IRA and participates in a 401(k). How might she benefit from the Backdoor Roth IRA strategy?",opts:["Transfer her existing IRA balance to her employer plan to eliminate the pro-rata rule impact","Fund the Traditional IRA with non-deductible contributions until the ratio improves","Both statements are correct","Neither statement is correct"],c:0,ex:"By rolling the pre-tax Traditional IRA into her 401(k), Janet eliminates the pro-rata rule problem, making subsequent Backdoor Roth conversions essentially tax-free."},
+  {u:1,q:"Why might an affluent family contribute to a 529 plan for a newborn in excess of expected education amounts?",opts:["Extra funds can immediately be transferred to a Roth IRA","Contributions can be distributed for any reason, tax and penalty-free","At least 5 years old + beneficiary 59½ = tax-free distributions","Funds grow tax-deferred and can eventually be transferred to Roth IRA when the child meets 529-to-Roth requirements"],c:3,ex:"529 plans grow tax-deferred. Under SECURE 2.0, up to $35,000 can be transferred to a Roth IRA once the account is 15+ years old and the beneficiary has earned income."},
+  {u:1,q:"When might a 38-year-old choose Roth IRA over Traditional IRA? (Select all that apply)",opts:["Same or similar tax rate in retirement — want to avoid RMDs","Expecting lower marginal tax rate in retirement","Expecting higher tax rate environment in retirement","Plan to use the entire Roth as an emergency fund soon"],c:[0,2],ex:"Roth is better when: (1) tax rates expected to be the same or higher, and (2) the client wants to avoid RMDs. Even at the same rate, Roth's RMD-free status is valuable."},
+  {u:1,q:"Which plan types have unique contribution limit options not available in other plan types?",opts:["457(b)s and 403(b)s","401(k)s and 457(b)s","457(b) governmental only","401(k) only","403(b) only"],c:0,ex:"403(b) plans: unique '15-year rule' catch-up. 457(b) governmental plans: standard catch-up PLUS 'final three-year' catch-up allowing up to 2x annual limit."},
+  {u:1,q:"The Mega-Back-Door Roth may be impacted by nondiscrimination testing, which is NOT the case with Back-Door Roth IRA. True or False?",opts:["True","False"],c:0,ex:"The Mega Backdoor Roth depends on the employer plan allowing after-tax contributions, which can be restricted by nondiscrimination testing. The regular Backdoor Roth is entirely separate from employer plans."},
+  {u:1,q:"Both Back-Door Roth and Mega-Back-Door Roth leverage after-tax/non-deductible contributions that can be transferred to a Roth account. True or False?",opts:["True","False"],c:0,ex:"Both strategies involve making non-deductible contributions and converting to Roth. Backdoor uses an IRA; Mega Backdoor uses after-tax 401(k) contributions."},
+  {u:1,q:"Why should after-tax contributions be converted to a Roth account as soon as practicable?",opts:["To minimize taxes on any future appreciation","Investments in Roth typically perform better","To ensure the plan doesn't change its provisions","To avoid penalties"],c:0,ex:"Converting immediately minimizes the earnings that would be taxable at conversion. Any growth in the traditional account before conversion is taxable."},
+  {u:1,q:"What impact could contributing to both an employer plan AND an IRA have?",opts:["Can reduce/eliminate ability to make a Roth IRA contribution","Can reduce/eliminate ability to make a Traditional IRA contribution","Can reduce/eliminate ability to take a deduction for a Traditional IRA contribution","All of the above"],c:2,ex:"Contributing to an employer plan can reduce or eliminate the deductibility of Traditional IRA contributions for high-income individuals. It does NOT affect the ability to contribute."},
+  {u:1,q:"For multiple 401(k)s from unrelated employers: the annual salary deferral limit is coordinated across all plans, but the annual additions limit applies separately to each plan. True or False?",opts:["True","False"],c:0,ex:"The salary deferral limit (elective deferrals) is coordinated across all 401(k) plans. However, the annual additions limit applies separately per plan sponsor."},
+  {u:1,q:"Which statement is correct regarding FSA accounts?",opts:["Dependent care FSAs and healthcare FSAs can permit grace periods","Neither healthcare FSAs nor dependent care FSAs permit rollovers","Only healthcare FSAs permit grace periods","Both healthcare FSAs and dependent care FSAs permit rollovers"],c:0,ex:"Both FSA types can have grace periods. Only Healthcare FSAs can rollover (up to IRS limit). Dependent Care FSAs cannot rollover."},
+  {u:1,q:"By when must action be taken to avoid a penalty on an excess IRA contribution?",opts:["By October 15 of the year the contributions were made","By October 15 of the year AFTER the year the contributions were made","By December 31 of the year after","Within 90 days of the first excess deposit"],c:1,ex:"The deadline is October 15 of the following year — the extended tax filing deadline. Withdrawing the excess and associated earnings by this date avoids the 6% excise tax."},
+  {u:1,q:"Excess salary deferrals are included in income the year made AND again when distributed, resulting in double taxation. True or False?",opts:["True","False"],c:0,ex:"If excess deferrals are not corrected by April 15 of the following year, they are taxed twice: once when contributed and again when distributed."},
+  {u:2,q:"If the client must pay NII tax, the tax is assessed on all investment income. True or False?",opts:["True","False"],c:1,ex:"The NIIT (3.8%) applies only to the LESSER of (1) net investment income or (2) MAGI above the threshold. It is NOT assessed on all investment income."},
+  {u:2,q:"Which investment held in a taxable account is most likely to generate unexpected income?",opts:["A mutual fund","An index ETF","A bond","A stock"],c:0,ex:"Mutual funds can generate unexpected capital gains distributions at year-end. ETFs avoid this through in-kind creation/redemption. Bonds generate expected interest income."},
+  {u:2,q:"Which is true regarding long-term capital losses?",opts:["Can be allocated to ST gains BEFORE LT gains to reduce the gain taxed at the highest rate","Must first offset LT gains; excess can then offset ST gains","Can only offset long-term capital gains","Should never offset long-term capital gains"],c:1,ex:"Netting rules: LT losses offset LT gains first, ST losses offset ST gains first. Only after same-category netting do excess losses cross over."},
+  {u:2,q:"Distributions from retirement accounts are subject to the NIIT. True or False?",opts:["True","False"],c:1,ex:"Qualified retirement account distributions (IRAs, 401(k)s, Roth IRAs) are excluded from NII for NIIT. However, they raise MAGI above the threshold, causing existing investment income to be taxed."},
+  {u:2,q:"Ways to lower NII subject to NIIT (select all that apply): Donate appreciated securities to charity; Sell at a loss; Sell via installment sale; Transfer income-producing assets to children under NIIT threshold.",opts:["All four are correct","Only donating appreciated securities and selling at a loss","Only installment sales and transfers to children","None of the above"],c:0,ex:"All four reduce NII exposure: (1) donating eliminates gain recognition; (2) realizing losses offsets gains; (3) installment sales spread recognition over years; (4) gifting to children below threshold removes income from NIIT exposure."},
+  {u:2,q:"The wash sale rule applies for a total of 61 days around the transaction. True or False?",opts:["True","False"],c:0,ex:"The wash sale rule covers 30 days before + the day of the sale + 30 days after = 61 days total."},
+  {u:2,q:"Which method allows investors to pick specific shares to sell to manage tax liability?",opts:["Specific Identification Method","FIFO (First In, First Out)","Average Cost Method","LIFO (Last In, First Out)"],c:0,ex:"Specific ID gives maximum flexibility — choose exactly which tax lots to sell to minimize gains, maximize losses, or control the character of the gain."},
+  {u:2,q:"The primary benefit of leverage in a long-short strategy is that it increases total investable funds for increased capital loss generation without reducing desired net market exposure. True or False?",opts:["True","False"],c:0,ex:"Leverage creates larger long AND short positions — more opportunities to harvest losses in either market direction while maintaining the same net market exposure as a simple long-only investment."},
+  {u:2,q:"Which of the following are benefits of Qualified Opportunity Funds? (Select all that apply)",opts:["Tax deferral on reinvested gains until at least 2026","Guaranteed income payments","Tax-free growth on reinvested gains if held 10 years","Upfront tax credits for investments"],c:[0,2],ex:"QOF benefits: (1) defer original gains until 12/31/2026 or earlier sale; (2) 100% exclusion of QOF appreciation if held 10+ years. No guaranteed income payments or upfront tax credits."},
+  {u:2,q:"The primary goal of the borrow-to-avoid-selling strategy is to reduce:",opts:["Both income taxes and estate taxes","Estate taxes","Neither income nor estate taxes","Income taxes"],c:3,ex:"Borrowing against appreciated assets avoids a taxable sale event, reducing income taxes (capital gains) while maintaining the investment position."},
+  {u:2,q:"Match: More liquidity / Want control over property / Future exchanges on same string / Heirs get step-up / High diversification / Capital gains deferred until sold → 1031, 721, or Both?",opts:["721=liquidity/diversification, 1031=control/future exchanges, Both=step-up/deferral","1031=liquidity, 721=control","Neither applies to step-up in basis","Only 1031 defers capital gains"],c:0,ex:"1031: control over specific property, future exchanges on same chain. 721 (UPREIT): liquidity, high diversification. Both: step-up in basis at death, capital gains deferred until sold."},
+  {u:2,q:"Which statement about UPREITs is true?",opts:["They allow investors to remain actively involved in property management","They have a 45-day identification requirement like 1031 exchanges","They allow the exchange of property for UPREIT units without triggering immediate capital gains","They offer tax deferral without needing to contribute property"],c:2,ex:"UPREITs (721 exchanges) allow property owners to contribute real estate for Operating Partnership units, deferring capital gains without immediate taxation."},
+  {u:2,q:"UPREITs are not eligible for a future 1031 exchange. True or False?",opts:["True","False"],c:0,ex:"UPREIT OP units are securities, not real property — they cannot be exchanged in a future 1031 exchange (which requires like-kind real property)."},
+  {u:2,q:"What is an ING trust specifically designed to do?",opts:["Provide charitable contributions to reduce taxable income","Offer tax-free investment income","Facilitate tax-free retirement distributions","Mitigate state income taxes while retaining control over assets"],c:3,ex:"ING (Incomplete Non-Grantor) trusts are designed to mitigate state income taxes while the grantor retains certain powers over assets."},
+  {u:2,q:"What type of trust allows for tax deferral, provides ongoing distributions to a beneficiary, and ultimately benefits a charity?",opts:["Qualified Personal Residence Trust","Special Needs Trust","Revocable Living Trust","Charitable Remainder Trust (CRT)"],c:3,ex:"A CRT is tax-exempt, can sell appreciated property without immediate capital gains, provides an income stream, the donor gets an upfront charitable deduction, and charity receives the remainder."},
+  {u:2,q:"What happens if the sale of the initial property in a 1031 exchange results in excess cash ('boot')?",opts:["The boot is treated as capital gains and is taxed","The boot is subject to a penalty tax","The boot is reinvested tax-free","The boot is deferred for future investment"],c:0,ex:"Boot (cash or non-like-kind property received) is immediately taxable as capital gains. It is not deferred."},
+  {u:2,q:"Which scenario is a workaround to use a personal residence in a 1031 exchange?",opts:["Rent it out as a vacation rental for a few weekends","Add a rental unit and claim it as investment property","Convert the residence to a rental property with genuine tenants for a defined period","Sell the residence and immediately exchange it for an investment property"],c:2,ex:"Converting to a legitimate rental property with actual tenants can qualify the property for a future 1031 exchange, provided it meets IRS requirements."},
+  {u:2,q:"The 1031 'safe harbor rule' for rental property that later becomes a personal residence requires:",opts:["Rented at least 180 days before personal use","Personal use up to 30 days annually","Property placed in a trust for safe harbor","Rented at least 14 days/year; personal use cannot exceed 14 days or 10% of rental days"],c:3,ex:"The safe harbor: minimum 14 days rented/year; personal use limited to the lesser of 14 days or 10% of rental period."},
+  {u:2,q:"What impact can poor market conditions have on a 1031 exchange strategy?",opts:["No effect as long as properties are like-kind","Favorable conditions can eliminate the need for 1031","Poor market conditions can make it difficult to find replacement properties within the 45-day period","Market conditions dictate whether the IRS will allow the exchange"],c:2,ex:"The 45-day identification window is tight. In a slow market, finding a suitable replacement within that timeline becomes challenging — potentially causing the exchange to fail."},
+  {u:2,q:"When would a 1031 exchange potentially conflict with estate planning objectives?",opts:["When the client intends to hold the property indefinitely","When the client passes properties with a stepped-up basis to heirs","When the replacement property has a lower value","When the client requires liquidity to distribute assets equally among heirs"],c:3,ex:"A 1031 exchange retains investment in illiquid real estate. When an estate needs liquid assets for equal distribution among heirs, this creates significant challenges."},
+  {u:2,q:"When is tax loss harvesting particularly valuable? (Select all that apply)",opts:["When it allows deferring taxes in a high-income year","When an investor has net short-term capital gains","When realizing losses will allow the taxpayer to stay within the same taxable income bracket","When the taxpayer is in the 0% or 10% bracket"],c:[0,1,2],ex:"TLH valuable: high-income years (most benefit from deferral), when there are ST gains (taxed at ordinary rates), to stay within a favorable bracket. NOT particularly valuable in the 0% LTCG bracket."},
+  {u:2,q:"Potential benefits of contributing a highly appreciated asset to a CRT? (Select all that apply)",opts:["Transfers to CRTs are free of gift tax","Potential for lifetime income distributions","Ability to sell the asset without creating an immediate capital gains tax","An up-front income tax deduction"],c:[1,2,3],ex:"CRT benefits: (1) lifetime income stream; (2) CRT is tax-exempt so no immediate capital gains on sale; (3) upfront income tax deduction (present value of remainder interest going to charity)."},
+  {u:3,q:"After maximizing employer matching, additional retirement contributions should always be made to a Traditional IRA. True or False?",opts:["True","False"],c:1,ex:"After capturing the employer match, the optimal next step depends on the client's strategy — it might be HSA, Roth IRA, 529, or other account. Don't default automatically to Traditional IRA."},
+  {u:3,q:"Why might employer plans be preferred over IRAs? (Select all that apply)",opts:["Potential employer match","Employer plans have more investment options","Employer plans are more accessible than IRAs","Employer plans have higher contribution limits"],c:[0,3],ex:"Employer plans offer: (1) potential employer matching; (2) significantly higher contribution limits. They do not necessarily have more investment options."},
+  {u:3,q:"The 'net asset allocation methodology' consists of:",opts:["Considers the pre-tax value of each dollar for investment decisions","Considers the after-tax value of each dollar for investment decisions","Ignores the effect of taxation","None of the above"],c:1,ex:"The net method considers the after-tax value of each portfolio dollar. Pre-tax accounts have a built-in future tax liability — $100 in a Traditional IRA is worth less in after-tax terms than $100 in a Roth."},
+  {u:3,q:"The most important consideration when determining which investments to purchase in a tax-deferred account is:",opts:["Tax efficiency","Which investments have the most prospective future growth","Time horizon","All of the above"],c:0,ex:"Asset location is fundamentally about tax efficiency — placing tax-inefficient investments in tax-deferred accounts where their income won't be annually taxed."},
+  {u:3,q:"The Garcias have stocks (qualified dividends), high-yield corporate bonds, and municipal bonds. Max 401(k)/457(b), have Roth IRAs, expect lower bracket in retirement. Best asset location strategy?",opts:["Place individual stocks in the 401(k) and 457(b)","Place corporate bonds in the Roth IRA first, remaining in the 401(k) and 457(b)","Place corporate bonds in a taxable account","Place municipal bonds in the Roth IRA"],c:1,ex:"Corporate high-yield bonds generate ordinary income — the most tax-inefficient income type. They belong in tax-sheltered accounts first. Roth IRA is ideal, then any overflow to 401(k)/457(b)."},
+  {u:3,q:"Which investment types are generally high on the list to hold in a taxable account? (Select all that apply)",opts:["High-frequency trading strategies","Growth stocks","Municipal bonds","High-yield bonds"],c:[1,2],ex:"Taxable accounts: (1) growth stocks — minimal dividends, LTCG treatment; (2) municipal bonds — interest federally tax-free. High-yield bonds generate ordinary income and belong in tax-deferred accounts."},
+  {u:3,q:"Which factor should be considered when determining which investments to place in a Roth IRA?",opts:["High tax-efficiency investments","High expected future returns","Plans to hold for more than 12 months","The investment generates qualified dividends"],c:1,ex:"Roth IRAs are best for investments with HIGH EXPECTED FUTURE RETURNS. Since all growth is permanently tax-free, the compounding benefit is greatest for the highest-return assets."},
+  {u:3,q:"Which information is essential for building an asset location policy? (Select all that apply)",opts:["Investment strategy and return expectations","Tax characteristics of different account types","Client's investment period","Client's current income and tax bracket"],c:[0,1,2],ex:"Asset location requires: (1) investment strategy and return expectations; (2) tax characteristics of account types; (3) investment period. Current income/bracket is less critical for location decisions."},
+  {u:3,q:"Asset allocation and asset location are essentially the same thing. True or False?",opts:["True","False"],c:1,ex:"Asset allocation = WHAT to hold (stocks/bonds/real estate mix). Asset location = WHERE to hold each investment (taxable/deferred/free). Related but distinct strategies."},
+  {u:4,q:"Which is NOT a general qualification that applies to BOTH the AOTC and the Lifetime Learning Credit?",opts:["Eligible student is the taxpayer, spouse, or dependent","Taxpayer/dependent/third party pays qualified higher education expenses","The eligible student is enrolled at least half-time for at least one academic period","An eligible student must be enrolled at an eligible educational institution"],c:2,ex:"The half-time enrollment requirement applies ONLY to the AOTC, not the LLC. The LLC can be claimed for any amount of coursework."},
+  {u:4,q:"How do scholarships and grants impact education credits?",opts:["Education credits cannot be used when a student receives scholarships","Tax-free, qualified scholarships used for tuition reduce the amount of qualified expenses available for education credits","The amount used as a credit must be paid back to the scholarship fund","There is no impact"],c:1,ex:"Tax-free scholarships/grants used for qualified tuition reduce the eligible expense base for education credits — preventing double-dipping."},
+  {u:4,q:"Janet received a full-ride scholarship. She can still claim the AOTC by treating a portion as taxable income. How much of the scholarship should she treat as taxable to maximize the AOTC?",opts:["$4,000","$3,000","$2,500","$3,500"],c:0,ex:"$4,000 is the maximum qualified expense amount that generates the full $2,500 AOTC (100% of first $2,000 + 25% of next $2,000). Treating $4,000 as taxable to claim $2,500 credit is typically worthwhile."},
+  {u:4,q:"Some states only offer a 529 deduction for contributions to their state's plan, while others offer deductions for any state's plan. True or False?",opts:["True","False"],c:0,ex:"State 529 tax benefits vary significantly. Some states only allow a deduction for in-state plans; others allow deductions for contributions to any plan. This affects the 'cycling' strategy."},
+  {u:4,q:"How can someone ensure Dynasty 529 plan funds are used in accordance with their wishes once deceased? (Select all that apply)",opts:["Choose trusted family members as successor owners who understand the educational legacy","Make a trust the owner of the 529 plan","Name the owner's power of attorney as owner","Distribute all assets and reinvest prior to death"],c:[0,1],ex:"To control Dynasty 529 after death: (1) appoint trusted successor owners; (2) make a trust the owner for clear, legally binding instructions. POA ends at death."},
+  {u:4,q:"Which are important considerations when choosing a 529 plan? (Select all that apply)",opts:["Tax benefits","Investment quality","Fees","User experience"],c:[0,1,2,3],ex:"All four matter: tax benefits (state deductions/credits), investment quality (affects long-term growth), fees (drag on returns), and user experience."},
+  {u:4,q:"Which factors should be considered when selecting a Dynasty 529 plan? (Select all that apply)",opts:["Plans allowing for high maximum limits are preferred","Whether the 529 owner runs a small business","Contributions should generally be made to the youngest possible generation","A primary focus should be on investment selection vs. deductibility"],c:[0,2,3],ex:"Dynasty 529: (1) high maximum limits; (2) contributions to youngest generation maximize compounding; (3) investment selection is critical for long-horizon plan."},
+  {u:4,q:"Assets in a UTMA account must be used for qualified education expenses to avoid taxes and penalties. True or False?",opts:["True","False"],c:1,ex:"UTMA assets can be used for ANY purpose that benefits the minor — not just education. Unlike 529 plans, there are no use restrictions."},
+  {u:4,q:"Relevant UTMA factors when the student applies for financial aid: (Select all that apply)",opts:["UTMA assets have no impact on student aid eligibility","Assets owned by the student can negatively impact ability to receive student aid","UTMA assets not used for education are taxed as ordinary income while educational assets are tax-exempt","UTMA assets can be used for any purpose and are not restricted to educational needs unlike a 529"],c:[1,3],ex:"Student-owned UTMA assets assessed at 20% rate on FAFSA (vs. 5.64% for parental assets) — significantly reduces aid eligibility. UTMAs have no use restrictions unlike 529s."},
+  {u:4,q:"IRA distributions for a young (under 59½) parent paying a dependent child's higher education expenses are:",opts:["Tax and penalty-free","Tax-free but subject to the 10% penalty","Taxable and subject to the 10% penalty","Taxable but exempt from the 10% early distribution penalty"],c:3,ex:"IRA distributions for qualified higher education expenses are exempt from the 10% early withdrawal penalty — but still subject to ordinary income tax."},
+  {u:4,q:"Requirements to exclude Series EE or Series I bond interest for education expenses: (Select all that apply)",opts:["Expenses must be qualified higher education expenses","Taxpayer must be below applicable income limits","The bondholder must be at least 24 years old when the bond is issued","The bond must be held until maturity"],c:[0,1,2],ex:"Series EE/I bond education exclusion requires: (1) qualified higher education expenses; (2) below income limits; (3) bondholder at least 24 at issuance. Does NOT need to be held to maturity."},
+  {u:4,q:"Which is/are correct regarding 529 Plan disbursements? (Select all that apply)",opts:["Tax-free distributions for any expense after the beneficiary reaches 59.5","Contributions to 529 Plans are always tax-deductible","$20,000 annual limit for K-12 tuition expenses","$10,000 lifetime limit for student loan repayment"],c:[2,3],ex:"529 disbursements: $20,000 annual limit for K-12 tuition; $10,000 lifetime limit for student loan repayment. 529 contributions are NOT federally tax-deductible. Age 59.5 is irrelevant for 529 plans."},
+  {u:4,q:"Distributions from Roth IRAs are counted as income on FAFSA even if they are tax and penalty-free. True or False?",opts:["True","False"],c:0,ex:"Roth IRA balances are NOT counted as assets on FAFSA, but Roth IRA distributions ARE included in income calculations — can reduce financial aid eligibility."},
+  {u:4,q:"A key limitation to using a Roth IRA instead of a 529 plan to fund education is:",opts:["The Roth IRA is counted more heavily as an asset on FAFSA","If the student doesn't go to college, it's harder to repurpose Roth funds","Earnings of the Roth IRA will generally be taxable unless the owner is at least 59½, whereas 529 earnings are tax-free at any time when used for qualified education","Roth IRAs are usually subject to more investment restrictions"],c:2,ex:"Roth IRA earnings used for education before 59½: penalty-free but STILL TAXABLE. 529 earnings used for qualified education: always tax-free. Key limitation."},
+  {u:4,q:"Potential advantages of using a Roth IRA to save for higher education vs. a 529 plan: (Select all that apply)",opts:["Roth IRAs have higher contribution limits","Roth IRAs have flexibility to use funds for both education and retirement","Roth IRAs are not counted as assets on the FAFSA form","Roth IRAs are not subject to income limitations"],c:[1,2],ex:"Roth IRA advantages over 529: (1) flexible use for education and retirement; (2) Roth IRA balances NOT counted as assets on FAFSA. However, Roths have lower limits and ARE subject to income limitations."},
+  {u:5,q:"What is 'phantom income' and its significance in partnership taxation?",opts:["Income derived from non-taxable sources","Income not distributed to partners but still taxed to partners","Income excluded from taxation due to partnership agreements","Income from undisclosed partnerships is not taxable"],c:1,ex:"Phantom income: partnership allocates income to partners' K-1, but no cash is distributed. Partners must pay tax on their share even though they received no money."},
+  {u:5,q:"What is the primary advantage of the QBI deduction for S-Corporation shareholders?",opts:["Provides a 50% reduction in self-employment tax","Enables a deduction of up to 20% of qualified business income","Exempts shareholders from paying federal income tax","Allows a complete deduction of all business income"],c:1,ex:"The QBI deduction (Section 199A) allows eligible S-Corp shareholders to deduct up to 20% of their qualified business income on their individual return."},
+  {u:5,q:"Consequence if a shareholder's basis in an S-Corporation falls below zero:",opts:["Exempt from self-employment tax","Income not subject to federal tax","Eligible for additional tax deductions","The shareholder may not deduct S-Corp losses on their personal tax return"],c:3,ex:"Shareholder basis limits loss deductions. If basis falls to zero, no further losses can be deducted until basis is restored."},
+  {u:5,q:"Which is correct regarding the QBI deduction?",opts:["Below-the-line deduction; cannot be used if someone itemizes","Above-the-line deduction that reduces AGI","Below-the-line deduction available regardless of whether a taxpayer claims standard or itemized deductions","Below-the-line deduction; cannot be used if someone uses the standard deduction"],c:2,ex:"The QBI deduction is below-the-line — available whether you take the standard or itemized deduction. It does NOT reduce AGI."},
+  {u:5,q:"Qualified small business stock must be acquired directly from a U.S. C corporation to receive the Section 1202 exclusion. True or False?",opts:["True","False"],c:0,ex:"QSBS must be acquired directly from the issuing C-corporation — not from another investor or on the secondary market."},
+  {u:5,q:"An essential prerequisite for a business to qualify for Section 1202 QSBS is:",opts:["Must be a publicly traded company","Must be a sole proprietorship","Gross assets must not exceed $50 million (or $75 million after 2025)","Must be older than 10 years"],c:2,ex:"QSBS requires the C-corporation's gross assets to not exceed $50M at issuance ($75M for stock issued after 2025). Must be domestic C-corp, active qualified business, held 5+ years for full exclusion."},
+  {u:5,q:"The effect of the QBI deduction phase-out on marginal tax rates for SSTB owners within the phase-out range is:",opts:["It provides tax incentives for business growth","It can substantially increase the taxpayer's marginal rate","It doubles the effective tax rate","It causes a net increase in tax savings"],c:1,ex:"In the SSTB phaseout range, each additional dollar of income both increases taxes AND reduces the QBI deduction — a stacking effect. The effective marginal rate can approach nearly 50%."},
+  {u:5,q:"Strategies high-income SSTB owners can use to potentially increase their QBI deduction: (Select all that apply)",opts:["Increasing retirement plan contributions","Making large charitable contributions","Changing contract labor to employee labor","Working fewer hours"],c:[0,1,3],ex:"For SSTBs in the phaseout, QBI is phased out based on taxable income (NOT AGI). Retirement contributions, charitable contributions, or working less all reduce taxable income. Contractor-to-employee helps non-SSTBs (W-2 wage test), not SSTBs."},
+  {u:5,q:"A high-income business owner of either specified or non-specified service business can still use the QBI deduction above the phase-out range, as long as they have at least $1,000 in qualified income. True or False?",opts:["True","False"],c:1,ex:"False. SSTB owners above the upper phaseout limit lose the QBI deduction ENTIRELY. Non-SSTB owners above phaseout can access QBI via the W-2 wage and property tests — but having $1,000 of income is not the determining factor."},
+  {u:5,q:"A unique consideration for very high-income non-SSTB owners looking to maximize their QBI deduction is:",opts:["Re-evaluating the composition of labor","Selling company assets","Increasing their marketing budget","Raising their product price"],c:0,ex:"Non-SSTB owners above phaseout can preserve QBI via the W-2 wage test. Re-evaluating labor composition — specifically shifting from 1099 contractors to W-2 employees — directly increases the wage base and preserves the deduction."},
+  {u:5,q:"What might a non-specified service business owner consider if they pay independent contractors a significant amount?",opts:["Increasing contractor payments","Reducing wages","Hiring those contractors as employees","Investing in more office space"],c:2,ex:"1099 payments do NOT count toward the W-2 wage test for QBI. Converting contractors to W-2 employees increases the wage base, potentially allowing a larger QBI deduction above the phaseout threshold."},
+  {u:5,q:"Potential federal tax benefits for non-grantor trusts investing in business ownership: (Select all that apply)",opts:["Protection from employment tax liability","Access to separate QBI deduction thresholds","Potential for multiple QBI deductions across trusts","Simplified tax filing requirements"],c:[1,2],ex:"Non-grantor trusts have their own QBI thresholds — spreading business ownership across multiple trusts can multiply the phaseout threshold and allow more QBI to be claimed."},
+  {u:5,q:"Precaution when transferring business interests to non-grantor trusts for QBI benefits:",opts:["Setting terms that reduce trust income","Delaying income distribution indefinitely","Creating multiple trusts with vague distributions","Ensuring the gift is irrevocable and complies with tax regulations"],c:3,ex:"Transfers must be irrevocable and structured to comply with tax law. The IRS has anti-abuse provisions that can aggregate multiple trusts if the primary purpose appears to be tax avoidance."},
+  {u:5,q:"One potential tax benefit of using a defined benefit plan for a small business owner:",opts:["Reduced administrative costs","Flexibility in contribution amounts","Simplified record-keeping","Larger, tax-deductible contributions for owners"],c:3,ex:"Defined benefit plans allow much larger annual deductible contributions — especially for older, high-income owners. The contribution is actuarially determined to fund a promised retirement benefit."},
+  {u:5,q:"All of the below are characteristics of the SIMPLIFIED method for home office deductions EXCEPT:",opts:["Amount is based on a percentage of business activity use","The calculation is often straightforward","Easier to calculate","Cannot create or increase NOL; no carry-forward of amounts"],c:0,ex:"The simplified method uses a FLAT RATE per square foot ($5/sq ft up to 300 sq ft) — NOT a percentage of business use. The regular method uses percentage of business use applied to actual expenses."},
+  {u:5,q:"All of the below are characteristics of the REGULAR method for home office deductions EXCEPT:",opts:["Depreciation is required when using this method","Cannot create NOL, but carry-forward amounts can increase NOL in profitable years","Amount is based on a percentage of business activity use","Depreciation is NOT used when using the regular method"],c:3,ex:"The regular method DOES include depreciation — it's a required component. This creates depreciation recapture risk when the home is sold. No depreciation is the exception for the SIMPLIFIED method."},
+  {u:5,q:"Home office simplified method: 4,500 sq ft home, 225 sq ft office. What is the deduction?",opts:["$1,425","$1,025","$1,325","$1,125"],c:3,ex:"Simplified method: $5 per square foot × 225 sq ft = $1,125. Maximum is capped at 300 sq ft. The total home size and indirect expenses are irrelevant under the simplified method."},
+  {u:5,q:"Which would be a reason NOT to use enhanced depreciation methods?",opts:["Additional depreciation reduces income below the QBI phaseout","Expects substantially lower tax bracket in the future","Expects substantially higher tax bracket in the future","Business owner needs to increase current cash-flow"],c:2,ex:"If the owner expects a HIGHER tax bracket in the future, it's more valuable to delay depreciation and claim it at higher future rates. Taking accelerated depreciation now at a lower rate is suboptimal."},
+  {u:5,q:"Are there scenarios where electing the PTET might NOT be beneficial?",opts:["If the LLC has high income","If they have fewer than 5 employees","If the administrative costs outweigh the tax benefits","If federal tax rates are high"],c:2,ex:"PTET elections involve administrative costs. For some entities, the administrative burden may exceed the tax savings. Always do a cost-benefit analysis before electing PTET."},
+  {u:5,q:"Pass-through entity taxes can be deducted at the business level and provide a federal tax benefit to business owners. True or False?",opts:["True","False"],c:0,ex:"PTETs are deductible at the entity level (federally, without the $10K SALT cap), and partners/shareholders receive a state tax credit to offset their personal state tax."},
+  {u:5,q:"Potential tax advantages of employing one's spouse in a small business: (Select all that apply)",opts:["Turning non-deductible personal expenses into deductible business expenses","Reduce FUTA and FICA taxes","Allowing the spouse to participate in employer-sponsored retirement plans","Eliminating all federal income taxes"],c:[0,1,2],ex:"Employing a spouse: (1) converts personal expenses to business deductions; (2) can reduce FUTA/FICA if spouse is allocated wages when one spouse is already over SS wage base; (3) allows spouse to participate in retirement plans."},
+  {u:5,q:"In which circumstance would it most likely make sense to convert a sole proprietorship into a spousal partnership?",opts:["$800,000 net profits, other spouse unemployed","$100,000 net profits, other spouse has wages of $300,000"],c:1,ex:"The SS tax savings come from allocating income to a spouse who has already hit the SS wage base. If the other spouse earns $300K (already over SS base), adding $50K of partnership income avoids the 12.4% SS tax on that $50K."},
+  {u:5,q:"Amina, CPA, has a home office (10% of home). Claimed $5,000 in depreciation. Gain on home sale = $100,000. Qualifies for $250,000 primary residence exclusion. What is Amina's tax?",opts:["$105,000 tax from the sale","$95,000 tax from the sale","$0 tax from the sale","$1,250 tax from the sale"],c:3,ex:"Depreciation claimed on a home office is recaptured at 25% upon sale. $5,000 × 25% = $1,250 tax. The remaining $95,000 gain is excluded under the primary residence exclusion. Total tax = $1,250."},
+  {u:5,q:"Methods to enhance 'regular' depreciation for small businesses: (Select all that apply)",opts:["Bonus depreciation (phased out by 2027)","Section 179 deductions","Cost segregation of properties that can benefit from accelerated depreciation","Investing in assets with longer depreciation schedules"],c:[0,1,2],ex:"Enhanced depreciation: (1) bonus depreciation — additional first-year deduction; (2) Section 179 — immediate expensing; (3) cost segregation — identifies components with shorter depreciation lives. Longer schedules = worse for acceleration."},
+  {u:5,q:"Which regarding unreimbursed partnership expenses is correct?",opts:["They reduce income tax and self-employment tax","They reduce income tax only","They reduce self-employment tax only","They do not reduce income tax or self-employment tax"],c:0,ex:"Unreimbursed partnership expenses reduce Schedule E income, which reduces both income tax AND self-employment tax — more advantageous than unreimbursed employee business expenses."},
+  {u:5,q:"Common items an S-Corp owner might reimburse under an accountable plan: (Select all that apply)",opts:["Home office expenses","Auto expenses","Meal expenses on business trips paid with personal credit card","Personal leisure activities for the business owner"],c:[0,1,2],ex:"S-Corp owners can reimburse: home office (business portion), auto expenses (business mileage), and business meals charged to personal cards. Personal leisure activities are never deductible."},
+  {u:5,q:"A business owner acquires eligible QSBS in 2026 for $4 million. She considers selling after 5 years. Which is correct?",opts:["If held at least 3 years, can exclude 100% of basis","If held 5 years, can exclude 100% of the gain, subject to the maximum","She can exclude a maximum of $15 million under Section 1202","Must hold 5+ years to exclude any gain"],c:1,ex:"For QSBS acquired after 9/27/2017, holding 5+ years = 100% gain exclusion. Maximum exclusion = greater of $10M or 10× adjusted basis. With $4M basis, maximum = $40M in gain excluded."},
+  {u:6,q:"Which form of equity compensation is typically eligible for 83(b) treatment?",opts:["Restricted Stock Units","Performance Stock Units","Restricted Stock","All of the above"],c:2,ex:"Only Restricted Stock (RSAs) is eligible for the 83(b) election. RSUs and PSUs are merely promises to deliver shares in the future — no property is transferred at grant, so there is nothing to make an 83(b) election on. The election requires actual property to have been received."},
+  {u:6,q:"In general, what are the income tax consequences when an individual is granted restricted stock?",opts:["The difference between the price of the restricted stock and the current FMV is subject to ordinary income tax and employment taxes","There are no tax consequences at this time","The FMV of the stock is subject to ordinary income tax only","The FMV of the stock is subject to ordinary income tax and employment taxes"],c:1,ex:"At the grant date, restricted stock is subject to a substantial risk of forfeiture, so there is no taxable event. Taxation is deferred until vesting — unless the employee makes an 83(b) election to accelerate taxation to the grant date."},
+  {u:6,q:"How is restricted stock typically taxed at the time of vesting?",opts:["It is taxed as dividend income","It is taxed as long-term capital gains","It is not subject to tax until the stock is sold","It is taxed as ordinary income based on its fair market value at the time of vesting"],c:3,ex:"At vesting, the restrictions lift and the FMV of the shares (minus any amount paid) is treated as ordinary income, reported on the W-2 and subject to supplemental income withholding (22% on the first $1M, 37% above $1M)."},
+  {u:6,q:"With regard to restricted stock, on what date does the holding period to determine whether future growth is eligible for long-term capital gains rates begin?",opts:["Vesting date","Grant date","IPO date","Sell date"],c:0,ex:"The LTCG holding period begins on the vesting date — NOT the grant date. To qualify for long-term capital gains rates, the shares must be held for more than one year after vesting. The grant date is irrelevant for this purpose unless an 83(b) election was made, in which case the clock starts at grant."},
+  {u:6,q:"Which of the following should be considered in a year when a large amount of restricted stock vests?",opts:["Nothing, there is no tax impact","Increased contributions to Roth-style accounts since the employee will have more liquidity than usual","Larger-than-normal charitable contributions, potentially to a donor-advised fund","None of the above"],c:2,ex:"Large vesting events create a spike in ordinary income. Making larger-than-normal charitable contributions (or funding a DAF) in that same year is a classic strategy to offset the income hit. Roth contributions don't reduce taxable income, so they don't help offset the vesting income."},
+  {u:6,q:"Within how many days of being granted restricted stock must an individual make an 83(b) election?",opts:["30 days","90 days","60 days","120 days"],c:0,ex:"The 83(b) election must be filed with the IRS within 30 days of the grant date. This is a hard deadline — missing it permanently forfeits the election with no exceptions."},
+  {u:6,q:"Don is issued 1,000 restricted shares at $10/share. Three years later they are worth $35/share. Don completed his 83(b) election within 30 days of the grant date. What does Don declare as ordinary income in the grant year?",opts:["$1,000","$10,000","$100,000","$35,000"],c:1,ex:"With an 83(b) election, taxation is accelerated to the grant date. Don pays ordinary income tax on 1,000 shares × $10 = $10,000 in the grant year. The future $35 value is irrelevant for ordinary income purposes — all subsequent appreciation becomes LTCG."},
+  {u:6,q:"Same as above — Don made an 83(b) election. What does Don declare as ordinary income in the vesting year?",opts:["$0","$1,000","$35,000","$10,000"],c:0,ex:"With the 83(b) election already made, Don already paid tax at grant. There is NO additional taxable event at vesting. The $0 ordinary income at vesting is the key benefit of the 83(b) election — it eliminates the vesting date tax event entirely."},
+  {u:6,q:"Upon vesting, the taxation of restricted stock units (RSUs) is most like which of the following?",opts:["A cash bonus","Employer-provided 401(k) contributions","Qualified dividends","A tax-free fringe benefit"],c:0,ex:"RSU vesting is taxed just like a cash bonus — ordinary income at the FMV of shares delivered, subject to supplemental income withholding and employment taxes (FICA and Medicare). It is NOT capital gains, not tax-free, and not treated like retirement contributions."},
+  {u:6,q:"When it comes to RSUs, the words 'delivered' and 'vested' are synonymous. True or False?",opts:["True","False"],c:1,ex:"False — especially for private companies with double-trigger RSUs. An RSU may technically 'vest' (time condition met) but shares are not 'delivered' until the second trigger (liquidity event) occurs. The taxable event is at delivery, not at vesting. In public companies they often coincide, but they are not synonymous."},
+  {u:6,q:"Which of the following statements is generally true regarding RSUs and 83(b) elections?",opts:["An 83(b) election is not advisable if the employee believes the company is poised for significant future growth","An 83(b) election cannot be made on restricted stock units (RSUs)","An 83(b) election is typically more valuable for RSUs than for restricted stock","An 83(b) election can only be made by executives of the corporation"],c:1,ex:"An 83(b) election cannot be made on RSUs. The election requires actual property to have been transferred — RSUs are only a promise to deliver shares in the future. No property changes hands at grant, so there is no legal mechanism to make the election."},
+  {u:6,q:"If an ISO was exercised, but the FMV of the stock was below the strike price — will taxes be owed?",opts:["Yes","No"],c:1,ex:"No. If FMV is below the strike price, the bargain element is zero or negative — there is no AMT preference item and no regular income tax. In fact, this situation would likely mean the options are 'underwater' and exercising them would result in an immediate economic loss."},
+  {u:6,q:"If ISO stock is held and not sold after exercise, are income taxes owed? (Disregard AMT)",opts:["Yes","No"],c:1,ex:"No — disregarding AMT, exercising ISOs and holding the shares creates no regular income tax event. The taxable event for regular income tax purposes occurs at the sale date. This is the core advantage of ISOs over NQSOs (where exercise itself triggers ordinary income tax)."},
+  {u:6,q:"What is the maximum value of ISOs that can become exercisable for an employee in any calendar year, based on the fair market value at the grant date?",opts:["$100,000","$500,000","$250,000","$1,000,000"],c:0,ex:"The annual ISO exercise limit is $100,000 based on FMV at the grant date. Any amount exceeding $100,000 per year automatically converts to NQSOs, which lose the favorable ISO tax treatment."},
+  {u:6,q:"Which of the following is a common reason for a high-income taxpayer to become subject to the AMT?",opts:["The vesting of highly appreciated Restricted Stock","The exercise of highly appreciated Incentive Stock Options (ISOs)","High state and local taxes (SALT)","The receipt of a grant of Restricted Stock Units (RSUs)"],c:1,ex:"The exercise of highly appreciated ISOs is a classic AMT trigger. The bargain element (FMV at exercise minus strike price) is added to AMT income as a preference item, potentially generating a large AMT liability even though no regular income tax is due at exercise."},
+  {u:6,q:"Which of the following is NOT a potential strategy to deal with AMT and Incentive Stock Options?",opts:["Exercising the ISOs and then selling the shares immediately to avoid taxable appreciation on the sale","Exercising the options in a year when the ordinary income tax liability will easily exceed AMT","Exercising the Options early in the calendar year","Selling the shares in the same year as the options are exercised"],c:0,ex:"Exercising ISOs and immediately selling is NOT a strategy to avoid taxable appreciation — it creates a disqualifying disposition and converts the spread to ordinary income. The other three are legitimate AMT strategies: high-income year exercise (regular tax exceeds AMT), early-in-year exercise (more flexibility), and same-year sale (eliminates AMT by making it a disqualifying disposition)."},
+  {u:6,q:"Which of the following is a common strategy for minimizing the ordinary income tax impact associated with non-qualified stock options?",opts:["Exercise the options in a comparably low-income year","Exercise the options in a year in which there are substantial capital losses","Sell the options as close to expiration as possible","None of the above"],c:0,ex:"Exercising NQSOs in a low-income year minimizes the ordinary income tax hit — the spread is taxed at your marginal rate, so a lower-income year means a lower rate. Capital losses don't offset ordinary income from NQSO exercise (except up to $3,000). Waiting until near expiration concentrates risk."},
+  {u:6,q:"Which of the following are potential factors to consider when determining when to exercise non-qualified stock options? (Select all that apply)",opts:["The employee's expectation for future stock prices","How long the employee plans to hold the shares","The employee's current and anticipated future income","The amount of time left until the options expire"],c:[0,1,2,3],ex:"All four are relevant NQSO exercise factors: (1) future stock price expectations affect the benefit of early exercise; (2) holding period determines LTCG vs. STCG treatment on post-exercise appreciation; (3) current and future income affects the tax rate on the ordinary income spread; (4) expiration timing creates urgency and affects strategy."},
+  {u:6,q:"Which of the following is a common feature of a Non-Qualified Deferred Compensation (NQDC) plan?",opts:["Tax-free withdrawals","Unlimited contribution limits","Mandatory distributions at retirement age","Immediate vesting of contributions"],c:1,ex:"NQDC plans have no IRS-imposed contribution limits — this is one of their key advantages over qualified plans like 401(k)s. Withdrawals are NOT tax-free (taxed as ordinary income at distribution). There are no mandatory distributions at a set retirement age, and vesting schedules vary by plan."},
+  {u:6,q:"Which of the following statements about NQDC plans is accurate?",opts:["NQDC plans are required to follow the same rules as qualified retirement plans under ERISA","NQDC plans are usually offered to all employees, regardless of income level","NQDC plans are flexible and can be customized to meet the needs of high-income employees, but are not protected by ERISA","NQDC plans must offer the same investment options as 401(k) plans"],c:2,ex:"NQDC plans are NOT subject to ERISA — this is both a feature (more flexibility, can be selectively offered to executives) and a risk (no creditor protection). They can be customized for specific employees and are not required to be offered uniformly. This flexibility comes with the tradeoff of no ERISA protection."},
+  {u:6,q:"Which of the following statements about NQDC plans is accurate?",opts:["Distribution election must generally be made at the time the plan is established","Non-qualified deferred compensation plans are not subject to state income taxes if distributions are made over a period of 10 years or more","Non-qualified deferred compensation plans are not subject to Federal income taxes if distributions are made over a period of 10 years or more","Compared to qualified plans, non-qualified deferred compensation plans generally offer more flexible distribution options"],c:0,ex:"NQDC plans require participants to make their distribution election at the time the plan is established — a key Section 409A rule. The election is generally irrevocable once made. The 10-year rule determines WHICH state can tax distributions, not whether they are taxed at all. NQDC plans are actually MORE rigid than qualified plans due to 409A restrictions on changing distribution schedules."},
+];
+
+const CARDS = [
+  {u:1,t:"HSAs",q:"What are the three (or four) tax benefits of an HSA?",a:'<strong>Triple tax benefit:</strong><br>1. Contributions deductible above-the-line<br>2. Earnings grow tax-free<br>3. Distributions for qualified medical expenses tax-free at any age<br><div class="tip">Payroll route adds 4th benefit: avoids FICA/Medicare taxes</div>'},
+  {u:1,t:"HSAs",q:"What disqualifies someone from contributing to an HSA?",a:'Medicare enrollment · Non-HDHP (HRAs/FSAs except limited-purpose dental/vision) · Claimed as dependent · Tri-Care<br><div class="tip">MEMORY: MED — Medicare, Enrolled in non-HDHP, Dependent on someone\'s return</div>'},
+  {u:1,t:"HSAs",q:"What is the Last-Month Rule?",a:'Coverage on Dec 1 → can contribute the FULL annual limit for that year.<br><br><strong>Testing period:</strong> Must maintain same coverage all 12 months of the following year. Failure = pro-rata recalculation + income tax + 10% penalty on excess.'},
+  {u:1,t:"HSAs",q:"What is the Medicare retroactive enrollment trap for HSAs?",a:'Medicare Part A retroactive up to 6 months before application.<br><br>• Retiring at 68 → stop HSA contributions 6 months before applying<br>• Claiming SS at 70 → triggers automatic Medicare → stop contributions 6–7 months BEFORE 70th birthday'},
+  {u:1,t:"HSAs",q:"What is a QHFD transfer?",a:'One-time lifetime IRA→HSA transfer. Limited to annual HSA cap minus amounts already contributed.<br><br><strong>Best for:</strong> Cash-strapped clients with large medical expenses who have IRA assets.'},
+  {u:1,t:"IRAs",q:"What is the IRA Pro-Rata Rule?",a:'IRS treats ALL pre-tax IRA dollars as one pool when converting. Cannot cherry-pick which dollars convert.<br><br><strong>Formula:</strong> Taxable % = Pre-tax balance ÷ Total IRA balance<br><div class="tip">Fix: Roll pre-tax IRA into employer 401(k) to eliminate the problem</div>'},
+  {u:1,t:"IRAs",q:"Walk through the Backdoor Roth IRA steps.",a:'1. Make <strong>non-deductible contribution</strong> to Traditional IRA (no income limit)<br>2. <strong>Immediately convert</strong> to Roth IRA<br>3. If no other pre-tax IRA balances exist → tax-free conversion<br><br>Pro-rata rule applies if pre-tax IRA balances exist. Fix: roll pre-tax into employer plan first.'},
+  {u:1,t:"IRAs",q:"What is the 529-to-Roth transfer (SECURE 2.0)?",a:'• Lifetime limit: $35,000 per beneficiary<br>• Account must be at least 15 years old<br>• Annual limit = Roth contribution limit for the year<br>• Last 5 years of contributions ineligible<br>• Must have earned income'},
+  {u:1,t:"FSAs",q:"Key difference: Healthcare FSA vs. Dependent Care FSA rollover and grace period rules",a:'• Both FSA types CAN have grace periods<br>• Healthcare FSA: CAN rollover up to IRS limit<br>• Dependent Care FSA: CANNOT rollover<br><div class="tip">Exam trap: both can have grace periods, only healthcare FSA can rollover</div>'},
+  {u:1,t:"Excess Contributions",q:"What is the penalty for excess IRA contributions and when must it be corrected?",a:'<strong>6% excise tax</strong> per year the excess remains.<br><br>Corrective distribution must be taken by <strong>October 15 of the following year</strong>.<br><br>Excess salary deferrals not corrected by April 15 of following year = double taxation.'},
+  {u:2,t:"NIIT",q:"How is the NIIT calculated?",a:'<strong>3.8% × lesser of:</strong><br>1. Net investment income, OR<br>2. MAGI above the threshold<br><br>Thresholds: MFJ $250K / Single $200K / MFS $125K<br><div class="tip">Crossover zone: Non-investment income (Roth conversion, IRA distributions) raises MAGI above threshold, making existing investment income subject to NIIT</div>'},
+  {u:2,t:"NIIT",q:"What income is excluded from the NIIT?",a:'• Municipal bond interest<br>• Qualified retirement account distributions (IRAs, 401(k)s, Roth IRAs)<br>• Active business income (material participation)<br>• Self-employment income<br>• Gains from S-corp/partnership business assets<br><div class="tip">Excluded from NII ≠ excluded from MAGI threshold calculation</div>'},
+  {u:2,t:"Capital Gains",q:"How does capital gains netting work?",a:'1. Net all short-term gains/losses<br>2. Net all long-term gains/losses (include carryforwards)<br>3. If one is gain and one a loss, net against each other<br>4. Net loss: up to $3,000 offsets ordinary income/year; excess carries forward indefinitely<br><div class="tip">Long-term losses offset LT gains first, then can offset ST gains</div>'},
+  {u:2,t:"Strategies",q:"Wash Sale Rule — key facts",a:'• 61-day window: 30 days before + day of sale + 30 days after<br>• Applies to "substantially identical" securities<br>• Disallowed loss added to replacement security\'s cost basis<br>• Different fund tracking same index = generally NOT substantially identical<br><div class="tip">CRYPTO is NOT subject to wash sale rules — key exam point!</div>'},
+  {u:2,t:"Strategies",q:"1031 Exchange — key rules",a:'• 45 days identify / 180 days close<br>• Qualified intermediary required<br>• Boot = cash received = immediately taxable capital gains<br>• Investment/business property only (NOT primary residence)<br>• UPREITs cannot do future 1031s (OP units are securities, not real property)'},
+  {u:2,t:"Strategies",q:"QOF — three tax benefits",a:'1. <strong>Defer</strong> existing capital gains until 12/31/2026 or earlier sale<br>2. <strong>Step-up in basis</strong> for certain holding periods<br>3. <strong>100% exclusion</strong> of QOF appreciation if held 10+ years'},
+  {u:2,t:"Strategies",q:"CRT — how it minimizes capital gains",a:'1. Donor contributes appreciated property<br>2. CRT sells property — NO capital gains (CRT is tax-exempt)<br>3. Donor receives <strong>income stream</strong> (taxable as distributed)<br>4. Donor gets <strong>partial charitable deduction</strong><br>5. Charity receives remainder'},
+  {u:3,t:"Hierarchy",q:"7-step savings hierarchy",a:'1. Emergency fund (3–6 months)<br>2. Employer match (free money)<br>3. HSA (triple/quadruple tax benefit)<br>4. Traditional/Roth retirement + 529s<br>5. Mega Backdoor Roth (after-tax 401k)<br>6. Taxable brokerage<br>7. Annuities/tax-deferred vehicles<br><div class="tip">HSA is Step 3 — BEFORE maxing 401(k)</div>'},
+  {u:3,t:"Asset Location",q:"Which investments belong where?",a:'<strong>Taxable:</strong> Tax-efficient ETFs/index funds, growth stocks (buy & hold), municipal bonds<br><br><strong>Tax-Deferred (Traditional):</strong> Bonds, REITs, high-turnover/actively managed funds<br><br><strong>Tax-Free (Roth/HSA):</strong> High-growth stocks, small-cap, emerging markets<br><div class="tip">BEST in Roth: Big growth, Emerging markets, Small-cap, Tech</div>'},
+  {u:3,t:"Asset Location",q:"Net Method vs. Gross Method",a:'<strong>Net Method:</strong> Considers after-tax value of each dollar (adjusts for future tax liability on pre-tax accounts). More accurate, complex.<br><br><strong>Gross Method:</strong> Treats all balances equally. Simple, less precise.'},
+  {u:3,t:"Net Returns",q:"Traditional-Roth Equivalency",a:'When tax rates are <strong>identical at contribution and withdrawal</strong>, Traditional and Roth accounts produce identical after-tax outcomes.<br><br>• Choose Roth if rates expected to rise<br>• Choose Traditional if rates expected to fall'},
+  {u:4,t:"Education Credits",q:"AOTC vs. LLC key differences",a:'<strong>AOTC:</strong> $2,500/yr × first 4 years; 40% refundable (max $1,000); half-time enrollment required; max qualifying expenses = $4,000<br><br><strong>LLC:</strong> $2,000/yr (20% of first $10,000); non-refundable; any year; no half-time requirement<br><div class="tip">AOTC is generally more valuable. Treat $4,000 of scholarship as taxable to get full $2,500 AOTC.</div>'},
+  {u:4,t:"529 Plans",q:"529 distribution limits to know",a:'• K-12 tuition: $10,000/year (note: exam showed $20,000 — verify)<br>• Student loan repayment: $10,000 lifetime limit<br>• Qualified higher education: unlimited tax-free<br>• Non-qualified: earnings = ordinary income + 10% penalty<br><div class="tip">529-to-Roth: $35K lifetime, account 15+ years, last 5 years of contributions ineligible</div>'},
+  {u:4,t:"UTMAs",q:"UTMA key facts for education planning",a:'• Assets can be used for ANY purpose (not restricted to education)<br>• Assets are irrevocable once transferred<br>• Student-owned assets assessed at 20% FAFSA rate (vs. 5.64% parental) — reduces aid significantly<br>• Withdrawals taxable, may trigger Kiddie Tax'},
+  {u:4,t:"Roth for Education",q:"Roth IRA for education — key limitation vs. 529",a:'Roth IRA earnings used for education before age 59½:<br>• Penalty-free (education expense exception)<br>• But STILL TAXABLE (ordinary income)<br><br>529 earnings used for qualified education: ALWAYS TAX-FREE<br><br>Also: Roth distributions count as income on FAFSA — can reduce aid eligibility'},
+  {u:5,t:"Entity Selection",q:"S-Corp requirements",a:'• ≤100 shareholders<br>• Shareholders: individuals, certain trusts, estates only<br>• US citizens/residents only<br>• One class of stock only<br>• No nonresident alien shareholders<br><div class="tip">Violating any requirement = automatic S-Corp termination</div>'},
+  {u:5,t:"QBI Deduction",q:"QBI formula for low-income (below phaseout) owners",a:'<strong>QBI Deduction = 20% × lesser of:</strong><br>1. Combined QBI (all businesses), OR<br>2. Taxable income (before QBI) minus net capital gains<br><br>Below phaseout: SSTB status, W-2 wages, and property DON\'T matter — clean formula only.'},
+  {u:5,t:"QBI Deduction",q:"Wage/property limitation for non-SSTB above phaseout",a:'<strong>Deduction limited to GREATER of:</strong><br>1. 50% of W-2 wages, OR<br>2. 25% of W-2 wages + 2.5% of UBIA<br><br>No wages + no property = zero QBI above phaseout<br><div class="tip">Fix: convert contractors to employees, S-corp to pay owner wages, buy depreciable property</div>'},
+  {u:5,t:"QBI Deduction",q:"SSTB high-income strategies",a:'Above phaseout: SSTB deduction eliminated entirely. W-2/property tests don\'t help SSTBs — only non-SSTBs.<br><br>Only path for SSTBs: reduce taxable income below phaseout via:<br>• Defined benefit/retirement contributions<br>• Charitable deductions (DAFs, bunching)<br>• Work fewer hours<br><div class="tip">QBI phaseout can push effective marginal rate to ~50%</div>'},
+  {u:5,t:"Deductions",q:"Home office deduction: Simplified vs. Regular method",a:'<strong>Simplified:</strong> $5/sq ft × up to 300 sq ft = max $1,500. No depreciation. Cannot create NOL.<br><br><strong>Regular:</strong> % of home used for business × actual expenses. Depreciation required. Can increase NOL. Creates 25% depreciation recapture risk when home sold.'},
+  {u:5,t:"Deductions",q:"PTET — how it works and when it might NOT be beneficial",a:'Entity pays state income tax at entity level → federally deductible (bypasses $10K SALT cap). Partners/shareholders get state credit.<br><br><strong>May NOT be beneficial when:</strong> Administrative costs outweigh the tax savings.'},
+  {u:5,t:"Deductions",q:"QSBS Section 1202 key facts",a:'• 100% gain exclusion: acquired after 9/27/2017, held 5+ years<br>• Limit: greater of $10M or 10× adjusted basis<br>• Must be acquired DIRECTLY from the issuing C-corporation<br>• C-corp, domestic, <$50M gross assets at issuance ($75M after 2025)<br><div class="tip">Most powerful capital gains exclusion in the tax code</div>'},
+  {u:6,t:"Restricted Stock",q:"Grant date vs. vesting date tax treatment",a:'<strong>Grant date:</strong> No tax (substantial risk of forfeiture)<br><br><strong>Vesting date:</strong> Ordinary income = FMV at vesting − amount paid. Basis = FMV at vesting. LTCG clock starts at vesting. Withholding: 22% first $1M / 37% above $1M.'},
+  {u:6,t:"83(b) Election",q:"83(b) election — what it does, key rules, and risks",a:'<strong>What it does:</strong> Pay ordinary income tax at GRANT (not vesting). All future appreciation = LTCG.<br><br><strong>Rules:</strong> File within 30 days of grant. Irrevocable.<br><br><strong>Risks:</strong> Forfeiture = taxes not refunded. Stock decline = overpaid. No liquidity at grant to cover tax bill.'},
+  {u:6,t:"RSUs/PSUs",q:"Why can RSUs never qualify for an 83(b) election?",a:'The 83(b) election requires property to have been <strong>actually transferred</strong>. RSUs are merely a promise to deliver shares in the future — no property transfers at grant. The election is legally unavailable for RSUs.'},
+  {u:6,t:"ISOs",q:"ISO qualifying vs. non-qualifying disposition",a:'<strong>Qualifying:</strong> 2+ years from grant AND 1+ year from exercise → All gain = LTCG, no ordinary income.<br><br><strong>Non-qualifying:</strong> Spread at exercise (FMV − strike) = ordinary income. Additional gain = capital gain (often short-term).<br><div class="tip">MEMORY: 2-year grant / 1-year exercise = qualifying = LTCG</div>'},
+  {u:6,t:"ISOs",q:"ISO AMT — how it works and the AMT credit",a:'At exercise: bargain element (FMV at exercise − strike price) added to AMT income. AMT may be owed with no cash received.<br><br>AMT credit generated → offsets future regular tax in non-AMT years.<br><div class="tip">Heads I Win, Tails You Lose: Exercise early in year → if stock falls, sell before Dec 31 to avoid AMT; if rises, hold for LTCG</div>'},
+  {u:6,t:"NQSOs",q:"NQSO tax treatment vs. ISOs",a:'<strong>NQSO at exercise:</strong> Ordinary income (FMV − strike) = W-2 income, FICA + Medicare taxable. NO AMT risk.<br><br><strong>ISO at exercise:</strong> No regular income tax, but bargain element = AMT preference item.<br><br>After exercise, both have LTCG clock starting at exercise date.'},
+  {u:6,t:"NQDC",q:"NQDC 10-year state tax rule",a:'Normally: state where income was EARNED at deferral can tax distributions — even if client moved.<br><br><strong>Exception:</strong> Distributions paid over 10+ years → only state of RESIDENCE at distribution can tax.<br><div class="tip">Classic: Defer in CA, retire to TX, structure 10+ year distributions = zero CA state tax</div>'},
+  {u:6,t:"NQDC",q:"Section 409A penalties and distribution rules",a:'<strong>Delay rule:</strong> Request must be made 1 year before original date; new date must be 5+ years later.<br><br><strong>409A violations:</strong> ALL deferred compensation immediately taxable + 20% penalty + interest.<br><br><strong>Permissible triggers:</strong> Separation from service, disability, death, unforeseeable emergency, change in control, specified date.'},
+];
+
+const SHEET = [
+  {u:"Unit 1",t:"Tax-Favored Accounts",rows:[
+    {k:"HSA Triple Tax Benefit",v:"1) Contributions above-the-line deductible 2) Growth tax-free 3) Distributions for medical expenses tax-free at any age. Payroll route: 4th benefit — avoids FICA/Medicare."},
+    {k:"HSA Disqualifiers (MED)",v:"Medicare enrollment · Non-HDHP (HRAs/FSAs except limited-purpose dental/vision) · Claimed as dependent on someone else's return · Tri-Care"},
+    {k:"Last-Month Rule",v:"Coverage on Dec 1 → full annual limit. Must maintain same coverage all 12 months of following year. Failure = income + 10% penalty on excess."},
+    {k:"Medicare + HSA Trap",v:"Part A retroactive 6 months. Stop HSA 6 months before applying for Medicare. At age 70 (SS claim) = automatic Medicare → stop contributions 6–7 months before 70th birthday."},
+    {k:"QHFD",v:"One-time lifetime IRA→HSA transfer. Limited to annual HSA limit minus amounts already contributed."},
+    {k:"Backdoor Roth",v:"1) Non-deductible Traditional IRA contribution 2) Immediate Roth conversion. Pro-rata rule applies if pre-tax IRA balances exist. Fix: roll pre-tax IRA into employer 401(k)."},
+    {k:"529-to-Roth (SECURE 2.0)",v:"$35K lifetime · account 15+ years old · annual limit = Roth contribution limit · last 5 years of contributions ineligible · earned income required"},
+    {k:"Excess IRA Contribution",v:"6% excise tax/year. Correct by October 15 of following year (withdraw excess + earnings). Excess salary deferrals not corrected by April 15 = double taxation."},
+    {k:"FSA Grace Period vs. Rollover",v:"BOTH healthcare and dependent care FSAs can have grace periods. Only healthcare FSAs can rollover. Dependent care FSAs cannot rollover."},
+    {k:"Multiple 401(k)s (Unrelated Employers)",v:"Salary deferral limit: coordinated across ALL plans. Annual additions limit: applies SEPARATELY per plan sponsor."},
+    {k:"457(b) and 403(b) Unique Features",v:"403(b): 15-year rule catch-up (15+ years of service). 457(b) governmental: standard catch-up PLUS final three-year catch-up (up to 2x annual limit)."},
+  ],tip:"EXAM TIP: Roth IRA vs. Roth 401(k) — Roth IRA contributions can be withdrawn anytime tax/penalty-free. Roth 401(k) contributions are subject to early withdrawal penalties before 59½. Frequently tested."},
+  {u:"Unit 2",t:"Taxable Account Strategies",rows:[
+    {k:"NIIT Calculation",v:"3.8% × lesser of (net investment income) or (MAGI above threshold). MFJ $250K / Single $200K / MFS $125K. Retirement distributions excluded from NII but raise MAGI."},
+    {k:"Capital Gains Netting",v:"Net ST gains/losses → Net LT gains/losses (include carryforwards) → If one gain/one loss, net against each other → Net loss offsets $3,000 ordinary income/year; excess carries forward. LT losses offset LT gains first."},
+    {k:"Wash Sale Rule",v:"61-day window (30 before + day of + 30 after). Substantially identical securities. Disallowed loss added to replacement basis. CRYPTO: not currently subject to wash sale."},
+    {k:"1031 Exchange",v:"45 days identify / 180 days close. Qualified intermediary required. Boot = capital gains (immediately taxable). Investment/business property only. UPREITs cannot do future 1031s."},
+    {k:"1031 vs. 721 (UPREIT)",v:"1031: control over specific property, future exchanges possible. 721: more liquidity, high diversification. Both: step-up in basis at death, capital gains deferred until sold."},
+    {k:"QOF Three Benefits",v:"1) Defer original gains until 12/31/2026 or sale 2) Step-up in basis 3) 100% exclusion of QOF appreciation if held 10+ years"},
+    {k:"CRT",v:"Contribute appreciated property → CRT sells tax-free → Donor gets income stream + partial deduction → Charity gets remainder. CRT is tax-exempt entity."},
+    {k:"ING Trust",v:"Non-grantor trust designed to mitigate state income taxes while allowing grantor to retain control over assets."},
+    {k:"1031 Safe Harbor",v:"Property rented minimum 14 days/year; personal use cannot exceed 14 days or 10% of rental period."},
+    {k:"Tax Loss Harvesting — Most Valuable",v:"High-income years · when there are short-term gains (taxed at ordinary rates) · to stay within a favorable tax bracket. NOT valuable in 0% LTCG bracket."},
+  ],tip:"EXAM TIP: NIIT 'Crossover Zone' — Non-investment income (Roth conversions, IRA distributions, bonuses) can push MAGI above the threshold and subject existing investment income to NIIT — even though those items themselves are not NII."},
+  {u:"Unit 3",t:"Investment Planning — Hierarchy & Location",rows:[
+    {k:"7-Step Savings Hierarchy",v:"1) Emergency fund 2) Employer match 3) HSA 4) Retirement/529 5) Mega Backdoor Roth 6) Taxable brokerage 7) Annuities. HSA is Step 3 — BEFORE maxing retirement accounts."},
+    {k:"Asset Location — Taxable",v:"Tax-efficient ETFs/index funds, growth stocks (buy & hold), municipal bonds"},
+    {k:"Asset Location — Tax-Deferred",v:"Bonds, REITs, high-turnover/actively managed funds, corporate bonds"},
+    {k:"Asset Location — Tax-Free (Roth/HSA)",v:"High-growth stocks, small-cap, emerging markets, REITs. Primary criteria: high expected future returns."},
+    {k:"Net Method vs. Gross Method",v:"Net: considers after-tax value of each dollar (adjusts for future tax liability on pre-tax accounts). More accurate, complex. Gross: treats all balances equally. Simple, less precise."},
+    {k:"Traditional-Roth Equivalency",v:"Identical tax rates at contribution and withdrawal = identical after-tax outcomes. Choose Roth if rates rise; Traditional if rates fall."},
+    {k:"Asset Location vs. Asset Allocation",v:"Allocation = WHAT to hold (stocks/bonds/real estate mix). Location = WHERE to hold each investment (taxable/deferred/free). Related but distinct strategies."},
+  ],tip:"EXAM TIP: For Roth account placement, the key criterion is HIGH EXPECTED FUTURE RETURNS — not tax efficiency. Tax efficiency matters for taxable accounts, not Roth. The exam tests this distinction."},
+  {u:"Unit 4",t:"Education Planning",rows:[
+    {k:"AOTC vs. LLC",v:"AOTC: $2,500/yr × first 4 years; 40% refundable (max $1,000); half-time enrollment required; max qualifying expenses = $4,000. LLC: $2,000/yr; non-refundable; any year; no half-time requirement."},
+    {k:"Scholarship + AOTC Strategy",v:"Intentionally treat $4,000 of scholarship as taxable income → can claim full $2,500 AOTC. The credit value typically exceeds the tax on $4,000 for low-bracket students."},
+    {k:"529 Distributions",v:"K-12 tuition: $10,000/year. Student loan repayment: $10,000 lifetime. Qualified higher education: unlimited tax-free. Non-qualified: earnings = ordinary income + 10% penalty."},
+    {k:"Dynasty 529",v:"Multigenerational. Select plans with high max limits, focus on investment quality. Contributions to youngest generation maximize compounding. Trust ownership ensures control after death."},
+    {k:"UTMA vs. 529 (FAFSA Impact)",v:"UTMA student-owned: 20% FAFSA assessment rate. 529 parent-owned: 5.64% assessment rate. UTMAs hurt financial aid eligibility more significantly."},
+    {k:"Roth IRA for Education vs. 529",v:"Roth earnings before 59½: penalty-free for education but STILL TAXABLE. 529 earnings: always tax-free for qualified education. Roth distributions count as income on FAFSA — can reduce aid."},
+    {k:"IRA Distributions for Education",v:"Penalty-free for qualified higher education expenses. Still subject to ordinary income tax — NOT tax-free like a 529."},
+    {k:"Series EE/I Bonds Education Exclusion",v:"Requirements: qualified higher education expenses, below income limits, bondholder at least 24 years old at issuance. Does NOT need to be held to maturity."},
+  ],tip:"EXAM TIP: Roth IRA balance ≠ counted on FAFSA. Roth IRA distributions = DO count as FAFSA income. 529 = parental asset (5.64%). UTMA = student asset (20%). These distinctions are frequently tested."},
+  {u:"Unit 5",t:"Small Business Tax",rows:[
+    {k:"S-Corp Requirements",v:"≤100 shareholders · individuals/certain trusts/estates only · US citizens/residents only · one class of stock · no nonresident alien shareholders. ANY violation = automatic termination."},
+    {k:"QBI Low-Income Formula",v:"20% × lesser of: (1) combined QBI, or (2) taxable income minus net capital gains. Below phaseout: SSTB status, W-2 wages, property irrelevant."},
+    {k:"QBI Non-SSTB Wage/Property Limit",v:"Deduction = GREATER of: 50% of W-2 wages OR (25% of W-2 wages + 2.5% of UBIA). No wages + no property = zero QBI above phaseout."},
+    {k:"SSTB High-Income Strategy",v:"Above phaseout: deduction eliminated. W-2/property tests don't help SSTBs. Only path: reduce taxable income via retirement plans (DB plans), charitable deductions, working fewer hours."},
+    {k:"QBI Phaseout Effective Marginal Rate",v:"In the SSTB phaseout range, stacking effect can push effective marginal rate to ~50%."},
+    {k:"PTET",v:"Entity pays state income tax → federally deductible (bypasses $10K SALT cap). Partners/shareholders get state credit. May not be beneficial if admin costs exceed tax savings."},
+    {k:"QSBS Section 1202",v:"100% gain exclusion: acquired after 9/27/2017, held 5+ years, from issuing C-corp (not secondary market). Limit: greater of $10M or 10× adjusted basis. <$50M gross assets ($75M after 2025)."},
+    {k:"Home Office — Simplified Method",v:"$5/sq ft × up to 300 sq ft = max $1,500. Flat rate, NOT percentage of business use. No depreciation. Cannot create NOL."},
+    {k:"Home Office — Regular Method",v:"% of home used for business × actual expenses. Depreciation required (recaptured at 25% upon sale even if not claimed). Can increase NOL."},
+    {k:"Depreciation Timing",v:"Accelerate if: need cash flow now, expect lower future tax rates, want to reduce income below QBI phaseout. DELAY if: expect substantially higher tax rates in the future."},
+    {k:"Unreimbursed Partnership Expenses",v:"Reduce BOTH income tax AND self-employment tax. More advantageous than unreimbursed employee business expenses."},
+  ],tip:"EXAM TIP: QBI is a below-the-line deduction available whether you take standard OR itemized deduction. It does NOT reduce AGI. It is phased out based on TAXABLE INCOME (not AGI) — so both above-the-line AND below-the-line deductions can help reduce it."},
+  {u:"Unit 6",t:"Corporate Executive Compensation",rows:[
+    {k:"83(b) Eligible: Restricted Stock ONLY",v:"RSAs (Restricted Stock Awards) = actual shares transferred at grant → 83(b) available. RSUs and PSUs = promises to deliver shares in the future → NO property transferred at grant → 83(b) NOT available."},
+    {k:"Restricted Stock Tax Timeline",v:"Grant date: NO tax (substantial risk of forfeiture). Vesting date: ordinary income = FMV at vesting. Basis = FMV at vesting. LTCG holding period starts at vesting. Withholding: 22% on first $1M / 37% above $1M."},
+    {k:"83(b) Election — What It Does",v:"File within 30 days of grant (hard deadline, no exceptions). Pay ordinary income tax on FMV at GRANT (not vesting). All future appreciation = LTCG. At vesting: NO additional tax. Irrevocable once made."},
+    {k:"83(b) Election — When to Use",v:"Best when: low FMV at grant (startup equity), confident of meeting vesting, expects significant appreciation. Risks: forfeiture = taxes not refunded; stock decline = overpaid; no liquidity at grant to cover tax bill."},
+    {k:"RSUs vs. Restricted Stock",v:"RSUs = cash bonus equivalent at vesting (ordinary income + employment taxes). Vested ≠ Delivered (especially in private companies with double-trigger RSUs). 83(b) cannot be made on RSUs."},
+    {k:"Double-Trigger RSUs",v:"Two conditions required: (1) time-based vesting + (2) liquidity event (IPO/acquisition). Taxable event = share delivery date, NOT when time vesting condition is met. Used by private companies to align tax with liquidity."},
+    {k:"ISO Tax Timeline",v:"Grant: no tax. Vesting: no tax. Exercise: no regular income tax (disregarding AMT). Sale — qualifying disposition: all gain = LTCG. Sale — non-qualifying: spread at exercise = ordinary income; remaining gain = capital gain."},
+    {k:"ISO Qualifying Disposition Requirements",v:"Sale must be: (1) at least 2 years after grant date AND (2) at least 1 year after exercise date. Both conditions must be met. Failing either = non-qualifying disposition."},
+    {k:"ISO Annual Limit",v:"Maximum value of ISOs that can become exercisable in any calendar year = $100,000, based on FMV at grant date. Excess automatically treated as NQSOs."},
+    {k:"ISO AMT Trigger",v:"At exercise: bargain element (FMV at exercise − strike price) added to AMT income as a preference item. No cash generated at exercise but AMT may be owed. AMT credit generated offsets future regular tax in non-AMT years."},
+    {k:"ISO AMT Strategies",v:"Exercise in high-income years (regular tax exceeds AMT — buffer absorbs impact). Exercise early in the calendar year (flexibility). Sell in same year as exercise (disqualifying disposition eliminates AMT). Stagger exercises over multiple years."},
+    {k:"NQSOs vs. ISOs",v:"NQSO at exercise: ordinary income (FMV − strike) = W-2, FICA + Medicare. No AMT risk. Exercise in low-income year minimizes impact. ISO at exercise: no regular income tax, but bargain element = AMT preference item."},
+    {k:"NQSO Exercise Factors",v:"All four matter: (1) future stock price expectations; (2) how long employee plans to hold shares (LTCG vs. STCG); (3) current and anticipated future income (marginal rate); (4) time until options expire."},
+    {k:"NQDC — Key Features",v:"Unlimited contribution limits (no IRS cap). NOT protected by ERISA. Flexible — can be selectively offered to executives. Assets remain company property (creditor risk in bankruptcy). NOT tax-free at withdrawal (ordinary income)."},
+    {k:"NQDC — Distribution Election Rule",v:"Distribution election must be made at the time the plan is established. Generally irrevocable. To delay: must request 1 year before original date; new date must be 5+ years later. 409A violation = ALL deferred amounts immediately taxable + 20% penalty + interest."},
+    {k:"NQDC — 10-Year State Tax Rule",v:"Normally: state where income was EARNED at deferral can tax distributions even if client moved. Exception: if distributions paid over 10+ years, only the state of RESIDENCE at distribution can tax. Distributions are still subject to state tax — just potentially in a more favorable state."},
+    {k:"NQDC vs. 401(k) Key Differences",v:"NQDC: no contribution limits, no ERISA protection, no rollover, creditor risk, distribution election at plan establishment. 401(k): IRS contribution limits, ERISA protected, can rollover, creditor protected, flexible post-retirement withdrawals."},
+  ],tip:"EXAM TIP — Unit 6 most-tested distinctions: (1) 83(b) available for Restricted Stock ONLY, not RSUs/PSUs. (2) ISO exercise = no regular tax but AMT risk. NQSO exercise = immediate ordinary income, no AMT. (3) NQDC distribution election must be made when plan is established — irrevocable. (4) 'Vested' and 'delivered' are NOT synonymous for RSUs."},
+];
+
+let quizState = {qs:[],cur:0,score:0,answered:false,uScores:{}};
+let fcFiltered = [...CARDS], fcIdx = 0;
+
+function showTab(id, btn) {
+  ['quiz','cards','sheet'].forEach(t => document.getElementById('panel-'+t).classList.toggle('active', t===id));
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function startQuiz() {
+  const unit = document.getElementById('q-unit').value;
+  let pool = unit === 'all' ? [...QS] : QS.filter(q=>q.u===parseInt(unit));
+  pool = pool.sort(()=>Math.random()-0.5);
+  quizState = {qs:pool, cur:0, score:0, answered:false, uScores:{}};
+  document.getElementById('quiz-setup').style.display='none';
+  document.getElementById('quiz-area').style.display='block';
+  renderQ();
+}
+
+function renderQ() {
+  const area = document.getElementById('quiz-area');
+  const s = quizState;
+  if(s.cur >= s.qs.length) { renderResult(); return; }
+  const q = s.qs[s.cur];
+  const isMulti = Array.isArray(q.c);
+  area.innerHTML = `
+    <div class="quiz-meta">
+      <span class="quiz-unit-badge">Unit ${q.u}</span>
+      <span class="quiz-score-badge">${s.cur+1}/${s.qs.length} &nbsp;|&nbsp; Score: ${s.score}/${s.cur}</span>
+    </div>
+    <div class="progress"><div class="progress-fill" style="width:${Math.round(s.cur/s.qs.length*100)}%"></div></div>
+    <div class="qcard">
+      <div class="qnum">Question ${s.cur+1}${isMulti ? ' — select all that apply' : ''}</div>
+      <div class="qtext">${q.q}</div>
+      <div class="opts">${q.opts.map((o,i)=>`<button class="opt" id="opt${i}" onclick="answerQ(${i})">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}</div>
+      <div class="explain" id="exp">${q.ex}</div>
+    </div>
+    <div class="quiz-nav"><button id="nextbtn" onclick="nextQ()" style="display:none">Next Question →</button></div>
+  `;
+}
+
+function answerQ(idx) {
+  if(quizState.answered) return;
+  quizState.answered = true;
+  const q = quizState.qs[quizState.cur];
+  const isMulti = Array.isArray(q.c);
+  const correct = isMulti ? q.c.includes(idx) : idx === q.c;
+  if(correct) quizState.score++;
+  const u = 'Unit '+q.u;
+  if(!quizState.uScores[u]) quizState.uScores[u]={r:0,t:0};
+  quizState.uScores[u].t++;
+  if(correct) quizState.uScores[u].r++;
+  q.opts.forEach((_,i) => {
+    const b = document.getElementById('opt'+i);
+    if(!b) return;
+    b.disabled = true;
+    const isC = isMulti ? q.c.includes(i) : i===q.c;
+    if(isC) b.classList.add('reveal');
+    else if(i===idx && !correct) b.classList.add('wrong');
+  });
+  document.getElementById('exp').classList.add('show');
+  document.getElementById('nextbtn').style.display='block';
+}
+
+function nextQ() { quizState.cur++; quizState.answered=false; renderQ(); }
+
+function renderResult() {
+  const s = quizState;
+  const pct = s.qs.length > 0 ? Math.round(s.score/s.qs.length*100) : 0;
+  const msg = pct>=90?'Excellent!':pct>=75?'Solid work.':pct>=60?'Keep studying.':'Review and retry.';
+  const unitRows = Object.entries(s.uScores).map(([u,d])=>{
+    const p=Math.round(d.r/d.t*100);
+    const c=p>=80?'#3B6D11':p>=60?'#BA7517':'#A32D2D';
+    return `<div class="unit-row"><span class="unit-row-name">${u}</span><span class="unit-row-val" style="color:${c}">${d.r}/${d.t} (${p}%)</span></div>`;
+  }).join('');
+  document.getElementById('quiz-area').innerHTML = `
+    <div class="result-wrap">
+      <div class="result-pct">${pct}%</div>
+      <div class="result-label">${s.score} / ${s.qs.length} correct — ${msg}</div>
+      <div class="result-grid">
+        <div class="rcard"><div class="rcard-label">Correct</div><div class="rcard-val">${s.score}</div></div>
+        <div class="rcard"><div class="rcard-label">Incorrect</div><div class="rcard-val">${s.qs.length-s.score}</div></div>
+      </div>
+      <div class="unit-rows"><div class="unit-rows-title">Performance by Unit</div>${unitRows}</div>
+      <button class="btn-retry" onclick="document.getElementById('quiz-setup').style.display='block';document.getElementById('quiz-area').style.display='none'">New Quiz ↩</button>
+    </div>
+  `;
+}
+
+function filterCards() {
+  const val = document.getElementById('fc-unit').value;
+  fcFiltered = val==='all' ? [...CARDS] : CARDS.filter(c=>c.u===parseInt(val));
+  fcIdx=0; renderCard();
+}
+
+function renderCard() {
+  const c = fcFiltered[fcIdx];
+  document.getElementById('fc-tag').textContent = `Unit ${c.u} · ${c.t}`;
+  document.getElementById('fc-q').textContent = c.q;
+  document.getElementById('fc-a').innerHTML = c.a;
+  document.getElementById('fc-counter').textContent = `${fcIdx+1}/${fcFiltered.length}`;
+  document.getElementById('fc-prog').style.width = Math.round((fcIdx+1)/fcFiltered.length*100)+'%';
+  document.getElementById('fc-card').classList.remove('flipped');
+}
+
+function flipCard() { document.getElementById('fc-card').classList.toggle('flipped'); }
+function fcNext() { fcIdx=(fcIdx+1)%fcFiltered.length; renderCard(); }
+function fcPrev() { fcIdx=(fcIdx-1+fcFiltered.length)%fcFiltered.length; renderCard(); }
+function fcShuffle() {
+  for(let i=fcFiltered.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[fcFiltered[i],fcFiltered[j]]=[fcFiltered[j],fcFiltered[i]];}
+  fcIdx=0; renderCard();
+}
+
+function buildSheet() {
+  document.getElementById('sheet-area').innerHTML = SHEET.map((s,i)=>`
+    <div class="cs-section">
+      <div class="cs-hdr" id="csh${i}" onclick="toggleCS(${i})">
+        <span class="cs-hdr-unit">${s.u}</span>
+        <span class="cs-hdr-title">${s.t}</span>
+        <span class="cs-hdr-chev">▼</span>
+      </div>
+      <div class="cs-body" id="csb${i}">
+        ${s.rows.map(r=>`<div class="cs-row"><div class="cs-key">${r.k}</div><div class="cs-val">${r.v}</div></div>`).join('')}
+        ${s.tip?`<div class="cs-tip">${s.tip}</div>`:''}
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleCS(i) {
+  document.getElementById('csb'+i).classList.toggle('open');
+  document.getElementById('csh'+i).classList.toggle('open');
+}
+
+renderCard();
+buildSheet();
+</script>
+</body>
+</html>
