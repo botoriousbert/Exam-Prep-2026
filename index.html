@@ -268,29 +268,83 @@
   /* CHEAT SHEET */
   .cs-section { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 10px; overflow: hidden; }
   .cs-hdr {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 14px 15px;
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-select: none;
-    min-height: var(--tap);
-    touch-action: manipulation;
+    display: flex; align-items: center; gap: 10px; padding: 14px 15px;
+    cursor: pointer; user-select: none; -webkit-user-select: none;
+    min-height: var(--tap); touch-action: manipulation;
   }
   .cs-hdr:active { background: var(--bg2); }
   .cs-hdr-unit { font-size: 11px; font-weight: 700; color: var(--blue); background: var(--blue-light); padding: 3px 9px; border-radius: 99px; white-space: nowrap; }
   .cs-hdr-title { font-size: 14px; font-weight: 700; color: var(--text); flex: 1; }
   .cs-hdr-chev { font-size: 12px; color: var(--text3); transition: transform 0.25s; flex-shrink: 0; }
   .cs-hdr.open .cs-hdr-chev { transform: rotate(180deg); }
-  .cs-body { display: none; border-top: 1px solid var(--border); padding: 12px 15px; }
+  .cs-body { display: none; border-top: 1px solid var(--border); padding: 0; }
   .cs-body.open { display: block; }
-  .cs-row { padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+
+  /* Row types */
+  .cs-row { padding: 12px 15px; border-bottom: 1px solid var(--border); }
   .cs-row:last-child { border-bottom: none; }
-  .cs-key { font-weight: 700; color: var(--text); margin-bottom: 4px; }
-  .cs-val { color: var(--text2); line-height: 1.6; }
-  .cs-tip { margin-top: 12px; padding: 11px 13px; background: var(--gold-light); border-left: 3px solid var(--gold); font-size: 13px; color: var(--amber); line-height: 1.6; }
+  .cs-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text3); margin-bottom: 5px; }
+  .cs-title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 6px; line-height: 1.3; }
+
+  /* Bullets */
+  .cs-bullets { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 4px; }
+  .cs-bullets li { font-size: 13px; color: var(--text2); line-height: 1.5; padding-left: 14px; position: relative; }
+  .cs-bullets li::before { content: "•"; position: absolute; left: 0; color: var(--blue); font-weight: 700; }
+  .cs-bullets li strong { color: var(--text); font-weight: 700; }
+  .cs-bullets li.red::before { color: var(--red); }
+  .cs-bullets li.green::before { color: var(--green); }
+  .cs-bullets li.gold::before { color: var(--gold); }
+
+  /* Numbered steps */
+  .cs-steps { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 5px; }
+  .cs-steps li { font-size: 13px; color: var(--text2); line-height: 1.5; padding-left: 26px; position: relative; }
+  .cs-steps li::before { content: attr(data-n); position: absolute; left: 0; width: 20px; height: 20px; background: var(--blue); color: #fff; border-radius: 50%; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; top: 1px; }
+  .cs-steps li strong { color: var(--text); font-weight: 700; }
+
+  /* Comparison table */
+  .cs-compare { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 2px; }
+  .cs-compare th { background: var(--navy); color: #fff; padding: 7px 10px; text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; }
+  .cs-compare th:first-child { border-radius: 6px 0 0 0; }
+  .cs-compare th:last-child { border-radius: 0 6px 0 0; }
+  .cs-compare td { padding: 7px 10px; border-bottom: 1px solid var(--border); color: var(--text2); vertical-align: top; line-height: 1.45; }
+  .cs-compare td:first-child { font-weight: 700; color: var(--text); white-space: nowrap; }
+  .cs-compare tr:last-child td { border-bottom: none; }
+  .cs-compare tr:nth-child(even) td { background: var(--bg2); }
+
+  /* Timeline */
+  .cs-timeline { display: flex; flex-direction: column; gap: 0; }
+  .cs-tl-item { display: flex; gap: 12px; align-items: flex-start; padding: 8px 0; border-bottom: 1px dashed var(--border); }
+  .cs-tl-item:last-child { border-bottom: none; }
+  .cs-tl-dot { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+  .cs-tl-dot.blue { background: var(--blue-light); color: var(--blue); }
+  .cs-tl-dot.green { background: var(--green-light); color: var(--green); }
+  .cs-tl-dot.red { background: var(--red-light); color: var(--red); }
+  .cs-tl-dot.gold { background: var(--gold-light); color: var(--gold); }
+  .cs-tl-dot.gray { background: var(--bg2); color: var(--text3); }
+  .cs-tl-content { flex: 1; }
+  .cs-tl-event { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+  .cs-tl-detail { font-size: 12px; color: var(--text2); line-height: 1.5; }
+
+  /* Pills / badges */
+  .cs-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
+  .cs-pill { font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 99px; line-height: 1.3; }
+  .cs-pill.blue { background: var(--blue-light); color: var(--blue); }
+  .cs-pill.green { background: var(--green-light); color: var(--green); }
+  .cs-pill.red { background: var(--red-light); color: var(--red); }
+  .cs-pill.gold { background: var(--gold-light); color: var(--amber); }
+  .cs-pill.gray { background: var(--bg2); color: var(--text2); }
+
+  /* Callout boxes */
+  .cs-trap { margin-top: 10px; padding: 10px 13px; background: var(--red-light); border-left: 3px solid var(--red); border-radius: 0 var(--radius) var(--radius) 0; font-size: 12px; color: var(--red); line-height: 1.55; }
+  .cs-trap strong { font-weight: 700; }
+  .cs-tip { margin-top: 10px; padding: 10px 13px; background: var(--gold-light); border-left: 3px solid var(--gold); border-radius: 0 var(--radius) var(--radius) 0; font-size: 12px; color: var(--amber); line-height: 1.55; }
   .cs-tip strong { font-weight: 700; }
+  .cs-note { margin-top: 10px; padding: 10px 13px; background: var(--blue-light); border-left: 3px solid var(--blue); border-radius: 0 var(--radius) var(--radius) 0; font-size: 12px; color: var(--navy); line-height: 1.55; }
+  .cs-note strong { font-weight: 700; }
+
+  /* Section exam tip bar at bottom */
+  .cs-examtip { margin: 0; padding: 12px 15px; background: var(--navy); font-size: 12px; color: rgba(255,255,255,0.85); line-height: 1.6; }
+  .cs-examtip strong { color: #FAC775; font-weight: 700; }
 
   /* TABLET (Tab S7 = 800px+) */
   @media (min-width: 600px) {
@@ -553,83 +607,397 @@ const CARDS = [
 ];
 
 const SHEET = [
-  {u:"Unit 1",t:"Tax-Favored Accounts",rows:[
-    {k:"HSA Triple Tax Benefit",v:"1) Contributions above-the-line deductible 2) Growth tax-free 3) Distributions for medical expenses tax-free at any age. Payroll route: 4th benefit — avoids FICA/Medicare."},
-    {k:"HSA Disqualifiers (MED)",v:"Medicare enrollment · Non-HDHP (HRAs/FSAs except limited-purpose dental/vision) · Claimed as dependent on someone else's return · Tri-Care"},
-    {k:"Last-Month Rule",v:"Coverage on Dec 1 → full annual limit. Must maintain same coverage all 12 months of following year. Failure = income + 10% penalty on excess."},
-    {k:"Medicare + HSA Trap",v:"Part A retroactive 6 months. Stop HSA 6 months before applying for Medicare. At age 70 (SS claim) = automatic Medicare → stop contributions 6–7 months before 70th birthday."},
-    {k:"QHFD",v:"One-time lifetime IRA→HSA transfer. Limited to annual HSA limit minus amounts already contributed."},
-    {k:"Backdoor Roth",v:"1) Non-deductible Traditional IRA contribution 2) Immediate Roth conversion. Pro-rata rule applies if pre-tax IRA balances exist. Fix: roll pre-tax IRA into employer 401(k)."},
-    {k:"529-to-Roth (SECURE 2.0)",v:"$35K lifetime · account 15+ years old · annual limit = Roth contribution limit · last 5 years of contributions ineligible · earned income required"},
-    {k:"Excess IRA Contribution",v:"6% excise tax/year. Correct by October 15 of following year (withdraw excess + earnings). Excess salary deferrals not corrected by April 15 = double taxation."},
-    {k:"FSA Grace Period vs. Rollover",v:"BOTH healthcare and dependent care FSAs can have grace periods. Only healthcare FSAs can rollover. Dependent care FSAs cannot rollover."},
-    {k:"Multiple 401(k)s (Unrelated Employers)",v:"Salary deferral limit: coordinated across ALL plans. Annual additions limit: applies SEPARATELY per plan sponsor."},
-    {k:"457(b) and 403(b) Unique Features",v:"403(b): 15-year rule catch-up (15+ years of service). 457(b) governmental: standard catch-up PLUS final three-year catch-up (up to 2x annual limit)."},
-  ],tip:"EXAM TIP: Roth IRA vs. Roth 401(k) — Roth IRA contributions can be withdrawn anytime tax/penalty-free. Roth 401(k) contributions are subject to early withdrawal penalties before 59½. Frequently tested."},
-  {u:"Unit 2",t:"Taxable Account Strategies",rows:[
-    {k:"NIIT Calculation",v:"3.8% × lesser of (net investment income) or (MAGI above threshold). MFJ $250K / Single $200K / MFS $125K. Retirement distributions excluded from NII but raise MAGI."},
-    {k:"Capital Gains Netting",v:"Net ST gains/losses → Net LT gains/losses (include carryforwards) → If one gain/one loss, net against each other → Net loss offsets $3,000 ordinary income/year; excess carries forward. LT losses offset LT gains first."},
-    {k:"Wash Sale Rule",v:"61-day window (30 before + day of + 30 after). Substantially identical securities. Disallowed loss added to replacement basis. CRYPTO: not currently subject to wash sale."},
-    {k:"1031 Exchange",v:"45 days identify / 180 days close. Qualified intermediary required. Boot = capital gains (immediately taxable). Investment/business property only. UPREITs cannot do future 1031s."},
-    {k:"1031 vs. 721 (UPREIT)",v:"1031: control over specific property, future exchanges possible. 721: more liquidity, high diversification. Both: step-up in basis at death, capital gains deferred until sold."},
-    {k:"QOF Three Benefits",v:"1) Defer original gains until 12/31/2026 or sale 2) Step-up in basis 3) 100% exclusion of QOF appreciation if held 10+ years"},
-    {k:"CRT",v:"Contribute appreciated property → CRT sells tax-free → Donor gets income stream + partial deduction → Charity gets remainder. CRT is tax-exempt entity."},
-    {k:"ING Trust",v:"Non-grantor trust designed to mitigate state income taxes while allowing grantor to retain control over assets."},
-    {k:"1031 Safe Harbor",v:"Property rented minimum 14 days/year; personal use cannot exceed 14 days or 10% of rental period."},
-    {k:"Tax Loss Harvesting — Most Valuable",v:"High-income years · when there are short-term gains (taxed at ordinary rates) · to stay within a favorable tax bracket. NOT valuable in 0% LTCG bracket."},
-  ],tip:"EXAM TIP: NIIT 'Crossover Zone' — Non-investment income (Roth conversions, IRA distributions, bonuses) can push MAGI above the threshold and subject existing investment income to NIIT — even though those items themselves are not NII."},
-  {u:"Unit 3",t:"Investment Planning — Hierarchy & Location",rows:[
-    {k:"7-Step Savings Hierarchy",v:"1) Emergency fund 2) Employer match 3) HSA 4) Retirement/529 5) Mega Backdoor Roth 6) Taxable brokerage 7) Annuities. HSA is Step 3 — BEFORE maxing retirement accounts."},
-    {k:"Asset Location — Taxable",v:"Tax-efficient ETFs/index funds, growth stocks (buy & hold), municipal bonds"},
-    {k:"Asset Location — Tax-Deferred",v:"Bonds, REITs, high-turnover/actively managed funds, corporate bonds"},
-    {k:"Asset Location — Tax-Free (Roth/HSA)",v:"High-growth stocks, small-cap, emerging markets, REITs. Primary criteria: high expected future returns."},
-    {k:"Net Method vs. Gross Method",v:"Net: considers after-tax value of each dollar (adjusts for future tax liability on pre-tax accounts). More accurate, complex. Gross: treats all balances equally. Simple, less precise."},
-    {k:"Traditional-Roth Equivalency",v:"Identical tax rates at contribution and withdrawal = identical after-tax outcomes. Choose Roth if rates rise; Traditional if rates fall."},
-    {k:"Asset Location vs. Asset Allocation",v:"Allocation = WHAT to hold (stocks/bonds/real estate mix). Location = WHERE to hold each investment (taxable/deferred/free). Related but distinct strategies."},
-  ],tip:"EXAM TIP: For Roth account placement, the key criterion is HIGH EXPECTED FUTURE RETURNS — not tax efficiency. Tax efficiency matters for taxable accounts, not Roth. The exam tests this distinction."},
-  {u:"Unit 4",t:"Education Planning",rows:[
-    {k:"AOTC vs. LLC",v:"AOTC: $2,500/yr × first 4 years; 40% refundable (max $1,000); half-time enrollment required; max qualifying expenses = $4,000. LLC: $2,000/yr; non-refundable; any year; no half-time requirement."},
-    {k:"Scholarship + AOTC Strategy",v:"Intentionally treat $4,000 of scholarship as taxable income → can claim full $2,500 AOTC. The credit value typically exceeds the tax on $4,000 for low-bracket students."},
-    {k:"529 Distributions",v:"K-12 tuition: $10,000/year. Student loan repayment: $10,000 lifetime. Qualified higher education: unlimited tax-free. Non-qualified: earnings = ordinary income + 10% penalty."},
-    {k:"Dynasty 529",v:"Multigenerational. Select plans with high max limits, focus on investment quality. Contributions to youngest generation maximize compounding. Trust ownership ensures control after death."},
-    {k:"UTMA vs. 529 (FAFSA Impact)",v:"UTMA student-owned: 20% FAFSA assessment rate. 529 parent-owned: 5.64% assessment rate. UTMAs hurt financial aid eligibility more significantly."},
-    {k:"Roth IRA for Education vs. 529",v:"Roth earnings before 59½: penalty-free for education but STILL TAXABLE. 529 earnings: always tax-free for qualified education. Roth distributions count as income on FAFSA — can reduce aid."},
-    {k:"IRA Distributions for Education",v:"Penalty-free for qualified higher education expenses. Still subject to ordinary income tax — NOT tax-free like a 529."},
-    {k:"Series EE/I Bonds Education Exclusion",v:"Requirements: qualified higher education expenses, below income limits, bondholder at least 24 years old at issuance. Does NOT need to be held to maturity."},
-  ],tip:"EXAM TIP: Roth IRA balance ≠ counted on FAFSA. Roth IRA distributions = DO count as FAFSA income. 529 = parental asset (5.64%). UTMA = student asset (20%). These distinctions are frequently tested."},
-  {u:"Unit 5",t:"Small Business Tax",rows:[
-    {k:"S-Corp Requirements",v:"≤100 shareholders · individuals/certain trusts/estates only · US citizens/residents only · one class of stock · no nonresident alien shareholders. ANY violation = automatic termination."},
-    {k:"QBI Low-Income Formula",v:"20% × lesser of: (1) combined QBI, or (2) taxable income minus net capital gains. Below phaseout: SSTB status, W-2 wages, property irrelevant."},
-    {k:"QBI Non-SSTB Wage/Property Limit",v:"Deduction = GREATER of: 50% of W-2 wages OR (25% of W-2 wages + 2.5% of UBIA). No wages + no property = zero QBI above phaseout."},
-    {k:"SSTB High-Income Strategy",v:"Above phaseout: deduction eliminated. W-2/property tests don't help SSTBs. Only path: reduce taxable income via retirement plans (DB plans), charitable deductions, working fewer hours."},
-    {k:"QBI Phaseout Effective Marginal Rate",v:"In the SSTB phaseout range, stacking effect can push effective marginal rate to ~50%."},
-    {k:"PTET",v:"Entity pays state income tax → federally deductible (bypasses $10K SALT cap). Partners/shareholders get state credit. May not be beneficial if admin costs exceed tax savings."},
-    {k:"QSBS Section 1202",v:"100% gain exclusion: acquired after 9/27/2017, held 5+ years, from issuing C-corp (not secondary market). Limit: greater of $10M or 10× adjusted basis. <$50M gross assets ($75M after 2025)."},
-    {k:"Home Office — Simplified Method",v:"$5/sq ft × up to 300 sq ft = max $1,500. Flat rate, NOT percentage of business use. No depreciation. Cannot create NOL."},
-    {k:"Home Office — Regular Method",v:"% of home used for business × actual expenses. Depreciation required (recaptured at 25% upon sale even if not claimed). Can increase NOL."},
-    {k:"Depreciation Timing",v:"Accelerate if: need cash flow now, expect lower future tax rates, want to reduce income below QBI phaseout. DELAY if: expect substantially higher tax rates in the future."},
-    {k:"Unreimbursed Partnership Expenses",v:"Reduce BOTH income tax AND self-employment tax. More advantageous than unreimbursed employee business expenses."},
-  ],tip:"EXAM TIP: QBI is a below-the-line deduction available whether you take standard OR itemized deduction. It does NOT reduce AGI. It is phased out based on TAXABLE INCOME (not AGI) — so both above-the-line AND below-the-line deductions can help reduce it."},
-  {u:"Unit 6",t:"Corporate Executive Compensation",rows:[
-    {k:"83(b) Eligible: Restricted Stock ONLY",v:"RSAs (Restricted Stock Awards) = actual shares transferred at grant → 83(b) available. RSUs and PSUs = promises to deliver shares in the future → NO property transferred at grant → 83(b) NOT available."},
-    {k:"Restricted Stock Tax Timeline",v:"Grant date: NO tax (substantial risk of forfeiture). Vesting date: ordinary income = FMV at vesting. Basis = FMV at vesting. LTCG holding period starts at vesting. Withholding: 22% on first $1M / 37% above $1M."},
-    {k:"83(b) Election — What It Does",v:"File within 30 days of grant (hard deadline, no exceptions). Pay ordinary income tax on FMV at GRANT (not vesting). All future appreciation = LTCG. At vesting: NO additional tax. Irrevocable once made."},
-    {k:"83(b) Election — When to Use",v:"Best when: low FMV at grant (startup equity), confident of meeting vesting, expects significant appreciation. Risks: forfeiture = taxes not refunded; stock decline = overpaid; no liquidity at grant to cover tax bill."},
-    {k:"RSUs vs. Restricted Stock",v:"RSUs = cash bonus equivalent at vesting (ordinary income + employment taxes). Vested ≠ Delivered (especially in private companies with double-trigger RSUs). 83(b) cannot be made on RSUs."},
-    {k:"Double-Trigger RSUs",v:"Two conditions required: (1) time-based vesting + (2) liquidity event (IPO/acquisition). Taxable event = share delivery date, NOT when time vesting condition is met. Used by private companies to align tax with liquidity."},
-    {k:"ISO Tax Timeline",v:"Grant: no tax. Vesting: no tax. Exercise: no regular income tax (disregarding AMT). Sale — qualifying disposition: all gain = LTCG. Sale — non-qualifying: spread at exercise = ordinary income; remaining gain = capital gain."},
-    {k:"ISO Qualifying Disposition Requirements",v:"Sale must be: (1) at least 2 years after grant date AND (2) at least 1 year after exercise date. Both conditions must be met. Failing either = non-qualifying disposition."},
-    {k:"ISO Annual Limit",v:"Maximum value of ISOs that can become exercisable in any calendar year = $100,000, based on FMV at grant date. Excess automatically treated as NQSOs."},
-    {k:"ISO AMT Trigger",v:"At exercise: bargain element (FMV at exercise − strike price) added to AMT income as a preference item. No cash generated at exercise but AMT may be owed. AMT credit generated offsets future regular tax in non-AMT years."},
-    {k:"ISO AMT Strategies",v:"Exercise in high-income years (regular tax exceeds AMT — buffer absorbs impact). Exercise early in the calendar year (flexibility). Sell in same year as exercise (disqualifying disposition eliminates AMT). Stagger exercises over multiple years."},
-    {k:"NQSOs vs. ISOs",v:"NQSO at exercise: ordinary income (FMV − strike) = W-2, FICA + Medicare. No AMT risk. Exercise in low-income year minimizes impact. ISO at exercise: no regular income tax, but bargain element = AMT preference item."},
-    {k:"NQSO Exercise Factors",v:"All four matter: (1) future stock price expectations; (2) how long employee plans to hold shares (LTCG vs. STCG); (3) current and anticipated future income (marginal rate); (4) time until options expire."},
-    {k:"NQDC — Key Features",v:"Unlimited contribution limits (no IRS cap). NOT protected by ERISA. Flexible — can be selectively offered to executives. Assets remain company property (creditor risk in bankruptcy). NOT tax-free at withdrawal (ordinary income)."},
-    {k:"NQDC — Distribution Election Rule",v:"Distribution election must be made at the time the plan is established. Generally irrevocable. To delay: must request 1 year before original date; new date must be 5+ years later. 409A violation = ALL deferred amounts immediately taxable + 20% penalty + interest."},
-    {k:"NQDC — 10-Year State Tax Rule",v:"Normally: state where income was EARNED at deferral can tax distributions even if client moved. Exception: if distributions paid over 10+ years, only the state of RESIDENCE at distribution can tax. Distributions are still subject to state tax — just potentially in a more favorable state."},
-    {k:"NQDC vs. 401(k) Key Differences",v:"NQDC: no contribution limits, no ERISA protection, no rollover, creditor risk, distribution election at plan establishment. 401(k): IRS contribution limits, ERISA protected, can rollover, creditor protected, flexible post-retirement withdrawals."},
-  ],tip:"EXAM TIP — Unit 6 most-tested distinctions: (1) 83(b) available for Restricted Stock ONLY, not RSUs/PSUs. (2) ISO exercise = no regular tax but AMT risk. NQSO exercise = immediate ordinary income, no AMT. (3) NQDC distribution election must be made when plan is established — irrevocable. (4) 'Vested' and 'delivered' are NOT synonymous for RSUs."},
+  {u:"Unit 1", t:"Tax-Favored Accounts", html:`
+    <div class="cs-row">
+      <div class="cs-label">HSA — Triple Tax Benefit</div>
+      <div class="cs-title">The Gold Standard Account</div>
+      <div class="cs-pills">
+        <span class="cs-pill green">① Contributions Deductible</span>
+        <span class="cs-pill green">② Growth Tax-Free</span>
+        <span class="cs-pill green">③ Withdrawals Tax-Free</span>
+        <span class="cs-pill blue">④ Payroll = No FICA either</span>
+      </div>
+      <div class="cs-trap" style="margin-top:8px"><strong>NON-QUALIFIED distributions:</strong> Taxed as ordinary income + 20% penalty if under age 65</div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">HSA Disqualifiers — MED</div>
+      <ul class="cs-bullets">
+        <li class="red"><strong>M</strong>edicare enrollment (any part)</li>
+        <li class="red"><strong>E</strong>nrolled in non-HDHP plan (regular HRA or FSA — limited-purpose dental/vision FSA is OK)</li>
+        <li class="red"><strong>D</strong>ependent on someone else's tax return · Tri-Care</li>
+      </ul>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">HSA Contribution Rules</div>
+      <ul class="cs-bullets">
+        <li><strong>Last-Month Rule:</strong> Have qualifying coverage Dec 1 → contribute full annual limit. Must maintain same coverage all 12 months of next year (testing period). Fail = income + 10% penalty on excess</li>
+        <li><strong>Mid-year change:</strong> Pro-rata — each period's limit × months of that coverage ÷ 12</li>
+        <li><strong>Catch-up (age 55+):</strong> Each spouse must have their own HSA — cannot combine catch-up into one account</li>
+      </ul>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">Medicare + HSA Trap</div>
+      <div class="cs-timeline">
+        <div class="cs-tl-item"><div class="cs-tl-dot gold">65</div><div class="cs-tl-content"><div class="cs-tl-event">Large employer (20+ employees)?</div><div class="cs-tl-detail">Can delay Medicare → keep contributing to HSA until you retire</div></div></div>
+        <div class="cs-tl-item"><div class="cs-tl-dot red">68</div><div class="cs-tl-content"><div class="cs-tl-event">Applying for Medicare after 65</div><div class="cs-tl-detail">Part A backdated 6 months from application date → stop HSA 6 months BEFORE you apply</div></div></div>
+        <div class="cs-tl-item"><div class="cs-tl-dot red">70</div><div class="cs-tl-content"><div class="cs-tl-event">Claiming Social Security at 70</div><div class="cs-tl-detail">Triggers automatic Medicare Part A (6-month retroactive) → stop HSA 6–7 months BEFORE 70th birthday</div></div></div>
+      </div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">QHFD Transfer</div>
+      <ul class="cs-bullets">
+        <li><strong>One-time lifetime</strong> IRA → HSA direct transfer</li>
+        <li>Limited to: annual HSA limit <strong>minus</strong> amounts already contributed that year</li>
+        <li>Best for: cash-strapped client with large medical expenses and IRA assets</li>
+      </ul>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">Backdoor Roth IRA</div>
+      <ol class="cs-steps">
+        <li data-n="1">Make <strong>non-deductible</strong> Traditional IRA contribution (no income limit on contributions)</li>
+        <li data-n="2"><strong>Immediately convert</strong> to Roth IRA — no waiting period required</li>
+        <li data-n="3">If no other pre-tax IRA balances → 100% tax-free conversion</li>
+      </ol>
+      <div class="cs-trap"><strong>Pro-Rata Rule Trap:</strong> Any pre-tax IRA balances (Traditional, SEP, SIMPLE) get mixed into the pool. Fix: roll pre-tax IRA into employer 401(k) <strong>before Dec 31</strong> → clean backdoor same year</div>
+      <div class="cs-tip"><strong>Form 8606:</strong> File every year — even with no activity — to maintain a running tally of after-tax basis. Prevents double taxation on future distributions.</div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">Roth IRA vs. Traditional — When to Choose Roth</div>
+      <div class="cs-pills">
+        <span class="cs-pill green">Higher future tax rates</span>
+        <span class="cs-pill green">Same tax rates (RMD avoidance!)</span>
+        <span class="cs-pill blue">Older spouse first → hits 59½ sooner</span>
+      </div>
+      <div class="cs-note" style="margin-top:8px"><strong>Exam trap:</strong> Even at the SAME tax rate, Roth can win because Roth IRAs have NO Required Minimum Distributions. RMD avoidance alone is a valid reason to choose Roth.</div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">Mega Backdoor Roth vs. Backdoor Roth</div>
+      <table class="cs-compare">
+        <tr><th></th><th>Backdoor Roth</th><th>Mega Backdoor</th></tr>
+        <tr><td>Vehicle</td><td>Traditional IRA</td><td>Employer plan (401k)</td></tr>
+        <tr><td>Amount</td><td>~IRA limit/yr</td><td>Up to annual additions gap</td></tr>
+        <tr><td>Pro-rata rule?</td><td>Yes (if pre-tax IRA exists)</td><td>No</td></tr>
+        <tr><td>Plan required?</td><td>Any IRA</td><td>Plan must allow after-tax contributions + in-service distributions</td></tr>
+        <tr><td>Testing?</td><td>None</td><td>ACP nondiscrimination testing</td></tr>
+      </table>
+      <div class="cs-tip"><strong>Both strategies share the same core:</strong> make after-tax non-deductible contributions → convert to Roth. Convert as soon as practicable to minimize taxable earnings before conversion.</div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">529-to-Roth Transfer (SECURE 2.0)</div>
+      <div class="cs-pills">
+        <span class="cs-pill blue">$35K lifetime cap</span>
+        <span class="cs-pill blue">Account 15+ years old</span>
+        <span class="cs-pill gold">Last 5 yrs contributions ineligible</span>
+        <span class="cs-pill blue">Earned income required</span>
+        <span class="cs-pill blue">Annual Roth limit applies</span>
+      </div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">457(b) and 403(b) Unique Catch-Ups</div>
+      <table class="cs-compare">
+        <tr><th>Plan</th><th>Unique Provision</th><th>Details</th></tr>
+        <tr><td>403(b)</td><td>15-Year Rule</td><td>15+ years with same employer at schools/tax-exempt orgs → extra catch-up above standard limit</td></tr>
+        <tr><td>457(b) Gov't</td><td>Final 3-Year Catch-Up</td><td>Up to 2× annual limit in the 3 years before normal retirement age</td></tr>
+      </table>
+      <div class="cs-note"><strong>457(b) deferral limit is completely separate</strong> from 401(k)/403(b) — can max both simultaneously. 457(b) participation does NOT trigger Traditional IRA deductibility phaseout.</div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">FSA Rules — Know These Cold</div>
+      <table class="cs-compare">
+        <tr><th></th><th>Healthcare FSA</th><th>Dependent Care FSA</th></tr>
+        <tr><td>Grace period?</td><td>✓ Yes (2.5 months)</td><td>✓ Yes (2.5 months)</td></tr>
+        <tr><td>Rollover?</td><td>✓ Yes (limited $)</td><td>✗ No rollover ever</td></tr>
+        <tr><td>Access to funds</td><td>Full amount day 1</td><td>Pay-as-you-go only</td></tr>
+        <tr><td>HSA compatible?</td><td>✗ No (disqualifies)</td><td>✓ Yes (if limited-purpose)</td></tr>
+        <tr><td>Available to self-employed?</td><td>✗ No</td><td>✗ No</td></tr>
+      </table>
+      <div class="cs-trap"><strong>Grace period OR rollover — never both.</strong> Plan can only offer one option.</div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">Excess Contributions — Deadlines</div>
+      <table class="cs-compare">
+        <tr><th></th><th>IRA Excess</th><th>Employer Plan Excess</th></tr>
+        <tr><td>Deadline</td><td>October 15 (with extensions)</td><td>April 15 — NO extensions</td></tr>
+        <tr><td>Penalty</td><td>6% excise/year excess remains</td><td>Double taxation if missed</td></tr>
+        <tr><td>What to withdraw</td><td>Excess + earnings by deadline; after deadline, excess only</td><td>Excess + earnings before April 15</td></tr>
+      </table>
+    </div>
+    <div class="cs-examtip"><strong>⚡ EXAM TIPS:</strong> (1) Roth IRA = anytime withdrawal of contributions, no penalty. Roth 401k = early withdrawal includes earnings, subject to penalty. (2) Multiple 401(k)s with unrelated employers: salary deferral limit = coordinated across ALL plans; annual additions limit = separate per plan sponsor. (3) Governmental 457(b) defers independently — doesn't count against 401k/403b limit.</div>
+  `},
+  {u:"Unit 2", t:"Taxable Account Strategies", html:`
+    <div class="cs-row">
+      <div class="cs-label">NIIT — Net Investment Income Tax</div>
+      <div class="cs-title">3.8% × <em>lesser of</em> NII <em>or</em> MAGI above threshold</div>
+      <div class="cs-pills">
+        <span class="cs-pill blue">MFJ $250K</span>
+        <span class="cs-pill blue">Single $200K</span>
+        <span class="cs-pill blue">MFS $125K</span>
+      </div>
+      <div class="cs-trap"><strong>Crossover Zone Trap:</strong> Non-investment income (Roth conversions, IRA distributions, bonuses) raises MAGI above threshold — subjects existing investment income to NIIT even though those items are NOT themselves NII.</div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">Capital Gains Netting — Order Matters</div>
+      <ol class="cs-steps">
+        <li data-n="1">Net all <strong>short-term</strong> gains/losses</li>
+        <li data-n="2">Net all <strong>long-term</strong> gains/losses (include carryforwards)</li>
+        <li data-n="3">If one is a net gain and one a net loss → net them against each other</li>
+        <li data-n="4">Net loss: up to <strong>$3,000/year</strong> offsets ordinary income; remainder carries forward indefinitely</li>
+      </ol>
+      <div class="cs-tip"><strong>LT losses offset LT gains first</strong>, then can offset ST gains. ST losses offset ST gains first, then LT gains.</div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">Wash Sale Rule</div>
+      <div class="cs-pills">
+        <span class="cs-pill red">61-day window</span>
+        <span class="cs-pill gray">30 before + day of sale + 30 after</span>
+      </div>
+      <ul class="cs-bullets">
+        <li>Applies to <strong>substantially identical</strong> securities</li>
+        <li>Disallowed loss → added to <strong>replacement security's basis</strong> (not lost forever)</li>
+        <li class="green"><strong>Crypto NOT subject</strong> to wash sale rules — major exam point</li>
+      </ul>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">1031 Exchange vs. 721 (UPREIT)</div>
+      <table class="cs-compare">
+        <tr><th></th><th>1031 Exchange</th><th>721 Exchange (UPREIT)</th></tr>
+        <tr><td>Gain deferred?</td><td>✓ Yes</td><td>✓ Yes</td></tr>
+        <tr><td>Future exchanges?</td><td>✓ Yes (1031 again)</td><td>✗ No (OP units = securities)</td></tr>
+        <tr><td>Liquidity</td><td>Low — property to property</td><td>High — REIT shares</td></tr>
+        <tr><td>Diversification</td><td>Low</td><td>High</td></tr>
+        <tr><td>Step-up at death?</td><td>✓ Yes</td><td>✓ Yes</td></tr>
+      </table>
+      <div class="cs-note"><strong>1031 rules:</strong> 45 days to identify / 180 days to close. Qualified intermediary required. Boot (cash received) = immediately taxable capital gain.</div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">QOF — Qualified Opportunity Fund</div>
+      <div class="cs-pills">
+        <span class="cs-pill gold">Defer gains → 12/31/2026</span>
+        <span class="cs-pill green">100% exclusion if held 10+ years</span>
+      </div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">CRT — Charitable Remainder Trust</div>
+      <ol class="cs-steps">
+        <li data-n="1">Donor contributes appreciated property</li>
+        <li data-n="2">CRT sells it — <strong>no capital gains</strong> (CRT is tax-exempt)</li>
+        <li data-n="3">Donor receives income stream (taxable as distributed)</li>
+        <li data-n="4">Donor gets <strong>partial charitable deduction</strong></li>
+        <li data-n="5">Charity gets the remainder</li>
+      </ol>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">Tax Loss Harvesting — When Most Valuable</div>
+      <div class="cs-pills">
+        <span class="cs-pill green">High income years</span>
+        <span class="cs-pill green">Offsetting short-term gains</span>
+        <span class="cs-pill green">Staying within favorable bracket</span>
+        <span class="cs-pill red">NOT in 0% LTCG bracket</span>
+      </div>
+    </div>
+    <div class="cs-examtip"><strong>⚡ EXAM TIPS:</strong> (1) NIIT threshold = MAGI, not AGI. Retirement distributions are excluded from NII but still count toward the MAGI threshold. (2) Wash sale disallowed loss is NOT gone — it's added to the new position's basis. (3) UPREITs: once you exchange into OP units, no future 1031 — units are securities, not real property.</div>
+  `},
+  {u:"Unit 3", t:"Investment Hierarchy & Asset Location", html:`
+    <div class="cs-row">
+      <div class="cs-label">7-Step Savings Hierarchy</div>
+      <ol class="cs-steps">
+        <li data-n="1">Emergency fund (3–6 months expenses)</li>
+        <li data-n="2">Employer match — <strong>free money, always first</strong></li>
+        <li data-n="3">HSA — triple/quad tax benefit</li>
+        <li data-n="4">Traditional/Roth retirement accounts + 529s</li>
+        <li data-n="5">Mega Backdoor Roth (after-tax 401k)</li>
+        <li data-n="6">Taxable brokerage</li>
+        <li data-n="7">Annuities / tax-deferred vehicles</li>
+      </ol>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">Asset Location — Where Things Belong</div>
+      <table class="cs-compare">
+        <tr><th>Account Type</th><th>Best Investments</th><th>Why</th></tr>
+        <tr><td>Taxable</td><td>Tax-efficient ETFs, growth stocks (buy & hold), muni bonds</td><td>Low annual tax drag</td></tr>
+        <tr><td>Tax-Deferred (Traditional)</td><td>Bonds, REITs, high-yield bonds, active/high-turnover funds</td><td>Shields ordinary income; defers tax</td></tr>
+        <tr><td>Tax-Free (Roth/HSA)</td><td>High-growth stocks, small-cap, emerging markets</td><td>Maximize compounding of highest-return assets permanently tax-free</td></tr>
+      </table>
+      <div class="cs-trap"><strong>Roth ≠ "most tax-efficient."</strong> Roth = <strong>highest expected future return</strong>. The exam tests this. Municipal bonds belong in taxable, NOT Roth.</div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">Net Method vs. Gross Method</div>
+      <table class="cs-compare">
+        <tr><th></th><th>Net Method</th><th>Gross Method</th></tr>
+        <tr><td>What it measures</td><td>After-tax value of each dollar</td><td>Face value of all balances</td></tr>
+        <tr><td>Accuracy</td><td>More accurate</td><td>Less precise</td></tr>
+        <tr><td>Complexity</td><td>Complex</td><td>Simple</td></tr>
+      </table>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">Traditional vs. Roth Equivalency</div>
+      <ul class="cs-bullets">
+        <li>Same tax rate at contribution AND withdrawal → <strong>identical after-tax outcome</strong></li>
+        <li class="green">Choose Roth if: rates expected to <strong>rise</strong>, or want to avoid RMDs</li>
+        <li class="red">Choose Traditional if: rates expected to <strong>fall</strong> significantly in retirement</li>
+      </ul>
+    </div>
+    <div class="cs-examtip"><strong>⚡ EXAM TIPS:</strong> (1) Asset allocation = WHAT to hold. Asset location = WHERE to hold it. Different concepts. (2) The #1 criterion for Roth placement = HIGH EXPECTED FUTURE RETURNS, not tax efficiency. (3) HSA is Step 3 — before maxing out 401(k). This is frequently tested on the hierarchy.</div>
+  `},
+  {u:"Unit 4", t:"Education Planning", html:`
+    <div class="cs-row">
+      <div class="cs-label">AOTC vs. Lifetime Learning Credit</div>
+      <table class="cs-compare">
+        <tr><th></th><th>AOTC</th><th>LLC</th></tr>
+        <tr><td>Max credit/yr</td><td>$2,500</td><td>$2,000</td></tr>
+        <tr><td>Refundable?</td><td>40% (max $1,000)</td><td>No — nonrefundable</td></tr>
+        <tr><td>Years eligible</td><td>First 4 years only</td><td>Any year</td></tr>
+        <tr><td>Half-time enrollment?</td><td>Required</td><td>Not required</td></tr>
+        <tr><td>Max qualifying expenses</td><td>$4,000</td><td>$10,000 (20% of first $10K)</td></tr>
+      </table>
+      <div class="cs-tip"><strong>Scholarship + AOTC strategy:</strong> Intentionally treat $4,000 of tax-free scholarship as taxable income → claim full $2,500 AOTC. Credit value usually exceeds the extra tax for low-bracket students.</div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">529 Plan Distribution Rules</div>
+      <div class="cs-pills">
+        <span class="cs-pill blue">K-12 tuition: $10K/year</span>
+        <span class="cs-pill blue">Student loans: $10K lifetime</span>
+        <span class="cs-pill green">Qualified higher ed: unlimited tax-free</span>
+        <span class="cs-pill red">Non-qualified: earnings = income + 10% penalty</span>
+      </div>
+      <div class="cs-note" style="margin-top:8px"><strong>529-to-Roth:</strong> $35K lifetime · account 15+ years · last 5 years contributions ineligible · earned income required · annual Roth limit applies</div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">Education Account Comparison — FAFSA Impact</div>
+      <table class="cs-compare">
+        <tr><th>Account</th><th>FAFSA Rate</th><th>Use Restriction</th><th>Tax on Earnings</th></tr>
+        <tr><td>529 (parent-owned)</td><td>5.64%</td><td>Education only</td><td>Tax-free if qualified</td></tr>
+        <tr><td>UTMA (student-owned)</td><td>20%</td><td>Any purpose</td><td>Taxable (Kiddie Tax risk)</td></tr>
+        <tr><td>Roth IRA (balance)</td><td>Not counted</td><td>Any (contributions)</td><td>Earnings taxable before 59½</td></tr>
+        <tr><td>Roth IRA (distributions)</td><td>Counts as income</td><td>—</td><td>Penalty-free but taxable</td></tr>
+      </table>
+      <div class="cs-trap"><strong>Roth IRA trap:</strong> The balance isn't on FAFSA — but distributions ARE counted as income on FAFSA and can reduce aid eligibility.</div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">IRA Distributions for Education</div>
+      <div class="cs-pills">
+        <span class="cs-pill green">10% penalty waived</span>
+        <span class="cs-pill red">Still taxed as ordinary income</span>
+        <span class="cs-pill red">NOT the same as 529 (always tax-free)</span>
+      </div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">Series EE/I Bond Education Exclusion — 3 Requirements</div>
+      <ul class="cs-bullets">
+        <li>Qualified <strong>higher education</strong> expenses</li>
+        <li>Bondholder was at least <strong>24 years old</strong> at issuance</li>
+        <li>Below applicable <strong>income limits</strong></li>
+        <li class="green">Does NOT need to be held to maturity</li>
+      </ul>
+    </div>
+    <div class="cs-examtip"><strong>⚡ EXAM TIPS:</strong> (1) Half-time enrollment = AOTC only, not LLC. (2) UTMA = 20% FAFSA rate (student asset). 529 = 5.64% (parental asset). This gap is massive for financial aid. (3) Roth IRA distributions count as FAFSA income even if tax and penalty-free — frequently tested. (4) 529 contributions are NOT federally tax-deductible (state deductions vary).</div>
+  `},
+  {u:"Unit 5", t:"Small Business Tax", html:`
+    <div class="cs-row">
+      <div class="cs-label">S-Corp Requirements — All 5 Must Be Met</div>
+      <div class="cs-pills">
+        <span class="cs-pill blue">≤ 100 shareholders</span>
+        <span class="cs-pill blue">Individuals/certain trusts/estates only</span>
+        <span class="cs-pill blue">US citizens/residents only</span>
+        <span class="cs-pill blue">One class of stock only</span>
+        <span class="cs-pill red">No nonresident alien shareholders</span>
+      </div>
+      <div class="cs-trap"><strong>Any violation = automatic S-Corp termination.</strong> No exceptions.</div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">QBI Deduction — Which Formula Applies?</div>
+      <table class="cs-compare">
+        <tr><th>Situation</th><th>Formula</th></tr>
+        <tr><td>Below phaseout threshold (anyone)</td><td>20% × lesser of: (1) QBI or (2) taxable income − net capital gains. SSTB status, wages, property = irrelevant</td></tr>
+        <tr><td>Non-SSTB above phaseout</td><td>Limited to GREATER of: 50% W-2 wages OR (25% W-2 + 2.5% UBIA). No wages/property = zero deduction</td></tr>
+        <tr><td>SSTB above phaseout</td><td>Deduction fully eliminated. W-2/property tests don't help SSTBs at all</td></tr>
+      </table>
+      <div class="cs-tip"><strong>QBI is below-the-line</strong> — available whether you take standard OR itemized deduction. Phased out based on <strong>TAXABLE income</strong> (not AGI). Both above-the-line and below-the-line deductions reduce taxable income and can help preserve QBI.</div>
+      <div class="cs-trap"><strong>SSTB phaseout stacking:</strong> Effective marginal rate can hit ~50% in the phaseout range. SSTB owners above phaseout have only one path: reduce taxable income (retirement plans, charitable, work less).</div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">Home Office — Two Methods</div>
+      <table class="cs-compare">
+        <tr><th></th><th>Simplified</th><th>Regular</th></tr>
+        <tr><td>Calculation</td><td>$5 × sq ft (max 300 = $1,500 max)</td><td>% of home × actual expenses</td></tr>
+        <tr><td>Depreciation?</td><td>No depreciation</td><td>Required — 25% recapture at sale</td></tr>
+        <tr><td>NOL creation?</td><td>Cannot create or increase NOL</td><td>Can increase NOL</td></tr>
+        <tr><td>Carryforward?</td><td>No</td><td>Yes</td></tr>
+      </table>
+      <div class="cs-trap"><strong>Regular method recapture:</strong> Depreciation is recaptured at 25% when home is sold — even if never actually claimed.</div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">PTET, QSBS, and Other Key Rules</div>
+      <ul class="cs-bullets">
+        <li><strong>PTET:</strong> Entity pays state tax → federally deductible (bypasses $10K SALT cap). Partners get state credit. May not help if admin costs exceed savings.</li>
+        <li><strong>QSBS §1202:</strong> 100% exclusion · acquired after 9/27/2017 · held 5+ years · directly from issuing C-corp · limit: greater of $10M or 10× basis · gross assets &lt;$50M ($75M after 2025)</li>
+        <li><strong>Unreimbursed partnership expenses:</strong> Reduce BOTH income tax AND SE tax — more powerful than unreimbursed employee expenses</li>
+        <li class="gold"><strong>Depreciation timing:</strong> Accelerate if expecting lower future rates or near QBI phaseout. Delay if expecting substantially higher future rates.</li>
+      </ul>
+    </div>
+    <div class="cs-examtip"><strong>⚡ EXAM TIPS:</strong> (1) QBI ≠ reduces AGI. It's a below-the-line deduction. (2) Non-SSTB above phaseout: fix with more W-2 wages (hire contractors as employees). (3) SSTB above phaseout: only path is reducing taxable income — W-2/property tests are irrelevant for SSTBs. (4) Simplified home office = flat $5/sqft, NOT a percentage of anything.</div>
+  `},
+  {u:"Unit 6", t:"Corporate Executive Compensation", html:`
+    <div class="cs-row">
+      <div class="cs-label">83(b) Election — Who Can Use It?</div>
+      <table class="cs-compare">
+        <tr><th>Equity Type</th><th>83(b) Available?</th><th>Why</th></tr>
+        <tr><td>Restricted Stock (RSA)</td><td>✓ Yes</td><td>Actual shares transferred at grant — property received</td></tr>
+        <tr><td>RSUs</td><td>✗ No</td><td>Only a promise — no property transferred at grant</td></tr>
+        <tr><td>PSUs</td><td>✗ No</td><td>Only a promise — no property transferred at grant</td></tr>
+      </table>
+      <div class="cs-note"><strong>83(b) mechanics:</strong> File within <strong>30 days of grant</strong> (hard deadline, irrevocable). Pay ordinary income on FMV at grant. All future appreciation = LTCG. At vesting: NO additional tax.</div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">Equity Tax Timelines — Side by Side</div>
+      <table class="cs-compare">
+        <tr><th>Event</th><th>Restricted Stock (no 83b)</th><th>Restricted Stock (83b)</th><th>RSU</th></tr>
+        <tr><td>Grant</td><td>No tax</td><td>Ordinary income on FMV</td><td>No tax</td></tr>
+        <tr><td>Vesting</td><td>Ordinary income on FMV</td><td>No tax</td><td>No tax (not yet delivered)</td></tr>
+        <tr><td>Delivery</td><td>—</td><td>—</td><td>Ordinary income on FMV</td></tr>
+        <tr><td>Sale</td><td>LTCG if held 1yr+ from vesting</td><td>LTCG if held 1yr+ from grant</td><td>LTCG if held 1yr+ from delivery</td></tr>
+      </table>
+      <div class="cs-trap"><strong>"Vested ≠ Delivered" for RSUs</strong> — especially private companies with double-trigger RSUs. Tax event = delivery date, not vesting date.</div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">ISO vs. NQSO — Key Differences</div>
+      <table class="cs-compare">
+        <tr><th></th><th>ISO</th><th>NQSO</th></tr>
+        <tr><td>Tax at exercise</td><td>No regular income tax</td><td>Ordinary income (FMV − strike) = W-2 + FICA</td></tr>
+        <tr><td>AMT risk?</td><td>Yes — bargain element = AMT preference item</td><td>No AMT risk</td></tr>
+        <tr><td>Annual limit</td><td>$100K/yr (FMV at grant)</td><td>No limit</td></tr>
+        <tr><td>LTCG qualifying sale</td><td>2 yrs from grant + 1 yr from exercise</td><td>1 yr from exercise</td></tr>
+        <tr><td>Best exercise timing</td><td>High-income year (regular tax &gt; AMT)</td><td>Low-income year</td></tr>
+      </table>
+      <div class="cs-tip"><strong>ISO AMT strategy:</strong> Exercise early in the calendar year → if stock falls before Dec 31, sell to create disqualifying disposition and eliminate AMT. If stock rises, hold for LTCG.</div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">NQSO — 4 Factors for Exercise Timing</div>
+      <div class="cs-pills">
+        <span class="cs-pill blue">① Future stock price expectations</span>
+        <span class="cs-pill blue">② Hold duration (LTCG vs. STCG)</span>
+        <span class="cs-pill blue">③ Current + future income (marginal rate)</span>
+        <span class="cs-pill blue">④ Time until options expire</span>
+      </div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">NQDC — Key Rules</div>
+      <table class="cs-compare">
+        <tr><th></th><th>NQDC Plan</th><th>401(k)</th></tr>
+        <tr><td>Contribution limit</td><td>Unlimited</td><td>IRS annual limit</td></tr>
+        <tr><td>ERISA protection</td><td>No — creditor risk</td><td>Yes — protected</td></tr>
+        <tr><td>Available to all employees?</td><td>No — selective</td><td>Generally yes</td></tr>
+        <tr><td>Distribution election</td><td>At plan establishment (irrevocable)</td><td>Flexible post-retirement</td></tr>
+        <tr><td>Rollover allowed?</td><td>No</td><td>Yes</td></tr>
+      </table>
+      <div class="cs-trap"><strong>409A violation:</strong> ALL deferred compensation immediately taxable + 20% penalty + interest. To delay distribution: request must be made 1 year in advance; new date must be 5+ years later.</div>
+      <div class="cs-note"><strong>10-Year State Tax Rule:</strong> Normally, the state where income was EARNED can tax distributions. Exception: distributions paid over 10+ years → only the state of RESIDENCE at distribution can tax. Distributions are still taxable — just potentially in a better state (e.g., deferred in CA, retire to TX).</div>
+    </div>
+    <div class="cs-examtip"><strong>⚡ EXAM TIPS:</strong> (1) 83(b) = Restricted Stock ONLY. RSUs/PSUs cannot use it — no property at grant. (2) ISO exercise = no regular tax but AMT risk. NQSO exercise = immediate W-2 ordinary income, no AMT. (3) NQDC distribution election is made at plan establishment — irrevocable. (4) "Vested ≠ Delivered" — RSU taxable event = delivery, not time-based vesting.</div>
+  `}
 ];
+
+
 
 let quizState = {qs:[],cur:0,score:0,answered:false,uScores:{}};
 let fcFiltered = [...CARDS], fcIdx = 0;
@@ -753,8 +1121,7 @@ function buildSheet() {
         <span class="cs-hdr-chev">▼</span>
       </div>
       <div class="cs-body" id="csb${i}">
-        ${s.rows.map(r=>`<div class="cs-row"><div class="cs-key">${r.k}</div><div class="cs-val">${r.v}</div></div>`).join('')}
-        ${s.tip?`<div class="cs-tip">${s.tip}</div>`:''}
+        ${s.html}
       </div>
     </div>
   `).join('');
