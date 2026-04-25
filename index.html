@@ -1094,6 +1094,53 @@ const QS = [
   {u:6,q:"Which of the following is a common feature of a Non-Qualified Deferred Compensation (NQDC) plan?",opts:["Tax-free withdrawals","Unlimited contribution limits","Mandatory distributions at retirement age","Immediate vesting of contributions"],c:1,ex:"NQDC plans have no IRS-imposed contribution limits — this is one of their key advantages over qualified plans like 401(k)s. Withdrawals are NOT tax-free (taxed as ordinary income at distribution). There are no mandatory distributions at a set retirement age, and vesting schedules vary by plan."},
   {u:6,q:"Which of the following statements about NQDC plans is accurate?",opts:["NQDC plans are required to follow the same rules as qualified retirement plans under ERISA","NQDC plans are usually offered to all employees, regardless of income level","NQDC plans are flexible and can be customized to meet the needs of high-income employees, but are not protected by ERISA","NQDC plans must offer the same investment options as 401(k) plans"],c:2,ex:"NQDC plans are NOT subject to ERISA — this is both a feature (more flexibility, can be selectively offered to executives) and a risk (no creditor protection). They can be customized for specific employees and are not required to be offered uniformly. This flexibility comes with the tradeoff of no ERISA protection."},
   {u:6,q:"Which of the following statements about NQDC plans is accurate?",opts:["Distribution election must generally be made at the time the plan is established","Non-qualified deferred compensation plans are not subject to state income taxes if distributions are made over a period of 10 years or more","Non-qualified deferred compensation plans are not subject to Federal income taxes if distributions are made over a period of 10 years or more","Compared to qualified plans, non-qualified deferred compensation plans generally offer more flexible distribution options"],c:0,ex:"NQDC plans require participants to make their distribution election at the time the plan is established — a key Section 409A rule. The election is generally irrevocable once made. The 10-year rule determines WHICH state can tax distributions, not whether they are taxed at all. NQDC plans are actually MORE rigid than qualified plans due to 409A restrictions on changing distribution schedules."}
+  ,
+  // ===== UNIT 4 ADDITIONS =====
+  {u:4,q:"Sarah lives in a state offering a $5,000 deduction for 529 contributions, with no holding period requirement. She pays $20,000 in college tuition out of pocket each year. What strategy maximizes her state tax benefit?",opts:["Pay tuition directly and skip the 529 entirely","Contribute $5,000 to the 529, immediately withdraw for tuition (cycling)","Contribute the full $20,000 and leave it in the 529 indefinitely","Open a UTMA instead of a 529"],c:1,ex:"The 'cycling money' strategy: contribute to a 529 plan, immediately withdraw to pay qualified expenses, and capture the state tax deduction. Over 30 states allow this with no holding period. Wisconsin, Montana require a holding period; Michigan and Minnesota use net contributions, blocking the strategy."},
+  {u:4,q:"Which of the following states would BLOCK the 529 cycling strategy by requiring funds to remain in the plan for a holding period or by netting contributions against withdrawals?",opts:["Texas and Florida","Wisconsin, Montana, Michigan, Minnesota","California and New York","All states permit cycling"],c:1,ex:"Wisconsin and Montana require a holding period; Michigan and Minnesota calculate state benefits on net contributions (withdrawal in same year offsets deduction). Most other states with a 529 deduction permit cycling without restriction."},
+  {u:4,q:"At what age does the kiddie tax stop applying to a child who is NOT a full-time student?",opts:["Age 18","Age 19","Age 21","Age 24"],c:1,ex:"The kiddie tax applies through age 18 for any child, and through ages 19-23 ONLY if the child is a full-time student. A non-student aged 19+ has unearned income taxed at their own rate."},
+  {u:4,q:"In which scenarios does the kiddie tax NOT apply? (Select all that apply)",opts:["Child is age 24 or older","Child is age 18 and provides more than half of own support","Child files a joint tax return (e.g., is married)","Child is a part-time student aged 19-23"],c:[0,1,2,3],ex:"All four are valid kiddie tax exceptions. The 'over-half support' rule for 18-year-olds and the 'married filing joint' exception are less commonly known but tested. Part-time student status removes the kiddie tax for ages 19-23."},
+  {u:4,q:"A parent under 59½ takes a $10,000 distribution from their Traditional IRA in January 2026 to pay for spring 2026 college tuition. The tuition was actually paid in December 2025 with a credit card. What is the tax consequence?",opts:["Tax-free and penalty-free under the higher education exception","Taxable but penalty-free","Taxable AND subject to the 10% early withdrawal penalty","Tax-free but subject to the 10% penalty"],c:2,ex:"The IRA distribution AND the qualified expense must occur in the SAME tax year for the penalty exception to apply. Mismatching the calendar year disqualifies the exception. To fix: take the distribution in December (same year as the December tuition payment)."},
+  {u:4,q:"Which education funding source is generally NOT reported as an asset on the FAFSA form?",opts:["529 plan owned by parent","UTMA account in child's name","Permanent life insurance cash value","Brokerage account in parent's name"],c:2,ex:"Life insurance cash value is generally not reported as an asset on FAFSA — a key advantage of using permanent life insurance for education savings. However, tax-free withdrawals from the policy generally must be added back as income."},
+  {u:4,q:"Which is true about using employer-sponsored retirement plans (e.g., 401(k)) for higher education expenses?",opts:["The 10% early withdrawal penalty exception applies the same way as IRAs","Funds must first be rolled into a Traditional IRA to qualify for the penalty exception","Both 401(k) and IRA distributions are tax-free for education","401(k) distributions for education are subject to a 5% penalty instead of 10%"],c:1,ex:"The qualified higher education expense exception to the 10% penalty applies ONLY to IRAs (Traditional and Roth). To use this exception with 401(k) funds, the participant must first roll the 401(k) into a Traditional IRA."},
+  {u:4,q:"A child has $3,000 of unearned income room available in their 0% long-term capital gains bracket. What is the MOST tax-efficient strategy for using this room?",opts:["Invest in dividend-paying stocks to generate income","Sell appreciated investments to realize gains at 0%, then optionally repurchase","Buy municipal bonds in the child's account","Wait until age 24 to harvest gains"],c:1,ex:"Annual gain harvesting at the 0% bracket: sell appreciated assets, recognize the gain at 0%, and reset cost basis higher. Unlike loss harvesting, immediate repurchase is allowed (no wash sale rule on gains). This is a free reset of basis."},
+
+  // ===== UNIT 5 ADDITIONS =====
+  {u:5,q:"Which of the following businesses CANNOT issue Qualified Small Business Stock (QSBS) under Section 1202?",opts:["A C-corporation manufacturing software","A C-corporation operating a law firm","A C-corporation building consumer products","A C-corporation in renewable energy"],c:1,ex:"Section 1202 excludes 'qualified service trades or businesses': health, law, engineering, architecture, accounting, financial services, brokerage, consulting, athletics, performing arts, and farming. A law firm is specifically disqualified."},
+  {u:5,q:"Which industries are EXCLUDED from Section 1202 QSBS treatment? (Select all that apply)",opts:["Health services","Law","Engineering and architecture","Software development","Accounting","Financial services","Manufacturing","Farming and agriculture"],c:[0,1,2,4,5,7],ex:"Disqualified industries: Health, Law, Engineering/Architecture, Accounting, Financial Services (incl. brokerage), Farming/Agriculture, plus consulting, athletics, performing arts. Software and manufacturing ARE eligible."},
+  {u:5,q:"A buyer offers to purchase a QSBS-eligible business via an asset sale rather than a stock sale. What is the consequence for the seller?",opts:["The Section 1202 exclusion still applies fully","The Section 1202 exclusion does NOT apply — only stock sales qualify","The exclusion is reduced to 50%","The exclusion applies but is capped at $5 million"],c:1,ex:"Section 1202 exclusion applies ONLY to stock sales, not asset sales. Buyers often prefer asset sales for liability reasons and step-up basis benefits, but sellers may need to negotiate (potentially at a lower price) to preserve QSBS treatment."},
+  {u:5,q:"What is the maximum gross asset value a C-corporation can have at the time of QSBS issuance to qualify under Section 1202?",opts:["$10 million","$25 million","$50 million ($75 million for stock issued after 2025)","$100 million"],c:2,ex:"The corporation's aggregate gross assets must not exceed $50 million at issuance ($75M for stock issued after 2025). This limit applies both before and immediately after stock issuance. Above this threshold, QSBS treatment is lost."},
+  {u:5,q:"Section 1202 anti-churning rules can revoke QSBS treatment if the corporation:",opts:["Issues new shares to existing shareholders","Pays a regular dividend to QSBS holders","Repurchases stock from the QSBS holder or related parties within specific timeframes","Hires more than 100 employees"],c:2,ex:"Anti-churning rules: if the corporation redeems stock from the QSBS holder or related parties within certain windows, QSBS status is revoked. De minimis redemptions and redemptions from regular employees are exempted."},
+  {u:5,q:"A small business owner with a sole proprietorship hires their 16-year-old child to do legitimate work for $12,000/year. What is the tax treatment?",opts:["Wages subject to FICA and FUTA, fully taxable to the child","No FICA, no FUTA, and child's wages likely fully shielded by the standard deduction","FICA applies but FUTA does not","Wages are not deductible to the parent"],c:1,ex:"For sole proprietorships and partnerships where only the parents are partners: wages paid to children under 18 are exempt from BOTH FICA and FUTA. The $12,000 wage is fully deductible to the parent. The child's standard deduction (~$15K) shields the entire amount from federal income tax."},
+  {u:5,q:"Why does the FICA/FUTA exemption for employing one's children NOT apply when the family business is structured as an S-Corporation?",opts:["The exemption only applies to LLCs","The exemption is statutorily limited to sole proprietorships and parent-only partnerships","S-Corps have a separate exemption that's larger","The IRS does not allow children to be employed by S-Corps"],c:1,ex:"The FICA/FUTA exemption for children under 18 is statutorily limited to sole proprietorships and partnerships where the only partners are the child's parents. S-Corps and C-Corps must pay these taxes on children's wages, eroding the strategy's value."},
+  {u:5,q:"A sole proprietor employs their spouse. Which of the following is a real benefit of this arrangement? (Select all that apply)",opts:["Direct income tax savings via income splitting","Spouse can participate in employer retirement plan (e.g., 401(k))","Wages paid to spouse are exempt from FUTA","Health Reimbursement Arrangements (HRAs) can convert family medical expenses into deductible business expenses","Employment expenses (spouse's cell phone, business travel) become deductible"],c:[1,2,3,4],ex:"Hiring a spouse does NOT directly save income tax (joint filers report combined income). Real benefits: retirement plan participation, FUTA exemption on spouse wages, HRA deductibility for medical expenses (sole prop/partnership/C-Corp — NOT S-Corp), and converting personal expenses to business deductions."},
+  {u:5,q:"Which entity type CANNOT use a Health Reimbursement Arrangement (HRA) to deduct family medical expenses through a spouse-employee?",opts:["Sole proprietorship","Partnership","C-Corporation","S-Corporation"],c:3,ex:"S-Corporations are specifically disallowed from establishing HRAs that benefit owner-employees and their families. Sole props, partnerships, and C-Corps can do this. This is a common reason a small business might choose NOT to elect S-Corp status."},
+  {u:5,q:"Which forms of compensation can an S-Corporation pay to its owner that are EXEMPT from Social Security and Medicare taxes? (Select all that apply)",opts:["Health insurance premiums (if no other employer coverage)","Cash wages","HSA contributions made by the business","Disability insurance premiums","401(k) employer match"],c:[0,2,3],ex:"Health insurance premiums, business-paid HSA contributions, and disability insurance premiums to S-Corp owners are exempt from FICA/Medicare. Cash wages are subject to FICA/Medicare. 401(k) employer matches go in pre-tax but are still considered compensation; they don't avoid employment taxes the way these benefits do."},
+  {u:5,q:"What are the THREE requirements for an S-Corp accountable plan?",opts:["Business connection, timely substantiation, and repayment of excess advances","IRS approval, written contract, and CPA certification","Equal treatment of all employees, board approval, and annual audit","Income limit, asset test, and entity classification"],c:0,ex:"Accountable plan requirements: (1) Business connection — expenses must be business-related; (2) Timely substantiation — properly documented with receipts; (3) Repayment of excess advances. Unlike many employee benefit plans, accountable plans have NO non-discrimination rules — the owner can have a plan exclusively for themselves."},
+  {u:5,q:"A minority shareholder owns 25% of an S-Corporation that earns $2 million in profit. The majority owner decides to retain all profits in the business and make no distributions. What is the minority shareholder's tax situation?",opts:["No tax owed since no distribution was made","Tax owed only when shares are sold","Must report $500,000 of income on personal return despite receiving no cash — phantom income","Receives a 1099-DIV for $500,000"],c:2,ex:"Pass-through entities tax shareholders on their share of income regardless of distributions. The minority shareholder must report $500K of income with potentially $200K+ in tax — but received NO cash. This 'phantom income' problem is a critical reason to negotiate mandatory distribution provisions in shareholder agreements."},
+  {u:5,q:"A small business owner aged 58 wants to maximize annual retirement contributions, even at high administrative cost. Which plan allows the LARGEST annual contributions?",opts:["SIMPLE IRA","401(k) with profit-sharing","SEP IRA","Defined Benefit Plan"],c:3,ex:"Defined Benefit Plans allow contributions calculated to fund a promised retirement benefit. For owners in their 50s-60s, this can exceed $200,000 annually — far above 401(k)/profit-sharing limits ($66K combined). The tradeoff: high admin cost, actuarial requirements, mandatory ongoing contributions."},
+  {u:5,q:"Which retirement plan REQUIRES the employer to contribute to all eligible employees, with mandatory contribution levels?",opts:["SEP IRA","SIMPLE IRA","Solo 401(k)","All of the above"],c:1,ex:"SIMPLE IRA REQUIRES employer contributions: either 2% of comp for ALL eligible employees OR 3% match for those who contribute. SEP IRAs are flexible (employer can choose to contribute or not) but if they do, must be uniform. 401(k) employer contributions are entirely optional."},
+  {u:5,q:"A small business buys $80,000 of office equipment. Which depreciation method has NO upper limit on the deduction amount and CAN create a Net Operating Loss?",opts:["Straight-line depreciation","Section 179","Bonus depreciation","Cost segregation"],c:2,ex:"Bonus depreciation has no annual cap and CAN reduce taxable income below zero (creating an NOL). Section 179 has annual limits and CANNOT create an NOL. Bonus depreciation is phasing down annually toward 0% by 2027."},
+  {u:5,q:"A real estate investor buys a $10 million commercial property. They have a cost segregation study performed. What is the primary tax benefit?",opts:["Eliminates depreciation recapture at sale","Reallocates components to shorter depreciation schedules (5, 7, 15 yrs) for accelerated deductions","Allows the entire property to be expensed via Section 179","Converts ordinary income to capital gains"],c:1,ex:"Cost segregation studies break down a building into components — light fixtures, carpets (5-year), parking lots, landscaping (15-year), versus the building itself (39-year). Components on shorter schedules generate accelerated depreciation, improving early-year cash flow."},
+  {u:5,q:"An S-Corporation owner is tempted to set their salary at $0 to maximize profits (which qualify for QBI). What is the IRS requirement?",opts:["S-Corp owners can set any salary they want","Owners must pay themselves 'reasonable compensation' for services performed","Owners must pay at least 50% of business profit as wages","Owners must pay at least the federal minimum wage"],c:1,ex:"The IRS requires S-Corp owners to pay 'reasonable compensation' for services performed. Factors: comparable industry pay, role, skills/experience, geographical market, formal compensation agreements. Setting wages too low to avoid FICA is a common audit trigger."},
+
+  // ===== UNIT 6 ADDITIONS =====
+  {u:6,q:"An employee with ISOs leaves the company to take a new job. How long do they typically have to exercise their vested ISOs before they convert to NQSOs?",opts:["30 days","60 days","90 days","180 days"],c:2,ex:"After separation from service, employees generally have 90 days to exercise their vested ISOs. After 90 days, ISOs convert to NQSOs and lose their favorable tax treatment (no AMT, no qualifying disposition path)."},
+  {u:6,q:"How long after the grant date do ISOs typically expire?",opts:["5 years","7 years","10 years","20 years"],c:2,ex:"ISOs typically expire 10 years after the grant date. Waiting too long forces a large exercise at expiration, potentially triggering a major AMT event. Spreading exercises across multiple years before expiration is a common AMT mitigation strategy."},
+  {u:6,q:"Counterintuitively, when does it make sense to exercise ISOs to MINIMIZE AMT exposure?",opts:["In a low-income year","In a high-income year (large bonus, RSU vesting, NQSO exercise, big cap gains)","Only in years with no other income events","Right before retirement"],c:1,ex:"In high-income years, regular tax (top rate 37%) significantly exceeds AMT rate (28%). The 'gap' between regular tax and AMT can absorb the ISO bargain element without actually triggering additional AMT. Counterintuitive but powerful strategy."},
+  {u:6,q:"In the 'Heads I Win, Tails You Lose' ISO strategy, what does the employee do if the stock PRICE DROPS after exercise?",opts:["Hold and hope it recovers","Sell before December 31 of the exercise year — creates a disqualifying disposition and ELIMINATES AMT","Make an 83(b) election","File for AMT credit refund"],c:1,ex:"If the stock drops, sell in the SAME calendar year as exercise — this creates a disqualifying disposition. The bargain element becomes ordinary income on the W-2, but AMT is avoided entirely (because exercise + sale in same year). Brilliant escape valve."},
+  {u:6,q:"What is the maximum FMV (at grant) of ISOs that can become exercisable for one employee in a single calendar year?",opts:["$50,000","$100,000","$250,000","$500,000"],c:1,ex:"The annual ISO exercise limit is $100,000 based on FMV at grant date. ISOs exceeding this $100K threshold automatically convert to NQSOs for that year, losing favorable ISO tax treatment."},
+  {u:6,q:"The 83(i) election (introduced by TCJA 2017) allows qualifying employees to defer income tax on RSUs of non-public stock for up to:",opts:["1 year","3 years","5 years","10 years"],c:2,ex:"The 83(i) election defers income tax on qualifying RSUs/NQSOs of non-publicly traded stock for up to 5 years. Designed to address the liquidity crunch when private company RSUs vest but employees can't sell shares to pay taxes."},
+  {u:6,q:"Which employees are EXCLUDED from making an 83(i) election? (Select all that apply)",opts:["Top executives (CEO, CFO)","Family members of top executives","Highly compensated officers (top four in past 10 years)","1% owners (current or in past 10 years)","Employees with under 5 years of service"],c:[0,1,2,3],ex:"83(i) is restricted to rank-and-file employees. Excluded: top executives, their family members, highly compensated officers (top 4 in past 10 years), and 1% owners (current or past 10 years). Years of service is not a disqualifier."},
+  {u:6,q:"What is one of the EMPLOYER requirements for the 83(i) election to be available?",opts:["The company must be publicly traded","The company must offer the equity grants to at least 80% of its employees","The company must have at least 100 employees","The company must be a C-Corporation"],c:1,ex:"For 83(i) to be available, the company must offer RSUs or stock options to at least 80% of its employees. Many companies opt out because they prefer to take their tax deduction immediately rather than wait for the employee's later income inclusion."},
+  {u:6,q:"A privately held company issues RSUs that have a single time-based vesting trigger. The shares vest at $1M FMV but cannot be sold (no public market). What problem does this create?",opts:["No tax problem since stock isn't liquid","Liquidity crunch — employee owes ~$400K in tax with no cash to pay","The RSUs are voided","Tax deferral until IPO is automatic"],c:1,ex:"Single-trigger RSUs create immediate ordinary income tax at vesting based on FMV — even if shares cannot be sold. A $1M vest at 40% rate = $400K tax bill with no cash. Solution: companies often use 'double-trigger' RSUs (time + liquidity event)."},
+  {u:6,q:"What ARE the two triggers in a 'double-trigger' RSU?",opts:["Time-based vesting AND board approval","Time-based vesting AND a liquidity event (IPO, acquisition)","Performance milestone AND time vesting","CEO approval AND audit completion"],c:1,ex:"Double-trigger RSUs require BOTH (1) time-based vesting AND (2) a liquidity event such as IPO or acquisition. This delays the taxable event until shares are actually sellable, solving the liquidity-vs-tax problem of single-trigger private RSUs."},
+  {u:6,q:"For NQDC distributions to escape state tax in the state where income was earned (e.g., California) and instead be taxed only in the state of residence (e.g., Texas), what is required?",opts:["The participant must move within 6 months of retirement","The distributions must be paid over 10 or more years","The participant must elect a lump-sum distribution","The plan must be sponsored by a public company"],c:1,ex:"The 10-year rule: NQDC distributions paid over 10+ years are taxed only in the state of residence at distribution (mirroring qualified plans). Distributions over fewer years can be taxed by the state where income was earned/deferred — even after the participant moves."},
+  {u:6,q:"To delay an NQDC distribution that's already been elected, the request must be made:",opts:["Anytime before the distribution date","At least 1 year before the original date, with a new date at least 5 years later","At least 6 months before the distribution","Not allowed once elected"],c:1,ex:"Section 409A delay rules: (1) request must be made at least 1 year BEFORE the original distribution date, AND (2) the new date must be at least 5 years LATER than the original. So delays effectively require at least a 6-year wait from current decision."},
+  {u:6,q:"What is the penalty for a Section 409A violation in an NQDC plan?",opts:["A flat $1,000 fine","Loss of the deferral for that year only","ALL deferred compensation immediately taxable + 20% penalty + interest","Disqualification from future deferrals"],c:2,ex:"Section 409A violations are severe: ALL deferred compensation (across all years) becomes immediately taxable, plus a 20% federal penalty, plus interest. This makes 409A compliance critical and is why distribution elections must be made carefully and locked in upfront."},
+  {u:6,q:"NQDC lump-sum distributions differ from 401(k) lump-sum distributions in that:",opts:["NQDC lump sums can be rolled to an IRA, 401(k) cannot","NQDC lump sums CANNOT be rolled to an IRA — entire amount is taxable in year received","Both can be rolled to IRAs","Neither can be rolled, but both are tax-free"],c:1,ex:"NQDC lump sums CANNOT be rolled into IRAs or other tax-advantaged accounts. The full amount is taxable in the year received, potentially pushing the participant into a much higher tax bracket. 401(k) lump sums CAN be rolled tax-free to an IRA."},
+  {u:6,q:"What is the AMT credit, in the context of ISO exercise?",opts:["A refundable credit issued the year of ISO exercise","A non-transferable credit that offsets future regular tax in years AMT is not triggered","A credit that reduces the bargain element","A credit equal to 50% of AMT paid"],c:1,ex:"When AMT is paid on ISO exercise, the IRS recognizes this is a timing difference — eventually the gain is taxed under regular tax at sale. The AMT credit prevents double taxation by offsetting regular tax in future years when AMT is not triggered. Tracking and using AMT credits is critical to ISO planning."}
+
 ];
 
 const CARDS = [
@@ -1137,6 +1184,33 @@ const CARDS = [
   {u:6,t:"NQSOs",q:"NQSO tax treatment vs. ISOs",a:'<strong>NQSO at exercise:</strong> Ordinary income (FMV − strike) = W-2 income, FICA + Medicare taxable. NO AMT risk.<br><br><strong>ISO at exercise:</strong> No regular income tax, but bargain element = AMT preference item.<br><br>After exercise, both have LTCG clock starting at exercise date.'},
   {u:6,t:"NQDC",q:"NQDC 10-year state tax rule",a:'Normally: state where income was EARNED at deferral can tax distributions — even if client moved.<br><br><strong>Exception:</strong> Distributions paid over 10+ years → only state of RESIDENCE at distribution can tax.<br><div class="tip">Classic: Defer in CA, retire to TX, structure 10+ year distributions = zero CA state tax</div>'},
   {u:6,t:"NQDC",q:"Section 409A penalties and distribution rules",a:'<strong>Delay rule:</strong> Request must be made 1 year before original date; new date must be 5+ years later.<br><br><strong>409A violations:</strong> ALL deferred compensation immediately taxable + 20% penalty + interest.<br><br><strong>Permissible triggers:</strong> Separation from service, disability, death, unforeseeable emergency, change in control, specified date.'}
+  ,
+  // ===== UNIT 4 ADDITIONS =====
+  {u:4,t:"529 Cycling",q:"What is the '529 Cycling' strategy and which states block it?",a:'<strong>Strategy:</strong> Contribute to 529 → immediately withdraw to pay qualified expenses → capture state tax deduction. No long-term parking required.<br><br><strong>Blocked in 4 states:</strong><br>• <strong>Wisconsin, Montana</strong> — require holding period<br>• <strong>Michigan, Minnesota</strong> — net contribution accounting (offsets the deduction)<br><div class="tip">Most states with a 529 deduction permit cycling. Even modest annual savings ($300-500) compound over years of education expenses.</div>'},
+  {u:4,t:"Kiddie Tax",q:"List the 5 ways to ESCAPE the kiddie tax",a:'1. <strong>Age 24+:</strong> Always exempt<br>2. <strong>Ages 19-23 + NOT full-time student:</strong> Exempt<br>3. <strong>Age 18 + provides &gt;half own support:</strong> Exempt<br>4. <strong>Married, files joint return:</strong> Exempt (rare)<br>5. <strong>Earned income (wages):</strong> Always taxed at child\'s rate, no kiddie tax<br><div class="tip">Kiddie tax applies to UNEARNED income only. Wages from working in family business avoid it entirely.</div>'},
+  {u:4,t:"IRA for Education",q:"What is the 'spring semester timing trap' with IRA distributions for education?",a:'IRA distribution AND qualified expense must occur in the <strong>SAME tax year</strong> for the 10% penalty exception.<br><br><strong>Trap:</strong> Pay tuition Dec 2025 with credit card → take IRA distribution Jan 2026 = 10% penalty applies.<br><br><strong>Fix:</strong> Take the IRA distribution in the same year as the tuition payment.<br><div class="tip">Also: 401(k) distributions for education do NOT qualify for the penalty exception. Roll to a Traditional IRA first.</div>'},
+  {u:4,t:"Education Funding",q:"FAFSA treatment of life insurance vs. UTMA vs. brokerage vs. 529",a:'<table style="width:100%;font-size:13px;border-collapse:collapse"><tr><td><strong>Life insurance cash value</strong></td><td style="color:#3B6D11">NOT counted as asset</td></tr><tr><td><strong>529 (parent-owned)</strong></td><td style="color:#185FA5">5.64% rate (low)</td></tr><tr><td><strong>Brokerage (parent)</strong></td><td style="color:#185FA5">5.64% rate</td></tr><tr><td><strong>UTMA (student)</strong></td><td style="color:#A32D2D">20% rate (high)</td></tr></table><br><div class="tip">Life insurance is the only asset NOT reported. But policy loans for education don\'t need to be reported on FAFSA; tax-free withdrawals generally must be added back.</div>'},
+
+  // ===== UNIT 5 ADDITIONS =====
+  {u:5,t:"QSBS Disqualified",q:"Which industries are EXCLUDED from Section 1202 QSBS?",a:'<strong>Disqualified service businesses:</strong><br>• Health services<br>• Law<br>• Engineering and architecture<br>• Accounting<br>• Financial services (incl. brokerage)<br>• Consulting<br>• Athletics, performing arts<br>• Farming and agriculture<br><br><strong>Eligible:</strong> Software, manufacturing, retail, tech, consumer products, most non-service businesses<br><div class="tip">If a business is on the disqualified list, NO Section 1202 exclusion regardless of meeting other tests.</div>'},
+  {u:5,t:"QSBS Stock Sale",q:"Section 1202 only applies to stock sales — what does this mean for negotiations?",a:'Section 1202 exclusion applies <strong>ONLY to stock sales</strong>, NOT asset sales.<br><br><strong>Conflict:</strong> Buyers prefer asset sales (limit liability, get step-up basis on assets).<br><br><strong>Seller strategy:</strong> May need to negotiate a stock sale, potentially accepting a lower price, to preserve the QSBS gain exclusion.<br><div class="tip">Anti-churning rules: corp buying back shares from QSBS holder within certain windows can REVOKE QSBS treatment.</div>'},
+  {u:5,t:"Employing Children",q:"FICA/FUTA exemption for hiring your children — when does it apply?",a:'<strong>Exemption applies to:</strong><br>• Sole proprietorships<br>• Partnerships where ONLY parents are partners<br><br><strong>Under age 18:</strong> NO FICA, NO FUTA<br><strong>Ages 18-20:</strong> FICA applies, NO FUTA<br><strong>Age 21+:</strong> Both apply<br><br><strong>NOT available:</strong> S-Corps, C-Corps, partnerships with non-parent partners<br><div class="tip">Pay child up to standard deduction (~$15K) → 0% income tax + no employment taxes + parent gets full deduction.</div>'},
+  {u:5,t:"Employing Spouse",q:"Real benefits of employing your spouse — and what entity types can use HRAs?",a:'<strong>NO direct income tax savings</strong> (joint filers).<br><br><strong>Real benefits:</strong><br>• Spouse joins employer retirement plan<br>• Wages exempt from FUTA<br>• Personal expenses become deductible (cell, travel)<br>• <strong>HRAs convert family medical expenses to deductible business expenses</strong><br><br><strong>HRA eligible entities:</strong> Sole prop, partnership, C-Corp<br><strong>HRA NOT allowed:</strong> S-Corp<br><div class="tip">HRA via spouse is one of the strongest reasons NOT to elect S-Corp for some small businesses.</div>'},
+  {u:5,t:"S-Corp Comp",q:"S-Corp non-cash compensation that AVOIDS FICA/Medicare",a:'These benefits paid by S-Corp count as comp but are exempt from FICA/Medicare:<br><br>• <strong>Health insurance premiums</strong> (if no other employer coverage)<br>• <strong>HSA contributions</strong> made by the business<br>• <strong>Disability insurance premiums</strong><br><br><strong>Not exempt:</strong> Cash wages, regular bonuses, 401(k) employer match<br><div class="tip">Critical strategy for S-Corp owners: pay reasonable cash wage + max out these FICA-exempt benefits.</div>'},
+  {u:5,t:"Accountable Plan",q:"S-Corp Accountable Plan — 3 requirements",a:'1. <strong>Business connection:</strong> expenses directly related to business<br>2. <strong>Timely substantiation:</strong> properly documented (receipts)<br>3. <strong>Repayment of excess advances:</strong> overpayments returned<br><br><strong>Tax effect:</strong> Reimbursement is non-taxable to owner; business gets a deduction.<br><br><strong>Common reimbursements:</strong> Home office, auto expenses, business meals on personal cards.<br><div class="tip">No non-discrimination rules — owner can have a plan exclusively for themselves. Powerful S-Corp tool.</div>'},
+  {u:5,t:"Phantom Income",q:"Minority S-Corp shareholder phantom income trap",a:'S-Corp profits flow to all shareholders pro rata <strong>regardless of distributions</strong>.<br><br><strong>Trap:</strong> 25% minority owner of S-Corp earning $2M profit reports $500K of income — but if majority owner doesn\'t distribute, the minority owner has no cash to pay $200K+ in tax.<br><br><strong>Protection:</strong> Negotiate shareholder agreement requiring minimum % of profits to be distributed annually.<div class="tip">A common reason minority S-Corp investments go bad — even profitable companies create cash-strapped tax bills.</div>'},
+  {u:5,t:"Retirement Plans",q:"Small business retirement plan comparison — when to use which?",a:'<table style="width:100%;font-size:12px;border-collapse:collapse"><tr><td><strong>SIMPLE IRA</strong></td><td>Mandatory employer 2% or 3% match · simple · low admin</td></tr><tr><td><strong>SEP IRA</strong></td><td>Up to 25% comp · employer-only · uniform across employees</td></tr><tr><td><strong>401(k)</strong></td><td>Employee deferral + optional match · high limits · nondiscrim testing</td></tr><tr><td><strong>Profit-sharing</strong></td><td>Up to 25% payroll · combine with 401(k) · flexible</td></tr><tr><td><strong>Defined Benefit</strong></td><td>$200K+ for older owners · high admin · actuarial</td></tr></table><div class="tip">Owner aged 55+ wanting to maximize savings → DB Plan. Solo owner / no employees → Solo 401(k) or SEP.</div>'},
+  {u:5,t:"Depreciation",q:"Section 179 vs. Bonus Depreciation key differences",a:'<table style="width:100%;font-size:12px;border-collapse:collapse"><tr><td></td><td><strong>§179</strong></td><td><strong>Bonus</strong></td></tr><tr><td>Cap?</td><td>Annual limit + phaseout</td><td>No cap</td></tr><tr><td>Can create NOL?</td><td>NO</td><td>YES</td></tr><tr><td>Eligible</td><td>Non-real-estate equip</td><td>Property w/ ≤20 yr recovery</td></tr><tr><td>Status</td><td>Permanent</td><td>Phasing out by 2027</td></tr></table><div class="tip">Cost segregation studies break commercial real estate into shorter-life components (5/7/15-yr) for accelerated depreciation.</div>'},
+
+  // ===== UNIT 6 ADDITIONS =====
+  {u:6,t:"ISO Separation",q:"What happens to ISOs when you leave the company?",a:'After separation from service: <strong>90 days to exercise</strong> vested ISOs.<br><br>After 90 days → ISOs convert to <strong>NQSOs</strong> and lose favorable tax treatment forever.<br><br><strong>Also:</strong> ISOs typically expire 10 years after grant date, regardless of employment.<br><div class="tip">Key planning: don\'t accidentally let ISOs convert by missing the 90-day post-separation window. ISO → NQSO conversion is irreversible.</div>'},
+  {u:6,t:"ISO AMT Strategy",q:"Why is exercising ISOs in a HIGH-income year often best for AMT?",a:'Counterintuitive: exercise ISOs when regular income is HIGH.<br><br><strong>Why it works:</strong><br>• Top regular tax rate: 37%<br>• Top AMT rate: 28%<br>• If regular tax &gt; AMT, you pay regular tax — AMT doesn\'t apply<br>• Big income year creates a "buffer" that absorbs the bargain element<br><br><strong>Big income events:</strong> Bonus, RSU vest, NQSO exercise, large cap gains<div class="tip">The opposite is true for NQSOs — exercise NQSOs in LOW-income years to minimize the ordinary income hit.</div>'},
+  {u:6,t:"Heads I Win",q:"Explain the 'Heads I Win, Tails You Lose' early-year ISO exercise strategy",a:'<strong>Exercise ISOs early in calendar year</strong>, then watch the stock:<br><br><strong>If stock DROPS:</strong> Sell before Dec 31 → disqualifying disposition. Bargain element = ordinary income on W-2, but <strong>AMT eliminated</strong> (exercise + sale in same year).<br><br><strong>If stock RISES:</strong> Hold &gt;1 year from exercise → qualifying disposition → LTCG treatment.<br><div class="tip">Either outcome is good. Worst-case: avoid AMT. Best-case: long-term capital gains. Why it pays to exercise early in the year — gives you Dec 31 deadline to choose.</div>'},
+  {u:6,t:"83(i) Election",q:"What is the 83(i) election and who CAN'T use it?",a:'TCJA 2017 introduction. Allows qualifying employees to defer income tax on RSUs/NQSOs of <strong>non-publicly traded stock for up to 5 years</strong>.<br><br><strong>EXCLUDED employees:</strong><br>• Top execs (CEO, CFO)<br>• Family members of top execs<br>• Highly comp officers (top 4 in past 10 yrs)<br>• 1% owners (current or past 10 yrs)<br><br><strong>Employer requirement:</strong> Must offer to ≥80% of employees<br><div class="tip">Many companies opt out — they prefer their immediate tax deduction over waiting for employee inclusion. Limited practical adoption.</div>'},
+  {u:6,t:"Single vs Double",q:"Single-trigger vs. Double-trigger RSUs",a:'<strong>Single-trigger:</strong> Time-based vesting only. Tax due at vest = ordinary income on FMV. PROBLEM in private companies — owe tax with no liquid stock to sell.<br><br><strong>Double-trigger:</strong> Two conditions required:<br>1. Time-based vesting<br>2. Liquidity event (IPO, acquisition)<br><br>Tax event delayed until shares are actually sellable.<br><div class="tip">Most private company RSUs use double-trigger to solve the liquidity-vs-tax mismatch. "Vested ≠ Delivered" — tax event is delivery date.</div>'},
+  {u:6,t:"NQDC 409A",q:"NQDC Section 409A delay rules and penalty",a:'<strong>To delay a distribution:</strong><br>1. Request must be made <strong>≥ 1 year BEFORE</strong> the original date<br>2. New date must be <strong>≥ 5 years LATER</strong> than original<br>(So minimum delay decision is ~6 years out)<br><br><strong>Violation penalty:</strong> ALL deferred comp immediately taxable + <strong>20% federal penalty</strong> + interest.<br><div class="tip">Distribution election made AT plan establishment, generally irrevocable. Cannot roll NQDC lump sums to IRA — fully taxable in year received.</div>'},
+  {u:6,t:"AMT Credit",q:"How does the AMT Credit recover ISO double taxation?",a:'When AMT is paid on ISO exercise, the bargain element is taxed under both AMT (now) AND regular tax (later, at sale).<br><br><strong>AMT Credit prevents double taxation:</strong><br>• Tracks AMT paid on the bargain element<br>• Credit offsets regular tax in <strong>future years when AMT is NOT triggered</strong><br>• Effectively a timing-only difference, not extra tax<br><br><strong>Strategy:</strong> Track AMT credits closely. Plan future exercises to maximize use of accumulated credits.<div class="tip">Without using the credit, you\'d pay tax twice on the same gain. CPAs use Form 8801 to track and apply.</div>'}
+
 ];
 
 const SHEET = [
@@ -1423,7 +1497,60 @@ const SHEET = [
         <li class="green">Does NOT need to be held to maturity</li>
       </ul>
     </div>
-    <div class="cs-examtip"><strong>⚡ EXAM TIPS:</strong> (1) Half-time enrollment = AOTC only, not LLC. (2) UTMA = 20% FAFSA rate (student asset). 529 = 5.64% (parental asset). This gap is massive for financial aid. (3) Roth IRA distributions count as FAFSA income even if tax and penalty-free — frequently tested. (4) 529 contributions are NOT federally tax-deductible (state deductions vary).</div>
+    <div class="cs-row">
+      <div class="cs-label">529 "Cycling Money" Strategy</div>
+      <div class="cs-title">Capture state tax deduction with no long-term parking</div>
+      <ul class="cs-bullets">
+        <li><strong>Mechanic:</strong> Contribute to 529 → immediately withdraw → pay qualified expense → claim state deduction</li>
+        <li>Works in 30+ states with no holding period requirement</li>
+        <li>Modest annual deduction × 10+ years of education = real money</li>
+      </ul>
+      <div class="cs-trap"><strong>Blocked in 4 states:</strong> Wisconsin and Montana (require holding period). Michigan and Minnesota (net contribution accounting — same-year withdrawal offsets deduction).</div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">5 Ways to Escape the Kiddie Tax</div>
+      <ol class="cs-steps">
+        <li data-n="1"><strong>Age 24+:</strong> Always exempt</li>
+        <li data-n="2"><strong>Ages 19-23 + NOT a full-time student:</strong> Exempt</li>
+        <li data-n="3"><strong>Age 18 + provides &gt;half own support:</strong> Exempt</li>
+        <li data-n="4"><strong>Married, files joint return:</strong> Exempt (rare)</li>
+        <li data-n="5"><strong>Earned income (wages) only:</strong> Always taxed at child's rate</li>
+      </ol>
+      <div class="cs-tip"><strong>Kiddie tax is on UNEARNED income only.</strong> Wages from working in a parent's business avoid it entirely. Use this with the children-employment strategy from Unit 5.</div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">Kiddie Tax — Annual 0% Bracket Gain Harvesting</div>
+      <ul class="cs-bullets">
+        <li>Each year, identify the child's available room in 0% LTCG bracket</li>
+        <li>Sell appreciated assets up to that amount → recognize gain at <strong>0%</strong></li>
+        <li><strong>Optionally repurchase immediately</strong> — no wash-sale rule on gains</li>
+        <li>Resets cost basis higher → reduces future tax</li>
+      </ul>
+      <div class="cs-tip"><strong>Free reset:</strong> Unlike loss harvesting, gain harvesting + immediate repurchase is fully allowed. Done annually, this can shield significant lifetime growth from future tax.</div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">Spring Semester IRA Timing Trap</div>
+      <ul class="cs-bullets">
+        <li class="red">IRA distribution AND qualified expense MUST occur in the <strong>same tax year</strong></li>
+        <li>Pay tuition Dec 2025 with credit card → take IRA distribution Jan 2026 = <strong>penalty applies</strong></li>
+        <li>Fix: take the IRA distribution in the SAME calendar year as the tuition payment</li>
+      </ul>
+      <div class="cs-trap"><strong>401(k) does NOT qualify</strong> for the higher-education penalty exception. Roll to a Traditional IRA first if needed.</div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">Education Funding Sources — FAFSA Treatment</div>
+      <table class="cs-compare">
+        <tr><th>Source</th><th>FAFSA Asset</th><th>Tax</th><th>Best For</th></tr>
+        <tr><td>529 (parent)</td><td>5.64% rate</td><td>Tax-free if qualified</td><td>Standard tool</td></tr>
+        <tr><td>UTMA (student)</td><td>20% rate</td><td>Earnings taxable</td><td>Non-education uses, no aid concern</td></tr>
+        <tr><td>Brokerage (parent)</td><td>5.64% rate</td><td>Cap gains</td><td>Flexibility, no use restriction</td></tr>
+        <tr><td>Permanent life ins.</td><td><strong>NOT counted</strong></td><td>Loans tax-free if structured</td><td>HNW + multi-purpose</td></tr>
+        <tr><td>Roth IRA balance</td><td>NOT counted</td><td>Earnings taxable before 59½</td><td>Education + retirement flex</td></tr>
+        <tr><td>Roth IRA dist.</td><td>Counts as INCOME</td><td>Penalty-free for ed</td><td>Use cautiously</td></tr>
+      </table>
+      <div class="cs-trap"><strong>Roth distributions count as FAFSA income</strong> even if tax-free. Can reduce next year's aid.</div>
+    </div>
+    <div class="cs-examtip"><strong>⚡ EXAM TIPS:</strong> (1) Half-time enrollment = AOTC only, not LLC. (2) UTMA = 20% FAFSA rate (student asset). 529 = 5.64% (parental asset). (3) Roth IRA distributions count as FAFSA income even if tax and penalty-free. (4) 529 contributions are NOT federally tax-deductible (state deductions vary). (5) 529 cycling blocked in WI/MT/MI/MN. (6) IRA distribution + ed expense must match calendar year — common trap.</div>
   `},
   {u:"Unit 5", t:"Small Business Tax", html:`
     <div class="cs-row">
@@ -1468,7 +1595,97 @@ const SHEET = [
         <li class="gold"><strong>Depreciation timing:</strong> Accelerate if expecting lower future rates or near QBI phaseout. Delay if expecting substantially higher future rates.</li>
       </ul>
     </div>
-    <div class="cs-examtip"><strong>⚡ EXAM TIPS:</strong> (1) QBI ≠ reduces AGI. It's a below-the-line deduction. (2) Non-SSTB above phaseout: fix with more W-2 wages (hire contractors as employees). (3) SSTB above phaseout: only path is reducing taxable income — W-2/property tests are irrelevant for SSTBs. (4) Simplified home office = flat $5/sqft, NOT a percentage of anything.</div>
+    <div class="cs-row">
+      <div class="cs-label">QSBS §1202 — Disqualified Industries</div>
+      <div class="cs-title">If a business is on this list, NO §1202 exclusion regardless of other tests</div>
+      <div class="cs-pills">
+        <span class="cs-pill red">Health services</span>
+        <span class="cs-pill red">Law</span>
+        <span class="cs-pill red">Engineering / architecture</span>
+        <span class="cs-pill red">Accounting</span>
+        <span class="cs-pill red">Financial services</span>
+        <span class="cs-pill red">Consulting</span>
+        <span class="cs-pill red">Athletics, performing arts</span>
+        <span class="cs-pill red">Farming and agriculture</span>
+      </div>
+      <div class="cs-note" style="margin-top:8px"><strong>Eligible:</strong> Software, manufacturing, retail, tech, consumer products, most non-service businesses.</div>
+      <div class="cs-trap"><strong>Stock sale ONLY:</strong> §1202 doesn't apply to asset sales. Sellers may need to negotiate a stock sale (potentially at lower price) to preserve QSBS. <strong>Anti-churning rules:</strong> Corp redeeming shares from QSBS holder within certain windows can revoke QSBS treatment.</div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">Employing Children — FICA/FUTA Exemption</div>
+      <table class="cs-compare">
+        <tr><th>Entity Type</th><th>Under 18</th><th>18-20</th><th>21+</th></tr>
+        <tr><td>Sole prop / parent-only partnership</td><td class="green">No FICA, no FUTA</td><td>FICA, no FUTA</td><td>Both apply</td></tr>
+        <tr><td>S-Corp / C-Corp / other partnership</td><td class="red">Both apply</td><td class="red">Both apply</td><td>Both apply</td></tr>
+      </table>
+      <div class="cs-tip"><strong>Strategy:</strong> Pay child up to standard deduction (~$15K) → 0% income tax + no employment taxes (if eligible entity) + parent gets full deduction. Child can also fund Roth IRA on earned income.</div>
+      <div class="cs-trap">Earned income is NOT subject to kiddie tax — it's always taxed at child's own rate. Bonus reason to use this strategy.</div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">Employing Spouse — Real Benefits</div>
+      <ul class="cs-bullets">
+        <li class="red"><strong>NO direct income tax savings</strong> (joint filers report combined income)</li>
+        <li class="green"><strong>Spouse joins employer retirement plan</strong> (deferrals + match)</li>
+        <li class="green"><strong>FUTA exemption</strong> on spouse wages</li>
+        <li class="green"><strong>HRA</strong> can convert family medical expenses to deductible business expenses</li>
+        <li class="green">Personal expenses become deductible (cell phone, business travel)</li>
+      </ul>
+      <div class="cs-trap"><strong>HRA NOT allowed in S-Corps.</strong> Available to sole prop, partnership, C-Corp. The HRA-via-spouse benefit is one reason a small business might choose NOT to elect S-Corp.</div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">S-Corp Compensation — FICA-Exempt Benefits</div>
+      <div class="cs-title">Pay reasonable cash wage + max these benefits</div>
+      <div class="cs-pills">
+        <span class="cs-pill green">Health insurance premiums (no other coverage)</span>
+        <span class="cs-pill green">Business HSA contributions</span>
+        <span class="cs-pill green">Disability insurance premiums</span>
+      </div>
+      <div class="cs-note" style="margin-top:8px"><strong>NOT FICA-exempt:</strong> Cash wages, regular bonuses, 401(k) employer match.</div>
+      <div class="cs-trap"><strong>Reasonable comp requirement:</strong> IRS requires owner pay themselves fair market wages for services performed. Setting wages too low to dodge FICA is a common audit trigger. Factors: industry comp, role, experience, geography, formal agreements.</div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">S-Corp Accountable Plan — 3 Requirements</div>
+      <ol class="cs-steps">
+        <li data-n="1"><strong>Business connection:</strong> expenses directly related to business</li>
+        <li data-n="2"><strong>Timely substantiation:</strong> properly documented (receipts)</li>
+        <li data-n="3"><strong>Repayment of excess advances:</strong> overpayments returned</li>
+      </ol>
+      <div class="cs-tip"><strong>Tax effect:</strong> Reimbursement is non-taxable to owner; business gets a deduction. <strong>Common reimbursements:</strong> Home office, auto, business meals on personal cards. <strong>NO non-discrimination rules</strong> — owner can have a plan exclusively for themselves.</div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">Minority S-Corp Phantom Income Trap</div>
+      <ul class="cs-bullets">
+        <li>S-Corp profits flow to all shareholders <strong>pro rata</strong>, regardless of distributions</li>
+        <li>25% owner of S-Corp earning $2M profit reports $500K of income</li>
+        <li>If majority owner doesn't distribute → minority owner has no cash to pay $200K+ tax</li>
+      </ul>
+      <div class="cs-tip"><strong>Protection:</strong> Negotiate shareholder agreement requiring minimum % of profits to be distributed annually (e.g., 40%) unless all shareholders agree otherwise.</div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">Small Business Retirement Plan Comparison</div>
+      <table class="cs-compare">
+        <tr><th>Plan</th><th>Employee</th><th>Employer</th><th>Combined Limit</th><th>Admin</th></tr>
+        <tr><td>SIMPLE IRA</td><td>~$15.5K + $3.5K catch-up</td><td>Required: 2% all OR 3% match</td><td>~$19K</td><td>Low</td></tr>
+        <tr><td>SEP IRA</td><td>None</td><td>Up to 25% comp (uniform)</td><td>~$66K</td><td>Low</td></tr>
+        <tr><td>401(k)</td><td>~$23K + $7.5K catch-up</td><td>Optional match</td><td>~$66K</td><td>Mod</td></tr>
+        <tr><td>Profit-Sharing</td><td>Combined w/ 401(k)</td><td>Up to 25% payroll</td><td>~$66K</td><td>Mod</td></tr>
+        <tr><td>Defined Benefit</td><td>None</td><td>Actuarial formula</td><td>$200K+ (older)</td><td>High</td></tr>
+      </table>
+      <div class="cs-tip"><strong>Picking:</strong> Solo or near-solo + max savings → Solo 401(k) or SEP. Owner age 55+ wanting to bank lots → Defined Benefit. Few employees, simple → SIMPLE IRA.</div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">Depreciation — Acceleration Tools</div>
+      <table class="cs-compare">
+        <tr><th></th><th>§179</th><th>Bonus</th></tr>
+        <tr><td>Annual cap?</td><td>Yes + phaseout</td><td>No cap</td></tr>
+        <tr><td>Can create NOL?</td><td>NO</td><td>YES</td></tr>
+        <tr><td>Eligible</td><td>Non-real-estate equip</td><td>Property w/ ≤20 yr recovery</td></tr>
+        <tr><td>Status</td><td>Permanent</td><td>Phasing out by 2027</td></tr>
+      </table>
+      <div class="cs-note"><strong>Cost segregation:</strong> Break commercial real estate into shorter-life components (5/7/15-yr) like fixtures, parking, landscaping → accelerated deductions on portions of the building.</div>
+      <div class="cs-tip"><strong>Standard depreciation lives:</strong> 5yr (cars, computers) · 7yr (office furniture) · 27.5yr (residential rental) · 39yr (commercial). Land never depreciates.</div>
+    </div>
+    <div class="cs-examtip"><strong>⚡ EXAM TIPS:</strong> (1) QBI is below-the-line, doesn't reduce AGI. (2) Non-SSTB above phaseout: fix with W-2 wages or property. (3) SSTB above phaseout: only path is reducing taxable income. (4) Simplified home office = flat $5/sqft, max 300 sqft = $1,500. (5) §1202 disqualified industries: Health, Law, Engineering, Accounting, Financial, Farming. (6) FICA/FUTA exemption for kids under 18 — sole prop / parent-only partnership ONLY. (7) HRA NOT allowed in S-Corps. (8) S-Corp owner cash wages are reasonable-comp constrained — non-cash benefits (health, HSA, disability) are FICA-exempt.</div>
   `},
   {u:"Unit 6", t:"Corporate Executive Compensation", html:`
     <div class="cs-row">
@@ -1526,7 +1743,82 @@ const SHEET = [
       <div class="cs-trap"><strong>409A violation:</strong> ALL deferred compensation immediately taxable + 20% penalty + interest. To delay distribution: request must be made 1 year in advance; new date must be 5+ years later.</div>
       <div class="cs-note"><strong>10-Year State Tax Rule:</strong> Normally, the state where income was EARNED can tax distributions. Exception: distributions paid over 10+ years → only the state of RESIDENCE at distribution can tax. Distributions are still taxable — just potentially in a better state (e.g., deferred in CA, retire to TX).</div>
     </div>
-    <div class="cs-examtip"><strong>⚡ EXAM TIPS:</strong> (1) 83(b) = Restricted Stock ONLY. RSUs/PSUs cannot use it — no property at grant. (2) ISO exercise = no regular tax but AMT risk. NQSO exercise = immediate W-2 ordinary income, no AMT. (3) NQDC distribution election is made at plan establishment — irrevocable. (4) "Vested ≠ Delivered" — RSU taxable event = delivery, not time-based vesting.</div>
+    <div class="cs-row">
+      <div class="cs-label">ISO Critical Deadlines</div>
+      <div class="cs-timeline">
+        <div class="cs-tl-item"><div class="cs-tl-dot blue">90d</div><div class="cs-tl-content"><div class="cs-tl-event">Post-separation exercise window</div><div class="cs-tl-detail">After leaving the company, 90 days to exercise vested ISOs. After 90 days → ISOs convert to NQSOs and lose favorable tax treatment forever.</div></div></div>
+        <div class="cs-tl-item"><div class="cs-tl-dot gold">10y</div><div class="cs-tl-content"><div class="cs-tl-event">Grant-to-expiration window</div><div class="cs-tl-detail">ISOs typically expire 10 years from grant date. Waiting too long forces a large exercise at the end, potentially triggering massive AMT.</div></div></div>
+        <div class="cs-tl-item"><div class="cs-tl-dot green">2+1</div><div class="cs-tl-content"><div class="cs-tl-event">Qualifying disposition</div><div class="cs-tl-detail">Hold 2+ years from grant AND 1+ year from exercise → all gain = LTCG, no ordinary income.</div></div></div>
+        <div class="cs-tl-item"><div class="cs-tl-dot red">100K</div><div class="cs-tl-content"><div class="cs-tl-event">Annual exercisability cap</div><div class="cs-tl-detail">Max FMV (at grant) of ISOs that become exercisable in one calendar year per employee = $100K. Excess auto-converts to NQSOs.</div></div></div>
+      </div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">"Heads I Win, Tails You Lose" — Early-Year ISO Exercise</div>
+      <div class="cs-title">Exercise early in the calendar year, then react by Dec 31</div>
+      <ol class="cs-steps">
+        <li data-n="1">Exercise ISOs early in the year (Jan–Mar)</li>
+        <li data-n="2">Watch the stock through the rest of the year</li>
+        <li data-n="3"><strong>If stock DROPS:</strong> Sell before Dec 31 → disqualifying disposition. Bargain element = ordinary income on W-2, but <strong>AMT eliminated</strong></li>
+        <li data-n="4"><strong>If stock RISES:</strong> Hold &gt;1 year from exercise → qualifying disposition → LTCG treatment</li>
+      </ol>
+      <div class="cs-tip"><strong>Why it works:</strong> Either outcome is good. Worst-case avoids AMT. Best-case yields LTCG. Cost: opportunity for the year's growth, but you have until Dec 31 to choose your path.</div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">High-Income Year ISO Strategy (Counterintuitive)</div>
+      <ul class="cs-bullets">
+        <li>Top regular tax rate: <strong>37%</strong> · Top AMT rate: <strong>28%</strong></li>
+        <li>If regular tax &gt; AMT, you pay regular tax — AMT effectively doesn't apply</li>
+        <li>High-income years create a "buffer" that absorbs the bargain element</li>
+      </ul>
+      <div class="cs-pills">
+        <span class="cs-pill blue">Big bonus year</span>
+        <span class="cs-pill blue">RSU vesting</span>
+        <span class="cs-pill blue">NQSO exercise</span>
+        <span class="cs-pill blue">Large capital gains</span>
+      </div>
+      <div class="cs-tip"><strong>Counter-strategy for NQSOs:</strong> Exercise NQSOs in LOW-income years to minimize ordinary income tax. Opposite optimization vs. ISOs.</div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">AMT Credit — Recovering ISO Double Taxation</div>
+      <ul class="cs-bullets">
+        <li>AMT paid on ISO bargain element creates an <strong>AMT credit</strong></li>
+        <li>Credit offsets regular tax in future years when AMT is NOT triggered</li>
+        <li>Effectively a timing-only difference, not extra tax — but only if you track it</li>
+      </ul>
+      <div class="cs-tip"><strong>Practical:</strong> CPAs use Form 8801 to track. Plan future exercises to maximize use of accumulated credits. Without claiming, you'd pay tax twice on the same gain.</div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">83(i) Election — 5-Year Deferral on Private Stock RSUs</div>
+      <ul class="cs-bullets">
+        <li>TCJA 2017 introduction</li>
+        <li>Defers income tax on qualifying RSUs/NQSOs of <strong>non-public stock for up to 5 years</strong></li>
+        <li>Designed for private-company liquidity crunch</li>
+      </ul>
+      <div class="cs-trap"><strong>Excluded employees:</strong> Top execs (CEO, CFO) · family of top execs · highly compensated officers (top 4 in past 10 yrs) · 1% owners (current or past 10 yrs).</div>
+      <div class="cs-note"><strong>Employer requirement:</strong> Must offer to ≥80% of employees AND allow elections. Many companies opt out — they prefer immediate tax deduction over waiting for employee inclusion.</div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">Single-Trigger vs. Double-Trigger RSUs</div>
+      <table class="cs-compare">
+        <tr><th></th><th>Single-Trigger</th><th>Double-Trigger</th></tr>
+        <tr><td>Vesting condition</td><td>Time only</td><td>Time + liquidity event</td></tr>
+        <tr><td>Tax event</td><td>At time-vest</td><td>At liquidity event (IPO, acq.)</td></tr>
+        <tr><td>Private company use</td><td class="red">Liquidity crunch</td><td class="green">Standard solution</td></tr>
+      </table>
+      <div class="cs-trap"><strong>Liquidity crunch:</strong> $1M private RSU vest at single-trigger = ~$400K tax with no sellable stock. Double-trigger fixes this by delaying tax to when shares are actually liquid.</div>
+      <div class="cs-tip"><strong>"Vested ≠ Delivered":</strong> Tax event for RSUs = delivery date, not time-based vesting milestone.</div>
+    </div>
+    <div class="cs-row">
+      <div class="cs-label">NQDC Distribution Mechanics</div>
+      <ul class="cs-bullets">
+        <li><strong>Lump sum:</strong> Many plans require it. Cannot rollover to IRA. Entire amount taxable in year received — bracket spike risk.</li>
+        <li><strong>Installments:</strong> Spreads tax across multiple years. Better for tax bracket smoothing.</li>
+        <li><strong>10-year state rule:</strong> Distributions paid over 10+ years → only state of RESIDENCE at distribution can tax. Under 10 years → state of DEFERRAL retains taxing right.</li>
+      </ul>
+      <div class="cs-tip"><strong>409A delay rules:</strong> (1) Request ≥1 year BEFORE original date; (2) New date ≥5 years LATER. Practical minimum delay decision: ~6 years out.</div>
+      <div class="cs-trap"><strong>409A violation:</strong> All deferred comp immediately taxable + 20% federal penalty + interest. Severe consequences make 409A compliance critical.</div>
+    </div>
+    <div class="cs-examtip"><strong>⚡ EXAM TIPS:</strong> (1) 83(b) = Restricted Stock ONLY. RSUs/PSUs cannot use it. (2) ISO exercise = no regular tax but AMT risk. NQSO exercise = immediate W-2 income, no AMT. (3) "Vested ≠ Delivered" — RSU tax event = delivery date. (4) 90-day post-separation ISO window — easy to miss. (5) ISO annual cap: $100K FMV at grant. (6) ISOs in HIGH-income years (counterintuitive but right). (7) NQSOs in LOW-income years. (8) 83(i) is private-company RSU tool, but most companies opt out. (9) NQDC 10-year rule for state tax. (10) 409A violation = 20% penalty on ALL deferred amounts.</div>
   `}
 ];
 
@@ -2695,6 +2987,4 @@ function boot() {
 }
 boot();
 
-</script>
-</body>
-</html>
+</script></body></html>
